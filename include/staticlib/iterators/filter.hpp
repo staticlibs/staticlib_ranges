@@ -6,7 +6,7 @@
  */
 
 #ifndef FILTER_HPP
-#define	FILTER_HPP
+#define    FILTER_HPP
 
 #include <utility>
 #include <iterator>
@@ -32,40 +32,40 @@ class filtered_iter : public std::iterator<std::input_iterator_tag, E> {
     E current;
     
 public:
-	/**
-	 * Deleted copy constructor
-	 *
-	 * @param other other instance
-	 */
-	filtered_iter(const filtered_iter& other) = delete;
+    /**
+     * Deleted copy constructor
+     *
+     * @param other other instance
+     */
+    filtered_iter(const filtered_iter& other) = delete;
 
-	/**
-	 * Deleted copy assignment operator
-	 *
-	 * @param other other instance
-	 * @return reference to this instance
-	 */
-	filtered_iter& operator=(const filtered_iter& other) = delete;
+    /**
+     * Deleted copy assignment operator
+     *
+     * @param other other instance
+     * @return reference to this instance
+     */
+    filtered_iter& operator=(const filtered_iter& other) = delete;
 
-	/**
-	 * Move constructor
-	 *
-	 * @param other other instance
-	 */
-	filtered_iter(filtered_iter&& other) :
-		source_iter(std::move(other.source_iter)),
-		source_iter_end(std::move(other.source_iter_end)),
-		predicate(other.predicate),
-		offcast_dest(other.offcast_dest),
-		current(std::move(other.current)) { }
+    /**
+     * Move constructor
+     *
+     * @param other other instance
+     */
+    filtered_iter(filtered_iter&& other) :
+        source_iter(std::move(other.source_iter)),
+        source_iter_end(std::move(other.source_iter_end)),
+        predicate(other.predicate),
+        offcast_dest(other.offcast_dest),
+        current(std::move(other.current)) { }
 
-	/**
-	 * Deleted move assignment operator
-	 *
-	 * @param other other instance
-	 * @return reference to this instance
-	 */
-	filtered_iter& operator=(filtered_iter&& other) = delete;
+    /**
+     * Deleted move assignment operator
+     *
+     * @param other other instance
+     * @return reference to this instance
+     */
+    filtered_iter& operator=(filtered_iter&& other) = delete;
 
     /**
      * Constructor
@@ -161,42 +161,44 @@ public:
     /**
      * Type of iterator of this range
      */
-	typedef decltype(std::declval<decltype(source_range)>().begin()) iterator;
-    
+    typedef decltype(std::declval<decltype(source_range)>().begin()) iterator;
+
     /**
      * Result value type of iterators returned from this range
      */
     typedef typename std::iterator_traits<iterator>::value_type value_type;
 
-	/**
-	* Deleted copy constructor
-	*
-	* @param other other instance
-	*/
-	filtered_range(const filtered_range& other) = delete;
+    /**
+     * Deleted copy constructor
+     *
+     * @param other other instance
+     */
+    filtered_range(const filtered_range& other) = delete;
 
-	/**
-	* Deleted copy assignment operator
-	*
-	* @param other other instance
-	* @return reference to this instance
-	*/
-	filtered_range& operator=(const filtered_range& other) = delete;
+    /**
+     * Deleted copy assignment operator
+     *
+     * @param other other instance
+     * @return reference to this instance
+     */
+    filtered_range& operator=(const filtered_range& other) = delete;
 
-	/**
-	* Deleted move constructor
-	*
-	* @param other other instance
-	*/
-	filtered_range(filtered_range&& other) = delete;
+    /**
+     * Move constructor
+     *
+     * @param other other instance
+     */
+    filtered_range(filtered_range&& other) :
+    source_range(other.source_range), predicate(std::move(other.predicate)),
+    offcast_dest(std::move(other.offcast_dest)) { }
 
-	/**
-	* Deleted move assignment operator
-	*
-	* @param other other instance
-	* @return reference to this instance
-	*/
-	filtered_range& operator=(filtered_range&& other) = delete;
+    /**
+     * Deleted move assignment operator
+     *
+     * @param other other instance
+     * @return reference to this instance
+     */
+    filtered_range& operator=(filtered_range&& other) = delete;
 
     /**
      * Constructor
@@ -206,7 +208,8 @@ public:
      * @param offcast_dest `FunctionObject` to apply offcast elements to it
      */
     filtered_range(R& source_range, P predicate, D offcast_dest) : 
-    source_range(source_range), predicate(std::move(predicate)), offcast_dest(std::move(offcast_dest)) { }
+    source_range(source_range), predicate(std::move(predicate)), 
+    offcast_dest(std::move(offcast_dest)) { }
 
     /**
      * Returns `begin` filtered iterator
@@ -215,8 +218,8 @@ public:
      */
     filtered_iter<iterator, value_type, P, D> begin() {
         return filtered_iter<iterator, value_type, P, D>{
-			std::move(source_range.begin()), std::move(source_range.end()), predicate, offcast_dest
-		};
+            std::move(source_range.begin()), std::move(source_range.end()), predicate, offcast_dest
+        };
     }
 
     /**
@@ -226,8 +229,8 @@ public:
      */
     filtered_iter<iterator, value_type, P, D> end() {
         return filtered_iter<iterator, value_type, P, D>{
-			std::move(source_range.end()), std::move(source_range.end()), predicate, offcast_dest
-		};
+            std::move(source_range.end()), std::move(source_range.end()), predicate, offcast_dest
+        };
     }
 };
 
@@ -248,8 +251,34 @@ filtered_range<T, P, D> filter(T& source_range, P predicate, D offcast_dest) {
     return filtered_range<T, P, D>(source_range, std::move(predicate), std::move(offcast_dest));
 }
 
+/**
+ * Utility function to use as an offcast `FunctionObject` argument for `filter` function.
+ * Discards all offcast elements.
+ * 
+ * @param t offcast object
+ */
+template <typename T>
+void ignore_offcast(T t) {
+    (void) t; // ignored
+}
+
+/**
+ * Utility function to use as an offcast `FunctionObject` argument for `filter` function.
+ * Emplaces all offcast elements into specified container
+ * 
+ * @param dest container to emplace offcast elements into
+ * @return `FunctionObject` argument for `filter` function
+ */
+template <typename T, typename E = typename T::value_type>
+std::function<void(E)> offcast_into(T& dest) {
+    return [&dest](E el) {
+        dest.emplace_back(std::move(el));
+    };
+}
+
+
 } // namespace
 }
 
-#endif	/* FILTER_HPP */
+#endif    /* FILTER_HPP */
 

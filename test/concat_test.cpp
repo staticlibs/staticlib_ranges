@@ -12,7 +12,6 @@
 #include <iostream>
 
 #include "staticlib/iterators.hpp"
-#include "staticlib/iterators/transform.hpp"
 
 namespace { // anonymous
 
@@ -20,7 +19,6 @@ namespace sit = staticlib::iterators;
 
 class MyInt {
     int val;
-
 public:
     MyInt(int val) : val(val) { }
     int get_int() { return val; }
@@ -87,7 +85,7 @@ void test_empty_both() {
     assert(0 == res.size());
 }
 
-void test_transformed() {
+void test_ranges() {
     auto vec = std::vector<std::unique_ptr<MyInt>>{};
     vec.emplace_back(new MyInt(40));
     vec.emplace_back(new MyInt(41));
@@ -102,15 +100,15 @@ void test_transformed() {
     });
     auto filtered = sit::filter(list, [](std::unique_ptr<MyInt>& el) {
         return 42 != el->get_int();
-    }, [](std::unique_ptr<MyInt> el){ (void) el; });
+    }, sit::ignore_offcast<std::unique_ptr<MyInt>>);
     auto concatted = sit::concat(transformed, filtered);
     auto res = sit::emplace_to_vector(concatted);
 
     assert(4 == res.size());
-	assert(30 == res[0]->get_int());
-	assert(31 == res[1]->get_int());
-	assert(43 == res[2]->get_int());
-	assert(44 == res[3]->get_int());
+    assert(30 == res[0]->get_int());
+    assert(31 == res[1]->get_int());
+    assert(43 == res[2]->get_int());
+    assert(44 == res[3]->get_int());
 }
 
 } // namespace
@@ -120,7 +118,7 @@ int main() {
     test_empty_first();
     test_empty_second();
     test_empty_both();
-    test_transformed();
+    test_ranges();
     
     return 0;
 }

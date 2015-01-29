@@ -25,7 +25,7 @@ auto emplace_to_vector(R& range) -> std::vector<typename std::iterator_traits<de
     auto vec = std::vector<typename std::iterator_traits<decltype(range.begin())>::value_type>{};
     // resize is not used here, as neither 'transformed' nor 'filtered' 
     // range will have O(1) size available
-    for (auto el : range) {
+    for (auto&& el : range) {
         vec.emplace_back(std::move(el));
     }
     return vec;
@@ -41,7 +41,7 @@ auto emplace_to_vector(R& range) -> std::vector<typename std::iterator_traits<de
  */
 template <typename D, typename R>
 D& emplace_to(D& dest, R&& range) {
-    for (auto el : range) {
+    for (auto&& el : range) {
         dest.emplace_back(std::move(el));
     }
     return dest;

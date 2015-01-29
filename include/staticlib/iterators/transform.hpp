@@ -6,7 +6,7 @@
  */
 
 #ifndef TRANSFORM_HPP
-#define	TRANSFORM_HPP
+#define    TRANSFORM_HPP
 
 #include <utility>
 #include <iterator>
@@ -26,36 +26,36 @@ class transformed_iter : public std::iterator<std::input_iterator_tag, E> {
     F& functor;
 
 public:
-	/**
-	 * Deleted copy constructor
-	 *
-	 * @param other other instance
-	 */
-	transformed_iter(const transformed_iter& other) = delete;
+    /**
+     * Deleted copy constructor
+     *
+     * @param other other instance
+     */
+    transformed_iter(const transformed_iter& other) = delete;
 
-	/**
-	 * Deleted copy assignment operator
-	 *
-	 * @param other other instance
-	 * @return reference to this instance
-	 */
-	transformed_iter& operator=(const transformed_iter& other) = delete;
+    /**
+     * Deleted copy assignment operator
+     *
+     * @param other other instance
+     * @return reference to this instance
+     */
+    transformed_iter& operator=(const transformed_iter& other) = delete;
 
-	/**
-	 * Move constructor
-	 *
-	 * @param other other instance
-	 */
-	transformed_iter(transformed_iter&& other) : 
-	source_iter(std::move(other.source_iter)), functor(other.functor) { }
+    /**
+     * Move constructor
+     *
+     * @param other other instance
+     */
+    transformed_iter(transformed_iter&& other) : 
+    source_iter(std::move(other.source_iter)), functor(other.functor) { }
 
-	/**
-	 * Deleted move assignment operator
-	 *
-	 * @param other other instance
-	 * @return reference to this instance
-	 */
-	transformed_iter& operator=(transformed_iter&& other) = delete;
+    /**
+     * Deleted move assignment operator
+     *
+     * @param other other instance
+     * @return reference to this instance
+     */
+    transformed_iter& operator=(transformed_iter&& other) = delete;
 
     /**
      * Constructor
@@ -123,43 +123,44 @@ public:
     /**
      * Type of iterator of source range
      */
-	typedef decltype(std::declval<decltype(source_range)>().begin()) source_iterator;
-    
+    typedef decltype(std::declval<decltype(source_range)>().begin()) source_iterator;
+
     /**
      * Result value type of iterators returned from this range
      */
-	// https://connect.microsoft.com/VisualStudio/feedback/details/797682/c-decltype-of-class-member-access-incompletely-implemented
-	typedef decltype(std::declval<decltype(functor)>()(std::move(*std::declval<decltype(source_range)>().begin()))) value_type;
+    // https://connect.microsoft.com/VisualStudio/feedback/details/797682/c-decltype-of-class-member-access-incompletely-implemented
+    typedef decltype(std::declval<decltype(functor)>()(std::move(*std::declval<decltype(source_range)>().begin()))) value_type;
 
-	/**
-	* Deleted copy constructor
-	*
-	* @param other other instance
-	*/
-	transformed_range(const transformed_range& other) = delete;
+    /**
+     * Deleted copy constructor
+     *
+     * @param other other instance
+     */
+    transformed_range(const transformed_range& other) = delete;
 
-	/**
-	* Deleted copy assignment operator
-	*
-	* @param other other instance
-	* @return reference to this instance
-	*/
-	transformed_range& operator=(const transformed_range& other) = delete;
+    /**
+     * Deleted copy assignment operator
+     *
+     * @param other other instance
+     * @return reference to this instance
+     */
+    transformed_range& operator=(const transformed_range& other) = delete;
 
-	/**
-	* Deleted move constructor
-	*
-	* @param other other instance
-	*/
-	transformed_range(transformed_range&& other) = delete;
+    /**
+     * Move constructor
+     *
+     * @param other other instance
+     */
+    transformed_range(transformed_range&& other) :
+    source_range(other.source_range), functor(std::move(other.functor)) { }
 
-	/**
-	* Deleted move assignment operator
-	*
-	* @param other other instance
-	* @return reference to this instance
-	*/
-	transformed_range& operator=(transformed_range&& other) = delete;
+    /**
+     * Deleted move assignment operator
+     *
+     * @param other other instance
+     * @return reference to this instance
+     */
+    transformed_range& operator=(transformed_range&& other) = delete;
 
     /**
      * Constructor
@@ -185,7 +186,7 @@ public:
      * @return `past_the_end` iterator
      */
     transformed_iter<source_iterator, value_type, F> end() {
-		return transformed_iter<source_iterator, value_type, F>{std::move(source_range.end()), functor};
+        return transformed_iter<source_iterator, value_type, F>{std::move(source_range.end()), functor};
     }
 };
 
@@ -206,5 +207,5 @@ transformed_range<R, F> transform(R& range, F functor) {
 } // namespace
 }
 
-#endif	/* TRANSFORM_HPP */
+#endif    /* TRANSFORM_HPP */
 
