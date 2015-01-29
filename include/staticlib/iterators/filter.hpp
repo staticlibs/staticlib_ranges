@@ -32,6 +32,40 @@ class filtered_iter : public std::iterator<std::input_iterator_tag, E> {
     E current;
     
 public:
+	/**
+	 * Deleted copy constructor
+	 *
+	 * @param other other instance
+	 */
+	filtered_iter(const filtered_iter& other) = delete;
+
+	/**
+	 * Deleted copy assignment operator
+	 *
+	 * @param other other instance
+	 * @return reference to this instance
+	 */
+	filtered_iter& operator=(const filtered_iter& other) = delete;
+
+	/**
+	 * Move constructor
+	 *
+	 * @param other other instance
+	 */
+	filtered_iter(filtered_iter&& other) :
+		source_iter(std::move(other.source_iter)),
+		source_iter_end(std::move(other.source_iter_end)),
+		predicate(other.predicate),
+		offcast_dest(other.offcast_dest),
+		current(std::move(other.current)) { }
+
+	/**
+	 * Deleted move assignment operator
+	 *
+	 * @param other other instance
+	 * @return reference to this instance
+	 */
+	filtered_iter& operator=(filtered_iter&& other) = delete;
 
     /**
      * Constructor
@@ -127,12 +161,42 @@ public:
     /**
      * Type of iterator of this range
      */
-    typedef decltype(source_range.begin()) iterator;
+	typedef decltype(std::declval<decltype(source_range)>().begin()) iterator;
     
     /**
      * Result value type of iterators returned from this range
      */
     typedef typename std::iterator_traits<iterator>::value_type value_type;
+
+	/**
+	* Deleted copy constructor
+	*
+	* @param other other instance
+	*/
+	filtered_range(const filtered_range& other) = delete;
+
+	/**
+	* Deleted copy assignment operator
+	*
+	* @param other other instance
+	* @return reference to this instance
+	*/
+	filtered_range& operator=(const filtered_range& other) = delete;
+
+	/**
+	* Deleted move constructor
+	*
+	* @param other other instance
+	*/
+	filtered_range(filtered_range&& other) = delete;
+
+	/**
+	* Deleted move assignment operator
+	*
+	* @param other other instance
+	* @return reference to this instance
+	*/
+	filtered_range& operator=(filtered_range&& other) = delete;
 
     /**
      * Constructor
@@ -150,7 +214,9 @@ public:
      * @return `begin` iterator
      */
     filtered_iter<iterator, value_type, P, D> begin() {
-        return filtered_iter<iterator, value_type, P, D>{source_range.begin(), source_range.end(), predicate, offcast_dest};
+        return filtered_iter<iterator, value_type, P, D>{
+			std::move(source_range.begin()), std::move(source_range.end()), predicate, offcast_dest
+		};
     }
 
     /**
@@ -159,7 +225,9 @@ public:
      * @return `past_the_end` iterator
      */
     filtered_iter<iterator, value_type, P, D> end() {
-        return filtered_iter<iterator, value_type, P, D>{source_range.end(), source_range.end(), predicate, offcast_dest};
+        return filtered_iter<iterator, value_type, P, D>{
+			std::move(source_range.end()), std::move(source_range.end()), predicate, offcast_dest
+		};
     }
 };
 

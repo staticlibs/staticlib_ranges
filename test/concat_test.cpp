@@ -88,7 +88,7 @@ void test_empty_both() {
 }
 
 void test_transformed() {
-    auto vec = std::vector<std::unique_ptr < MyInt>>{};
+    auto vec = std::vector<std::unique_ptr<MyInt>>{};
     vec.emplace_back(new MyInt(40));
     vec.emplace_back(new MyInt(41));
 
@@ -107,10 +107,10 @@ void test_transformed() {
     auto res = sit::emplace_to_vector(concatted);
 
     assert(4 == res.size());
-    assert(30 == res[0]->get_int());
-    assert(31 == res[1]->get_int());
-    assert(43 == res[2]->get_int());
-    assert(44 == res[3]->get_int());
+	assert(30 == res[0]->get_int());
+	assert(31 == res[1]->get_int());
+	assert(43 == res[2]->get_int());
+	assert(44 == res[3]->get_int());
 }
 
 } // namespace

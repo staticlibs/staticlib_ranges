@@ -26,6 +26,38 @@ class concatted_iter : public std::iterator<std::input_iterator_tag, E> {
     I2 source_iter2;
 
 public:
+	/**
+	* Deleted copy constructor
+	*
+	* @param other other instance
+	*/
+	concatted_iter(const concatted_iter& other) = delete;
+
+	/**
+	* Deleted copy assignment operator
+	*
+	* @param other other instance
+	* @return reference to this instance
+	*/
+	concatted_iter& operator=(const concatted_iter& other) = delete;
+
+	/**
+	* Move constructor
+	*
+	* @param other other instance
+	*/
+	concatted_iter(concatted_iter&& other) :
+		source_iter1(std::move(other.source_iter1)),
+		source_iter1_end(std::move(other.source_iter1_end)),
+		source_iter2(std::move(other.source_iter2)) { }
+
+	/**
+	* Deleted move assignment operator
+	*
+	* @param other other instance
+	* @return reference to this instance
+	*/
+	concatted_iter& operator=(concatted_iter&& other) = delete;
 
     /**
      * Constructor
@@ -110,15 +142,45 @@ public:
     /**
      * Type of iterator of first source range
      */
-    typedef decltype(source_range1.begin()) iterator1;
+	typedef decltype(std::declval<decltype(source_range1)>().begin()) iterator1;
     /**
      * Type of iterator of second source range
      */
-    typedef decltype(source_range2.begin()) iterator2;
+	typedef decltype(std::declval<decltype(source_range2)>().begin()) iterator2;
     /**
      * Result value type of iterators returned from this range
      */
     typedef typename std::iterator_traits<iterator1>::value_type value_type;
+
+	/**
+	* Deleted copy constructor
+	*
+	* @param other other instance
+	*/
+	concatted_range(const concatted_range& other) = delete;
+
+	/**
+	* Deleted copy assignment operator
+	*
+	* @param other other instance
+	* @return reference to this instance
+	*/
+	concatted_range& operator=(const concatted_range& other) = delete;
+
+	/**
+	* Deleted move constructor
+	*
+	* @param other other instance
+	*/
+	concatted_range(concatted_range&& other) = delete;
+
+	/**
+	* Deleted move assignment operator
+	*
+	* @param other other instance
+	* @return reference to this instance
+	*/
+	concatted_range& operator=(concatted_range&& other) = delete;
 
     /**
      * Constructor
@@ -135,8 +197,9 @@ public:
      * @return `begin` iterator
      */    
     concatted_iter<iterator1, iterator2, value_type> begin() {
+		// move here is required by msvs
         return concatted_iter<iterator1, iterator2, value_type>{
-            source_range1.begin(), source_range1.end(), source_range2.begin()
+			std::move(source_range1.begin()), std::move(source_range1.end()), std::move(source_range2.begin())
         };
     }
 
@@ -147,7 +210,7 @@ public:
      */
     concatted_iter<iterator1, iterator2, value_type> end() {
         return concatted_iter<iterator1, iterator2, value_type>{
-            source_range1.end(), source_range1.end(), source_range2.end()
+			std::move(source_range1.end()), std::move(source_range1.end()), std::move(source_range2.end())
         };
     }
 };
