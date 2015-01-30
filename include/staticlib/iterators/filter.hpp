@@ -5,8 +5,8 @@
  * Created on January 28, 2015, 8:34 PM
  */
 
-#ifndef FILTER_HPP
-#define    FILTER_HPP
+#ifndef STATICLIB_FILTER_HPP
+#define STATICLIB_FILTER_HPP
 
 #include <utility>
 #include <iterator>
@@ -280,5 +280,5 @@ std::function<void(E)> offcast_into(T& dest) {
 } // namespace
 }
 
-#endif    /* FILTER_HPP */
+#endif    /* STATICLIB_FILTER_HPP */
 

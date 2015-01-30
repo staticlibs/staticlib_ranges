@@ -5,8 +5,8 @@
  * Created on January 28, 2015, 8:33 PM
  */
 
-#ifndef CONCAT_HPP
-#define    CONCAT_HPP
+#ifndef STATICLIB_CONCAT_HPP
+#define STATICLIB_CONCAT_HPP
 
 #include <utility>
 #include <iterator>
@@ -233,5 +233,5 @@ concatted_range<R1, R2> concat(R1& range1, R2& range2) {
 } // namespace
 }
 
-#endif    /* CONCAT_HPP */
+#endif    /* STATICLIB_CONCAT_HPP */
 

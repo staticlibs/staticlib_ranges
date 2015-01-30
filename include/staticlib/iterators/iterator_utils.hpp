@@ -5,8 +5,8 @@
  * Created on January 28, 2015, 8:34 PM
  */
 
-#ifndef ITERATOR_UTILS_HPP
-#define	ITERATOR_UTILS_HPP
+#ifndef STATICLIB_ITERATOR_UTILS_HPP
+#define	STATICLIB_ITERATOR_UTILS_HPP
 
 #include <vector>
 #include <iterator>
@@ -50,5 +50,5 @@ D& emplace_to(D& dest, R&& range) {
 } // namespace
 }
 
-#endif	/* ITERATOR_UTILS_HPP */
+#endif	/* STATICLIB_ITERATOR_UTILS_HPP */
 
