@@ -12,7 +12,7 @@
 #include <iterator>
 
 namespace staticlib {
-namespace iterators {
+namespace ranges {
 
 /**
  * Lazy `InputIterator` implementation for `concat` (or `chain`) operation.

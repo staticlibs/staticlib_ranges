@@ -13,7 +13,7 @@
 #include <functional>
 
 namespace staticlib {
-namespace iterators {
+namespace ranges {
 
 /**
  * Lazy `InputIterator` implementation for `filter`  operation.

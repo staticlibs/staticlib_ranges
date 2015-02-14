@@ -1,26 +1,26 @@
 /* 
- * File:   clone.hpp
+ * File:   copy.hpp
  * Author: alex
  *
  * Created on January 30, 2015, 11:09 AM
  */
 
-#ifndef STATICLIB_CLONE_HPP
-#define	STATICLIB_CLONE_HPP
+#ifndef STATICLIB_COPY_HPP
+#define	STATICLIB_COPY_HPP
 
 #include <utility>
 #include <iterator>
 
 namespace staticlib {
-namespace iterators {
+namespace ranges {
 
 /**
- * Lazy `InputIterator` implementation for `clone`  operation.
+ * Lazy `InputIterator` implementation for `copy`  operation.
  * Do not support `CopyConstructible`, `CopyAssignable` and `Swappable`.
- * Clones elements from source iterator, and moves them out from `operator*` method.
+ * Copies element from source iterator, and moves them out from `operator*` method.
  */
 template<typename I, typename E>
-class cloned_iter : public std::iterator<std::input_iterator_tag, E> {
+class copied_iter : public std::iterator<std::input_iterator_tag, E> {
     I source_iter;
 
 public:
@@ -29,7 +29,7 @@ public:
      *
      * @param other other instance
      */
-    cloned_iter(const cloned_iter& other) = delete;
+    copied_iter(const copied_iter& other) = delete;
 
     /**
      * Deleted copy assignment operator
@@ -37,15 +37,15 @@ public:
      * @param other other instance
      * @return reference to this instance
      */
-    cloned_iter& operator=(const cloned_iter& other) = delete;
+    copied_iter& operator=(const copied_iter& other) = delete;
 
     /**
      * Move constructor
      *
      * @param other other instance
      */
-    cloned_iter(cloned_iter&& other) :
-    cloned_iter(std::move(other.source_iter)) { }
+    copied_iter(copied_iter&& other) :
+    copied_iter(std::move(other.source_iter)) { }
 
     /**
      * Deleted move assignment operator
@@ -53,14 +53,14 @@ public:
      * @param other other instance
      * @return reference to this instance
      */
-    cloned_iter& operator=(cloned_iter&& other) = delete;
+    copied_iter& operator=(copied_iter&& other) = delete;
 
     /**
      * Constructor
      * 
      * @param source source iterator
      */
-    cloned_iter(I source_iter) :
+    copied_iter(I source_iter) :
     source_iter(std::move(source_iter)) { }
 
     /**
@@ -68,7 +68,7 @@ public:
      * 
      * @return reference to iter instance
      */
-    cloned_iter& operator++() {
+    copied_iter& operator++() {
         ++source_iter;
         return *this;
     }
@@ -78,18 +78,19 @@ public:
      * 
      * @return reference to iter instance
      */
-    cloned_iter& operator++(int) {
+    copied_iter& operator++(int) {
         source_iter++;
         return *this;
     }
 
     /**
-     * Clones element from source iterator and returns it.
+     * Copies element from source iterator and returns it.
      * 
      * @return transformed element
      */
     E operator*() {
-        return source_iter->clone();
+        E el{*source_iter};
+        return *source_iter;
     }
 
     /**
@@ -99,16 +100,16 @@ public:
      * @param end
      * @return false if this iterator is exhausted
      */
-    bool operator!=(const cloned_iter& end) {
+    bool operator!=(const copied_iter& end) {
         return this->source_iter != end.source_iter;
     }
 };
 
 /**
- * Lazy implementation of `SinglePassRange` for `clone`  operation
+ * Lazy implementation of `SinglePassRange` for `copy`  operation
  */
 template <typename R>
-class cloned_range {
+class copied_range {
     const R& source_range;
 
 public:
@@ -127,7 +128,7 @@ public:
      *
      * @param other other instance
      */
-    cloned_range(const cloned_range& other) = delete;
+    copied_range(const copied_range& other) = delete;
 
     /**
      * Deleted copy assignment operator
@@ -135,14 +136,14 @@ public:
      * @param other other instance
      * @return reference to this instance
      */
-    cloned_range& operator=(const cloned_range& other) = delete;
+    copied_range& operator=(const copied_range& other) = delete;
 
     /**
      * Move constructor
      *
      * @param other other instance
      */
-    cloned_range(cloned_range&& other) :
+    copied_range(copied_range&& other) :
     source_range(other.source_range) { }
 
     /**
@@ -151,14 +152,14 @@ public:
      * @param other other instance
      * @return reference to this instance
      */
-    cloned_range& operator=(cloned_range&& other) = delete;
+    copied_range& operator=(copied_range&& other) = delete;
 
     /**
      * Constructor
      * 
      * @param range reference to source range
      */
-    cloned_range(const R& source_range) :
+    copied_range(const R& source_range) :
     source_range(source_range) { }
 
     /**
@@ -166,8 +167,8 @@ public:
      * 
      * @return `begin` iterator
      */
-    cloned_iter<iterator, value_type> begin() {
-        return cloned_iter<iterator, value_type>{std::move(source_range.begin())};
+    copied_iter<iterator, value_type> begin() {
+        return copied_iter<iterator, value_type>{std::move(source_range.begin())};
     }
 
     /**
@@ -175,25 +176,25 @@ public:
      * 
      * @return `past_the_end` iterator
      */
-    cloned_iter<iterator, value_type> end() {
-        return cloned_iter<iterator, value_type>{std::move(source_range.end())};
+    copied_iter<iterator, value_type> end() {
+        return copied_iter<iterator, value_type>{std::move(source_range.end())};
     }
 };
 
 /**
- * Lazily copies input range into output range using `clone` method on
+ * Lazily copies input range into output range using copy constructor on
  * each element.
  * 
  * @param range source range
- * @return cloned range
+ * @return copied range
  */
 template <typename R>
-cloned_range<R> clone(const R& range) {
-    return cloned_range<R>(range);
+copied_range<R> copy(const R& range) {
+    return copied_range<R>(range);
 }
 
 } // namespace
 }
 
-#endif	/* STATICLIB_CLONE_HPP */
+#endif	/* STATICLIB_COPY_HPP */
 

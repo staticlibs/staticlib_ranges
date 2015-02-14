@@ -10,12 +10,12 @@
 #include <string>
 #include <memory>
 
-#include "staticlib/iterators.hpp"
+#include "staticlib/ranges.hpp"
 
 
 namespace { //anonymous
 
-namespace sit = staticlib::iterators;
+namespace sit = staticlib::ranges;
 
 class MyStr {
     std::string val;

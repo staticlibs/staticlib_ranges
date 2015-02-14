@@ -11,11 +11,11 @@
 #include <memory>
 #include <sstream>
 
-#include "staticlib/iterators.hpp"
+#include "staticlib/ranges.hpp"
 
 namespace { // anonymous
 
-namespace sit = staticlib::iterators;
+namespace sit = staticlib::ranges;
 
 template<typename T>
 std::string to_string(T t) {

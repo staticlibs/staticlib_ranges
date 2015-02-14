@@ -9,11 +9,11 @@
 #include <cassert>
 #include <string>
 
-#include "staticlib/iterators.hpp"
+#include "staticlib/ranges.hpp"
 
 namespace { // anonymous
 
-namespace sit = staticlib::iterators;
+namespace sit = staticlib::ranges;
 
 void test_source_not_moved() {
     std::vector<std::string> vec{"foo", "bar"};
