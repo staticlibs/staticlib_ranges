@@ -18,3 +18,6 @@ set ( ${PROJECT_NAME}_TEST_INCLUDES "" )
 set ( ${PROJECT_NAME}_TEST_LIBS "" )
 staticlib_enable_testing ( ${PROJECT_NAME}_TEST_INCLUDES ${PROJECT_NAME}_TEST_LIBS )
 staticlib_enable_docs ( )
+
+# export headers
+set ( ${PROJECT_NAME}_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/include CACHE INTERNAL "" )
