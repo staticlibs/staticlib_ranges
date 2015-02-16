@@ -58,18 +58,23 @@ void test_state_after_move() {
     assert(-1 == a.get_int());
 }
 
-void try_refwrap(std::vector<MyMovable>& vec) {
+void test_transform_refwrapped() {
+    std::vector<MyMovable> vec{};
+    vec.push_back(MyMovable(41));
+    vec.push_back(MyMovable(42));
+    vec.push_back(MyMovable(43));
+
     auto refwrapped = sit::refwrap(vec);
-    auto transformed = sit::transform(refwrapped, [](std::reference_wrapper<MyMovable> el) {
-        el.get().set_int(el.get().get_int() + 10);
-        return el;
+    auto transformed = sit::transform(refwrapped, [](MyMovable & el) {
+        el.set_int(el.get_int() + 10);
+        return std::ref(el);
     });
-    auto filtered = sit::filter(transformed, [](std::reference_wrapper<MyMovable> el) {
-        return 52 != el.get().get_int();
-    }, sit::ignore_offcast<std::reference_wrapper<MyMovable>>);
-    auto transformed2 = sit::transform(filtered, [](std::reference_wrapper<MyMovable> el) {
-        el.get().set_int(el.get().get_int() - 10);
-        return el;
+    auto filtered = sit::filter(transformed, [](MyMovable & el) {
+        return 52 != el.get_int();
+    }, sit::ignore_offcast<MyMovable&>);
+    auto transformed2 = sit::transform(filtered, [](MyMovable & el) {
+        el.set_int(el.get_int() - 10);
+        return std::ref(el);
     });
 
     int size = 0;
@@ -88,13 +93,27 @@ void try_refwrap(std::vector<MyMovable>& vec) {
     assert(43 == vec[2].get_int());
 }
 
-void test_transform_refwrapped() {
+void test_refwrap_to_value() {
     std::vector<MyMovable> vec{};
     vec.emplace_back(41);
     vec.emplace_back(42);
     vec.emplace_back(43);
     
-    try_refwrap(vec);
+    auto refwrapped = sit::refwrap(vec);
+    auto transformed = sit::transform(refwrapped, [](MyMovable& el) {
+        return std::move(el);
+    });
+    
+    std::vector<MyMovable> res = sit::emplace_to_vector(transformed);
+    assert(3 == res.size());
+    assert(41 == res[0].get_int());
+    assert(42 == res[1].get_int());
+    assert(43 == res[2].get_int());
+
+    assert(3 == vec.size());
+    assert(-1 == vec[0].get_int());
+    assert(-1 == vec[1].get_int());
+    assert(-1 == vec[2].get_int());
 }
 
 } // namespace
@@ -102,6 +121,7 @@ void test_transform_refwrapped() {
 int main() {
     test_state_after_move();
     test_transform_refwrapped();
+    test_refwrap_to_value();
 
     return 0;
 }

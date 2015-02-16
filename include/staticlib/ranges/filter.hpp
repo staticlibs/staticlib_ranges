@@ -59,9 +59,7 @@ public:
         source_iter_end(std::move(other.source_iter_end)),
         predicate(other.predicate),
         offcast_dest(other.offcast_dest),
-        current_ptr(nullptr != other.current_ptr.get() ? 
-            std::unique_ptr<E>(new E(std::move(*other.current_ptr.get()))) :
-            std::unique_ptr<E>()) { }
+        current_ptr(std::move(other.current_ptr)) { }
 
     /**
      * Deleted move assignment operator
@@ -83,7 +81,8 @@ public:
     source_iter(std::move(source_iter)),
     source_iter_end(std::move(source_iter_end)),
     predicate(predicate),
-    offcast_dest(offcast_dest) {
+    offcast_dest(offcast_dest),
+    current_ptr(std::unique_ptr<E>{}) {
         if (this->source_iter != this->source_iter_end) {
             this->current_ptr = std::unique_ptr<E>(new E(std::move(*this->source_iter)));
             if (!this->predicate(*current_ptr.get())) {
