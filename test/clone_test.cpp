@@ -27,10 +27,13 @@ public:
     MyMovable& operator=(const MyMovable&) = delete;    
     
     MyMovable(MyMovable&& other) : 
-    val(other.val) { };
+    val(other.val) { 
+        other.val = -1;
+    };
     
     MyMovable& operator=(MyMovable&& other) {
         this->val = other.val;
+        other.val = -1;
         return *this;
     }
     
@@ -38,6 +41,13 @@ public:
         return MyMovable(val);
     }
 };
+
+void test_state_after_move() {
+    auto a = MyMovable(42);
+    auto b = std::move(a);
+    assert(42 == b.get_int());
+    assert(-1 == a.get_int());
+}
 
 void test_source_not_moved() {
     auto vec = std::vector<MyMovable>{};
@@ -95,6 +105,7 @@ void test_range_wrapper() {
 } // namespace
 
 int main() {
+    test_state_after_move();
     test_source_not_moved();
 //    test_range_source();
     test_range_wrapper();

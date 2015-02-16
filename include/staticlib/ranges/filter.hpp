@@ -11,6 +11,7 @@
 #include <utility>
 #include <iterator>
 #include <functional>
+#include <memory>
 
 namespace staticlib {
 namespace ranges {
@@ -28,8 +29,9 @@ class filtered_iter : public std::iterator<std::input_iterator_tag, E> {
     I source_iter_end;
     P& predicate;
     D& offcast_dest;
-
-    E current;
+    // heap allocation (one per iterator instance) is required here
+    // to support element type that are not DefaultConstructible
+    std::unique_ptr<E> current_ptr;
     
 public:
     /**
@@ -57,7 +59,9 @@ public:
         source_iter_end(std::move(other.source_iter_end)),
         predicate(other.predicate),
         offcast_dest(other.offcast_dest),
-        current(std::move(other.current)) { }
+        current_ptr(nullptr != other.current_ptr.get() ? 
+            std::unique_ptr<E>(new E(std::move(*other.current_ptr.get()))) :
+            std::unique_ptr<E>()) { }
 
     /**
      * Deleted move assignment operator
@@ -81,9 +85,9 @@ public:
     predicate(predicate),
     offcast_dest(offcast_dest) {
         if (this->source_iter != this->source_iter_end) {
-            current = std::move(*this->source_iter);
-            if (!this->predicate(current)) {
-                this->offcast_dest(std::move(current));
+            this->current_ptr = std::unique_ptr<E>(new E(std::move(*this->source_iter)));
+            if (!this->predicate(*current_ptr.get())) {
+                this->offcast_dest(std::move(*current_ptr.get()));
                 next();
             }
         }
@@ -119,7 +123,7 @@ public:
      * @return current element
      */
     E operator*() {
-        return std::move(current);
+        return std::move(*current_ptr.get());
     }
 
     /**
@@ -136,9 +140,9 @@ public:
 private:
     void next() {
         for (++source_iter; source_iter != source_iter_end; ++source_iter) {
-            current = std::move(*source_iter);
-            if (predicate(current)) break;
-            this->offcast_dest(std::move(current));
+            *current_ptr.get() = std::move(*source_iter);
+            if (predicate(*current_ptr.get())) break;
+            this->offcast_dest(std::move(*current_ptr.get()));
         }
     }
     

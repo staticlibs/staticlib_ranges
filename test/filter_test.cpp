@@ -30,6 +30,33 @@ public:
     MyInt& operator=(MyInt&&) = delete;
 };
 
+class MyMovable {
+    int val;
+public:
+    MyMovable(int val) : val(val) { }
+
+    int get_int() {
+        return val;
+    }
+    MyMovable(const MyMovable&) = delete;
+    MyMovable& operator=(const MyMovable&) = delete;
+
+    MyMovable(MyMovable&& other) :
+    val(other.val) {
+        other.val = -1;
+    };
+
+    MyMovable& operator=(MyMovable&& other) {
+        this->val = other.val;
+        other.val = -1;
+        return *this;
+    }
+
+    MyMovable clone() const {
+        return MyMovable(val);
+    }
+};
+
 void test_vector() {
     auto vec = std::vector<std::unique_ptr<MyInt>>{};
     vec.emplace_back(new MyInt(40));
@@ -71,12 +98,29 @@ void test_range() {
     assert(40 == res[0]->get_int());
 }
 
+void test_non_default_constructible() {
+    auto vec = std::vector<MyMovable>{};
+    vec.emplace_back(41);
+    vec.emplace_back(42);
+    vec.emplace_back(43);
+    
+    auto filtered = sit::filter(vec, [](MyMovable& el) {
+        return 42 != el.get_int();
+    }, sit::ignore_offcast<MyMovable>);
+
+    auto res = sit::emplace_to_vector(filtered);
+
+    assert(2 == res.size());
+    assert(41 == res[0].get_int());
+    assert(43 == res[1].get_int());
+}
 
 } // namespace
  
 int main() {
     test_vector();
     test_range();
+    test_non_default_constructible();
 
     return 0;
 }
