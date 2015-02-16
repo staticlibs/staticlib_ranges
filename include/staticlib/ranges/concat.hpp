@@ -112,7 +112,7 @@ public:
      * @param end
      * @return false if this iterator is exhausted
      */    
-    bool operator!=(const concatted_iter& end) {
+    bool operator!=(const concatted_iter& end) const {
         return this->source_iter1 != end.source_iter1 ||
                 this->source_iter2 != end.source_iter2;
     }

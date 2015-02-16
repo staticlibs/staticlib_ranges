@@ -103,7 +103,7 @@ public:
      * @param end
      * @return false if this iterator is exhausted
      */
-    bool operator!=(const transformed_iter& end) {
+    bool operator!=(const transformed_iter& end) const {
         return this->source_iter != end.source_iter;
     }
 };

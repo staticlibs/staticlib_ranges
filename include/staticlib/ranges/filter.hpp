@@ -129,7 +129,7 @@ public:
      * @param end
      * @return false if this iterator is exhausted
      */    
-    bool operator!=(const filtered_iter& end) {
+    bool operator!=(const filtered_iter& end) const {
         return this->source_iter != end.source_iter;
     }
 
