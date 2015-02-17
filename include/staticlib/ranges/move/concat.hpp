@@ -5,14 +5,15 @@
  * Created on January 28, 2015, 8:33 PM
  */
 
-#ifndef STATICLIB_CONCAT_HPP
-#define STATICLIB_CONCAT_HPP
+#ifndef STATICLIB_MOVE_CONCAT_HPP
+#define STATICLIB_MOVE_CONCAT_HPP
 
 #include <utility>
 #include <iterator>
 
 namespace staticlib {
 namespace ranges {
+namespace move {
 
 /**
  * Lazy `InputIterator` implementation for `concat` (or `chain`) operation.
@@ -232,6 +233,7 @@ concatted_range<R1, R2> concat(R1& range1, R2& range2) {
 
 } // namespace
 }
+}
 
-#endif    /* STATICLIB_CONCAT_HPP */
+#endif    /* STATICLIB_MOVE_CONCAT_HPP */
 

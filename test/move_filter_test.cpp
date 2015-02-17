@@ -14,7 +14,7 @@
 
 namespace { //anonymous
 
-namespace sit = staticlib::ranges;
+namespace mv = staticlib::ranges::move;
 
 class MyInt {
     int val;
@@ -65,11 +65,11 @@ void test_vector() {
     vec.emplace_back(new MyInt(43));
     
     auto offcasted = std::vector<std::unique_ptr<MyInt>>{};
-    auto range = sit::filter(vec, [](std::unique_ptr<MyInt>& el) {
+    auto range = mv::filter(vec, [](std::unique_ptr<MyInt>& el) {
         return 42 == el->get_int();
-    }, sit::offcast_into(offcasted));
+    }, mv::offcast_into(offcasted));
 
-    auto res = sit::emplace_to_vector(range);
+    auto res = mv::emplace_to_vector(range);
 
     assert(1 == res.size());
     assert(42 == res[0]->get_int());
@@ -87,12 +87,12 @@ void test_range() {
     auto list = std::list<std::unique_ptr<MyInt>>{};
     list.emplace_back(new MyInt(42));
     list.emplace_back(new MyInt(43));
-    auto range = sit::concat(vec, list);
+    auto range = mv::concat(vec, list);
     
-    auto filtered = sit::filter(range, [](std::unique_ptr<MyInt>& el) {
+    auto filtered = mv::filter(range, [](std::unique_ptr<MyInt>& el) {
         return el->get_int() <= 40;
-    }, sit::ignore_offcast<std::unique_ptr<MyInt>>);
-    auto res = sit::emplace_to_vector(filtered);
+    }, mv::ignore_offcast<std::unique_ptr<MyInt>>);
+    auto res = mv::emplace_to_vector(filtered);
 
     assert(1 == res.size());
     assert(40 == res[0]->get_int());
@@ -104,11 +104,11 @@ void test_non_default_constructible() {
     vec.emplace_back(42);
     vec.emplace_back(43);
     
-    auto filtered = sit::filter(vec, [](MyMovable& el) {
+    auto filtered = mv::filter(vec, [](MyMovable& el) {
         return 42 != el.get_int();
-    }, sit::ignore_offcast<MyMovable>);
+    }, mv::ignore_offcast<MyMovable>);
 
-    auto res = sit::emplace_to_vector(filtered);
+    auto res = mv::emplace_to_vector(filtered);
 
     assert(2 == res.size());
     assert(41 == res[0].get_int());

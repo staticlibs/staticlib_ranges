@@ -1,5 +1,5 @@
 /* 
- * File:   iterator_utils_test.cpp
+ * File:   move_utils_test.cpp
  * Author: alex
  *
  * Created on January 28, 2015, 8:35 PM
@@ -15,7 +15,7 @@
 
 namespace { //anonymous
 
-namespace sit = staticlib::ranges;
+namespace mv = staticlib::ranges::move;
 
 class MyStr {
     std::string val;
@@ -36,7 +36,7 @@ void test_vector() {
     vec.emplace_back(new MyStr("foo"));
     vec.emplace_back(new MyStr("bar"));
     
-    auto res = sit::emplace_to_vector(vec);
+    auto res = mv::emplace_to_vector(vec);
 
     assert(2 == res.size());
     assert("foo" == res[0]->get_str());
@@ -48,11 +48,11 @@ void test_range() {
     vec.emplace_back(new MyStr("foo"));
     vec.emplace_back(new MyStr("bar"));    
     vec.emplace_back(new MyStr("baz"));
-    auto range = sit::filter(vec, [](std::unique_ptr<MyStr>& el) {
+    auto range = mv::filter(vec, [](std::unique_ptr<MyStr>& el) {
         return "bar" != el->get_str();
-    }, sit::ignore_offcast<std::unique_ptr<MyStr>>);
+    }, mv::ignore_offcast<std::unique_ptr<MyStr>>);
     
-    auto res = sit::emplace_to_vector(range);
+    auto res = mv::emplace_to_vector(range);
     
     assert(2 == res.size());
     assert("foo" == res[0]->get_str());
@@ -64,13 +64,13 @@ void test_emplace_to() {
     vec.emplace_back(new MyStr("foo"));
     vec.emplace_back(new MyStr("bar"));
 
-    auto range = sit::transform(vec, [](std::unique_ptr<MyStr> el) {
+    auto range = mv::transform(vec, [](std::unique_ptr<MyStr> el) {
         return std::unique_ptr<MyStr>(new MyStr(el->get_str() + "_42"));
     });
 
     auto res = std::vector<std::unique_ptr<MyStr>>{};
     res.reserve(vec.size());
-    sit::emplace_to(res, range);
+    mv::emplace_to(res, range);
     
     assert(2 == res.size());
     assert("foo_42" == res[0]->get_str());

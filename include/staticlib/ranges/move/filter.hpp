@@ -5,8 +5,8 @@
  * Created on January 28, 2015, 8:34 PM
  */
 
-#ifndef STATICLIB_FILTER_HPP
-#define STATICLIB_FILTER_HPP
+#ifndef STATICLIB_MOVE_FILTER_HPP
+#define STATICLIB_MOVE_FILTER_HPP
 
 #include <utility>
 #include <iterator>
@@ -15,6 +15,7 @@
 
 namespace staticlib {
 namespace ranges {
+namespace move {
 
 /**
  * Lazy `InputIterator` implementation for `filter`  operation.
@@ -282,6 +283,7 @@ std::function<void(E)> offcast_into(T& dest) {
 
 } // namespace
 }
+}
 
-#endif    /* STATICLIB_FILTER_HPP */
+#endif    /* STATICLIB_MOVE_FILTER_HPP */
 

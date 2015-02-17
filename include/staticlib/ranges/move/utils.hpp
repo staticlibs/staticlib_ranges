@@ -1,18 +1,19 @@
 /* 
- * File:   range_utils.hpp
+ * File:   utils.hpp
  * Author: alex
  *
  * Created on January 28, 2015, 8:34 PM
  */
 
-#ifndef STATICLIB_RANGE_UTILS_HPP
-#define	STATICLIB_RANGE_UTILS_HPP
+#ifndef STATICLIB_MOVE_UTILS_HPP
+#define	STATICLIB_MOVE_UTILS_HPP
 
 #include <vector>
 #include <iterator>
 
 namespace staticlib {
 namespace ranges {
+namespace move {
 
 /**
  * Moves all the elements from specified range into vector using `emplace_back`
@@ -49,6 +50,7 @@ D& emplace_to(D& dest, R&& range) {
 
 } // namespace
 }
+}
 
-#endif	/* STATICLIB_RANGE_UTILS_HPP */
+#endif	/* STATICLIB_MOVE_UTILS_HPP */
 

@@ -15,7 +15,7 @@
 
 namespace { // anonymous
 
-namespace sit = staticlib::ranges;
+namespace mv = staticlib::ranges::move;
 
 class MyInt {
     int val;
@@ -37,8 +37,8 @@ void test_containers() {
     list.emplace_back(new MyInt(42));
     list.emplace_back(new MyInt(43));
     
-    auto concatted = sit::concat(vec, list);
-    auto res = sit::emplace_to_vector(concatted);
+    auto concatted = mv::concat(vec, list);
+    auto res = mv::emplace_to_vector(concatted);
     
     assert(4 == res.size());
     assert(40 == res[0]->get_int());
@@ -53,8 +53,8 @@ void test_empty_first() {
     vec.emplace_back(new MyInt(40));
     vec.emplace_back(new MyInt(41));
     
-    auto range = sit::concat(vec_empty, vec);
-    auto res = sit::emplace_to_vector(range);
+    auto range = mv::concat(vec_empty, vec);
+    auto res = mv::emplace_to_vector(range);
     
     assert(2 == res.size());
     assert(40 == res[0]->get_int());
@@ -67,8 +67,8 @@ void test_empty_second() {
     vec.emplace_back(new MyInt(40));
     vec.emplace_back(new MyInt(41));
 
-    auto range = sit::concat(vec, vec_empty);
-    auto res = sit::emplace_to_vector(range);
+    auto range = mv::concat(vec, vec_empty);
+    auto res = mv::emplace_to_vector(range);
     
     assert(2 == res.size());
     assert(40 == res[0]->get_int());
@@ -79,8 +79,8 @@ void test_empty_both() {
     auto vec_empty1 = std::vector<std::unique_ptr<MyInt>>{};
     auto vec_empty2 = std::vector<std::unique_ptr<MyInt>>{};
 
-    auto range = sit::concat(vec_empty1, vec_empty2);
-    auto res = sit::emplace_to_vector(range);
+    auto range = mv::concat(vec_empty1, vec_empty2);
+    auto res = mv::emplace_to_vector(range);
     
     assert(0 == res.size());
 }
@@ -95,14 +95,14 @@ void test_ranges() {
     list.emplace_back(new MyInt(43));
     list.emplace_back(new MyInt(44));
     
-    auto transformed = sit::transform(vec, [](std::unique_ptr<MyInt> el) {
+    auto transformed = mv::transform(vec, [](std::unique_ptr<MyInt> el) {
         return std::unique_ptr<MyInt>(new MyInt(el->get_int() - 10));
     });
-    auto filtered = sit::filter(list, [](std::unique_ptr<MyInt>& el) {
+    auto filtered = mv::filter(list, [](std::unique_ptr<MyInt>& el) {
         return 42 != el->get_int();
-    }, sit::ignore_offcast<std::unique_ptr<MyInt>>);
-    auto concatted = sit::concat(transformed, filtered);
-    auto res = sit::emplace_to_vector(concatted);
+    }, mv::ignore_offcast<std::unique_ptr<MyInt>>);
+    auto concatted = mv::concat(transformed, filtered);
+    auto res = mv::emplace_to_vector(concatted);
 
     assert(4 == res.size());
     assert(30 == res[0]->get_int());
