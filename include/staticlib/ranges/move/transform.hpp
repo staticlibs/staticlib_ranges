@@ -15,6 +15,8 @@ namespace staticlib {
 namespace ranges {
 namespace move {
 
+namespace detail {
+
 /**
  * Lazy `InputIterator` implementation for `transform`  operation.
  * Do not support `CopyConstructible`, `CopyAssignable` and `Swappable`.
@@ -191,6 +193,8 @@ public:
     }
 };
 
+} // namespace
+
 /**
  * Lazily transforms input range into output range applying functor to
  * each element. Elements are moved from source range one by one,
@@ -201,8 +205,8 @@ public:
  * @return transformed range
  */
 template <typename R, typename F>
-transformed_range<R, F> transform(R& range, F functor) {
-    return transformed_range<R, F>(range, std::move(functor));
+detail::transformed_range<R, F> transform(R& range, F functor) {
+    return detail::transformed_range<R, F>(range, std::move(functor));
 }
 
 } // namespace

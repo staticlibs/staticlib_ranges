@@ -15,6 +15,8 @@ namespace staticlib {
 namespace ranges {
 namespace move {
 
+namespace detail {
+
 /**
  * Lazy `InputIterator` implementation for `concat` (or `chain`) operation.
  * Do not support `CopyConstructible`, `CopyAssignable` and `Swappable`.
@@ -217,6 +219,8 @@ public:
     }
 };
 
+} // namespace
+
 /**
  * Lazily concatenates two input ranges into single output range.
  * Elements are moved from source ranges one by one,
@@ -227,8 +231,8 @@ public:
  * @return concatenated range
  */
 template <typename R1, typename R2>
-concatted_range<R1, R2> concat(R1& range1, R2& range2) {
-    return concatted_range<R1, R2>(range1, range2);
+detail::concatted_range<R1, R2> concat(R1& range1, R2& range2) {
+    return detail::concatted_range<R1, R2>(range1, range2);
 }
 
 } // namespace

@@ -17,6 +17,8 @@ namespace staticlib {
 namespace ranges {
 namespace move {
 
+namespace detail {
+
 /**
  * Lazy `InputIterator` implementation for `filter`  operation.
  * Do not support `CopyConstructible`, `CopyAssignable` and `Swappable`.
@@ -238,6 +240,7 @@ public:
     }
 };
 
+} // namespace
 
 /**
  * Lazily filters input range into output range checking each element using
@@ -251,8 +254,8 @@ public:
  * @return filtered range
  */
 template <typename T, typename P, typename D>
-filtered_range<T, P, D> filter(T& source_range, P predicate, D offcast_dest) {
-    return filtered_range<T, P, D>(source_range, std::move(predicate), std::move(offcast_dest));
+detail::filtered_range<T, P, D> filter(T& source_range, P predicate, D offcast_dest) {
+    return detail::filtered_range<T, P, D>(source_range, std::move(predicate), std::move(offcast_dest));
 }
 
 /**
