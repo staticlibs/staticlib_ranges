@@ -11,44 +11,16 @@
 #include <memory>
 #include <sstream>
 
-#include "staticlib/ranges.hpp"
+#include "domain_classes.hpp"
+#include "staticlib/ranges/move/concat.hpp"
+#include "staticlib/ranges/move/filter.hpp"
+#include "staticlib/ranges/move/transform.hpp"
+#include "staticlib/ranges/move/utils.hpp"
 
 namespace { // anonymous
 
 namespace mv = staticlib::ranges::move;
 
-template<typename T>
-std::string to_string(T t) {
-    std::stringstream ss{};
-    ss << t;
-    return ss.str();
-}
-
-class MyInt {
-    int val;
-public:
-    MyInt(int val) : val(val) { }
-    int get_int() {
-        return val;
-    }
-    MyInt(const MyInt&) = delete;
-    MyInt& operator=(const MyInt&) = delete;
-    MyInt(MyInt&&) = delete;
-    MyInt& operator=(MyInt&&) = delete;
-};
-
-class MyStr {
-    std::string val;
-public:
-    MyStr(std::string val) : val(val) { }
-    std::string get_str() {
-        return val;
-    }
-    MyStr(const MyStr&) = delete;
-    MyStr& operator=(const MyStr&) = delete;
-    MyStr(MyStr&&) = delete;
-    MyStr& operator=(MyStr&&) = delete;
-};
 
 void test_vector() {
     auto vec = std::vector<std::unique_ptr<MyInt>>{};

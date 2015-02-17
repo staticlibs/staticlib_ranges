@@ -145,7 +145,7 @@ public:
     /**
      * Type of iterator of first source range
      */
-        typedef decltype(std::declval<decltype(source_range1)>().begin()) iterator1;
+    typedef decltype(std::declval<decltype(source_range1)>().begin()) iterator1;
     /**
      * Type of iterator of second source range
      */

@@ -258,31 +258,6 @@ detail::filtered_range<T, P, D> filter(T& source_range, P predicate, D offcast_d
     return detail::filtered_range<T, P, D>(source_range, std::move(predicate), std::move(offcast_dest));
 }
 
-/**
- * Utility function to use as an offcast `FunctionObject` argument for `filter` function.
- * Discards all offcast elements.
- * 
- * @param t offcast object
- */
-template <typename T>
-void ignore_offcast(T t) {
-    (void) t; // ignored
-}
-
-/**
- * Utility function to use as an offcast `FunctionObject` argument for `filter` function.
- * Emplaces all offcast elements into specified container
- * 
- * @param dest container to emplace offcast elements into
- * @return `FunctionObject` argument for `filter` function
- */
-template <typename T, typename E = typename T::value_type>
-std::function<void(E)> offcast_into(T& dest) {
-    return [&dest](E el) {
-        dest.emplace_back(std::move(el));
-    };
-}
-
 
 } // namespace
 }

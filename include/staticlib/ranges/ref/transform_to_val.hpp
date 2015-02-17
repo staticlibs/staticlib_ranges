@@ -1,12 +1,12 @@
 /* 
- * File:   transform.hpp
+ * File:   transform_to_val.hpp
  * Author: alex
  *
  * Created on February 17, 2015, 9:15 AM
  */
 
-#ifndef STATICLIB_REF_TRANSFORM_HPP
-#define	STATICLIB_REF_TRANSFORM_HPP
+#ifndef STATICLIB_REF_TRANSFORM_TO_VAL_HPP
+#define	STATICLIB_REF_TRANSFORM_TO_VAL_HPP
 
 #include <utility>
 #include <iterator>
@@ -15,7 +15,7 @@ namespace staticlib {
 namespace ranges {
 namespace ref {
 
-namespace detail {
+namespace detail_to_val {
 
 /**
  * Lazy `InputIterator` implementation for `transform`  operation.
@@ -104,9 +104,9 @@ public:
      * 
      * @return transformed element
      */
-    E& operator*() const {
+    E operator*() const {
         auto& el = *source_iter;
-        return (*functor)(el);
+        return std::move((*functor)(el));
     }
 
     /**
@@ -215,13 +215,13 @@ public:
  * @return transformed range
  */
 template <typename R, typename F>
-detail::transformed_range<R, F> transform(R& range, F functor) {
-    return detail::transformed_range<R, F>(range, std::move(functor));
+detail_to_val::transformed_range<R, F> transform_to_val(R& range, F functor) {
+    return detail_to_val::transformed_range<R, F>(range, std::move(functor));
 }
 
 } // namespace
 }
 }
 
-#endif	/* STATICLIB_REF_TRANSFORM_HPP */
+#endif	/* STATICLIB_REF_TRANSFORM_TO_VAL_HPP */
 

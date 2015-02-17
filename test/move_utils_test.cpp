@@ -10,7 +10,10 @@
 #include <string>
 #include <memory>
 
-#include "staticlib/ranges.hpp"
+#include "staticlib/ranges/move/concat.hpp"
+#include "staticlib/ranges/move/filter.hpp"
+#include "staticlib/ranges/move/transform.hpp"
+#include "staticlib/ranges/move/utils.hpp"
 
 
 namespace { //anonymous

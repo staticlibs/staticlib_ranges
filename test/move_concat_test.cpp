@@ -11,22 +11,16 @@
 #include <memory>
 #include <iostream>
 
-#include "staticlib/ranges.hpp"
+#include "domain_classes.hpp"
+#include "staticlib/ranges/move/concat.hpp"
+#include "staticlib/ranges/move/filter.hpp"
+#include "staticlib/ranges/move/transform.hpp"
+#include "staticlib/ranges/move/utils.hpp"
 
 namespace { // anonymous
 
 namespace mv = staticlib::ranges::move;
 
-class MyInt {
-    int val;
-public:
-    MyInt(int val) : val(val) { }
-    int get_int() { return val; }
-    MyInt(const MyInt&) = delete;
-    MyInt& operator=(const MyInt&) = delete;
-    MyInt(MyInt&&) = delete;
-    MyInt& operator=(MyInt&&) = delete;
-};
 
 void test_containers() {
     auto vec = std::vector<std::unique_ptr<MyInt>>{};

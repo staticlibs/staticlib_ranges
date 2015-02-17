@@ -10,52 +10,15 @@
 #include <list>
 #include <memory>
 
-#include "staticlib/ranges.hpp"
+#include "domain_classes.hpp"
+#include "staticlib/ranges/move/concat.hpp"
+#include "staticlib/ranges/move/filter.hpp"
+#include "staticlib/ranges/move/transform.hpp"
+#include "staticlib/ranges/move/utils.hpp"
 
 namespace { //anonymous
 
 namespace mv = staticlib::ranges::move;
-
-class MyInt {
-    int val;
-
-public:
-    MyInt(int val) : val(val) { }
-    int get_int() {
-        return val;
-    }
-    MyInt(const MyInt&) = delete;
-    MyInt& operator=(const MyInt&) = delete;
-    MyInt(MyInt&&) = delete;
-    MyInt& operator=(MyInt&&) = delete;
-};
-
-class MyMovable {
-    int val;
-public:
-    MyMovable(int val) : val(val) { }
-
-    int get_int() {
-        return val;
-    }
-    MyMovable(const MyMovable&) = delete;
-    MyMovable& operator=(const MyMovable&) = delete;
-
-    MyMovable(MyMovable&& other) :
-    val(other.val) {
-        other.val = -1;
-    };
-
-    MyMovable& operator=(MyMovable&& other) {
-        this->val = other.val;
-        other.val = -1;
-        return *this;
-    }
-
-    MyMovable clone() const {
-        return MyMovable(val);
-    }
-};
 
 void test_vector() {
     auto vec = std::vector<std::unique_ptr<MyInt>>{};
