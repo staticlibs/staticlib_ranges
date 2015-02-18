@@ -12,6 +12,7 @@ include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/CMakeLists_common.cmake )
 
 # build steps
 include_directories ( ${CMAKE_CURRENT_LIST_DIR}/include )
+#include_directories ( ${CMAKE_CURRENT_LIST_DIR}/cppitertools )
 
 # tests and docs
 set ( ${PROJECT_NAME}_TEST_INCLUDES "" )
