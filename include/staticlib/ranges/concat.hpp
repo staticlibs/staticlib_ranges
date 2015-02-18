@@ -29,37 +29,42 @@ class concatted_iter : public std::iterator<std::input_iterator_tag, E> {
 
 public:
     /**
-    * Deleted copy constructor
-    *
-    * @param other other instance
-    */
+     * Deleted copy constructor
+     *
+     * @param other other instance
+     */
     concatted_iter(const concatted_iter& other) = delete;
 
     /**
-    * Deleted copy assignment operator
-    *
-    * @param other other instance
-    * @return reference to this instance
-    */
+     * Deleted copy assignment operator
+     *
+     * @param other other instance
+     * @return reference to this instance
+     */
     concatted_iter& operator=(const concatted_iter& other) = delete;
 
     /**
-    * Move constructor
-    *
-    * @param other other instance
-    */
+     * Move constructor
+     *
+     * @param other other instance
+     */
     concatted_iter(concatted_iter&& other) :
-        source_iter1(std::move(other.source_iter1)),
-        source_iter1_end(std::move(other.source_iter1_end)),
-        source_iter2(std::move(other.source_iter2)) { }
+    source_iter1(std::move(other.source_iter1)),
+    source_iter1_end(std::move(other.source_iter1_end)),
+    source_iter2(std::move(other.source_iter2)) { }
 
     /**
-    * Deleted move assignment operator
-    *
-    * @param other other instance
-    * @return reference to this instance
-    */
-    concatted_iter& operator=(concatted_iter&& other) = delete;
+     * Move assignment operator
+     *
+     * @param other other instance
+     * @return reference to this instance
+     */
+    concatted_iter& operator=(concatted_iter&& other) {
+        this->source_iter1 = std::move(other.source_iter1);
+        this->source_iter1_end = std::move(other.source_iter1_end);
+        this->source_iter2 = std::move(other.source_iter2);
+        return *this;
+    }
 
     /**
      * Constructor
@@ -69,7 +74,8 @@ public:
      * @param source_iter2 `begin` second iterator
      */
     concatted_iter(I1 source_iter1, I1 source_iter1_end, I2 source_iter2) :
-    source_iter1(std::move(source_iter1)), source_iter1_end(std::move(source_iter1_end)),
+    source_iter1(std::move(source_iter1)), 
+    source_iter1_end(std::move(source_iter1_end)),
     source_iter2(std::move(source_iter2)) { }
 
     /**
@@ -175,7 +181,8 @@ public:
      * @param other other instance
      */
     concatted_range(concatted_range&& other) :
-    source_range1(other.source_range1), source_range2(other.source_range2) { };
+    source_range1(other.source_range1), 
+    source_range2(other.source_range2) { };
 
     /**
      * Deleted move assignment operator
@@ -192,7 +199,8 @@ public:
      * @param source_range2 second source range
      */
     concatted_range(R1& source_range1, R2& source_range2) :
-    source_range1(source_range1), source_range2(source_range2) { }
+    source_range1(source_range1), 
+    source_range2(source_range2) { }
 
     /**
      * Returns `begin` concatenated iterator

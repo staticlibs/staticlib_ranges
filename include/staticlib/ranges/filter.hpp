@@ -29,8 +29,9 @@ template <typename I, typename E, typename P, typename D>
 class filtered_iter : public std::iterator<std::input_iterator_tag, E> {
     I source_iter;
     I source_iter_end;
-    P& predicate;
-    D& offcast_dest;
+    // non-owning pointers
+    P* predicate;
+    D* offcast_dest;
     // heap allocation (one per iterator instance) is required here
     // to support element type that are not DefaultConstructible
     std::unique_ptr<E> current_ptr;
@@ -57,19 +58,26 @@ public:
      * @param other other instance
      */
     filtered_iter(filtered_iter&& other) :
-        source_iter(std::move(other.source_iter)),
-        source_iter_end(std::move(other.source_iter_end)),
-        predicate(other.predicate),
-        offcast_dest(other.offcast_dest),
-        current_ptr(std::move(other.current_ptr)) { }
+    source_iter(std::move(other.source_iter)),
+    source_iter_end(std::move(other.source_iter_end)),
+    predicate(std::move(other.predicate)),
+    offcast_dest(std::move(other.offcast_dest)),
+    current_ptr(std::move(other.current_ptr)) { }
 
     /**
-     * Deleted move assignment operator
+     * Move assignment operator
      *
      * @param other other instance
      * @return reference to this instance
      */
-    filtered_iter& operator=(filtered_iter&& other) = delete;
+    filtered_iter& operator=(filtered_iter&& other) {
+        this->source_iter = std::move(other.source_iter);
+        this->source_iter_end = std::move(other.source_iter_end);
+        this->predicate = std::move(other.predicate);
+        this->offcast_dest = std::move(other.offcast_dest);
+        this->current_ptr = std::move(other.current_ptr);
+        return *this;
+    }
 
     /**
      * Constructor
@@ -82,13 +90,13 @@ public:
     filtered_iter(I source_iter, I source_iter_end, P& predicate, D& offcast_dest) :
     source_iter(std::move(source_iter)),
     source_iter_end(std::move(source_iter_end)),
-    predicate(predicate),
-    offcast_dest(offcast_dest),
+    predicate(&predicate),
+    offcast_dest(&offcast_dest),
     current_ptr(std::unique_ptr<E>{}) {
         if (this->source_iter != this->source_iter_end) {
             this->current_ptr = std::unique_ptr<E>(new E(std::move(*this->source_iter)));
-            if (!this->predicate(*current_ptr.get())) {
-                this->offcast_dest(std::move(*current_ptr.get()));
+            if (!(*this->predicate)(*current_ptr.get())) {
+                (*this->offcast_dest)(std::move(*current_ptr.get()));
                 next();
             }
         }
@@ -142,8 +150,8 @@ private:
     void next() {
         for (++source_iter; source_iter != source_iter_end; ++source_iter) {
             *current_ptr.get() = std::move(*source_iter);
-            if (predicate(*current_ptr.get())) break;
-            this->offcast_dest(std::move(*current_ptr.get()));
+            if ((*predicate)(*current_ptr.get())) break;
+            (*offcast_dest)(std::move(*current_ptr.get()));
         }
     }
     
@@ -194,7 +202,8 @@ public:
      * @param other other instance
      */
     filtered_range(filtered_range&& other) :
-    source_range(other.source_range), predicate(std::move(other.predicate)),
+    source_range(other.source_range), 
+    predicate(std::move(other.predicate)),
     offcast_dest(std::move(other.offcast_dest)) { }
 
     /**
@@ -213,7 +222,8 @@ public:
      * @param offcast_dest `FunctionObject` to apply offcast elements to it
      */
     filtered_range(R& source_range, P predicate, D offcast_dest) : 
-    source_range(source_range), predicate(std::move(predicate)), 
+    source_range(source_range), 
+    predicate(std::move(predicate)), 
     offcast_dest(std::move(offcast_dest)) { }
 
     /**
@@ -248,7 +258,7 @@ public:
  * Elements that won't match the `Predicate` will be applied to specified `FunctionObject`
  * 
  * @param source_range reference to source range
- * @param predicate `Predicate` to check source element againt it
+ * @param predicate `Predicate` to check source element against it
  * @param offcast_dest `FunctionObject` to apply offcast elements to it
  * @return filtered range
  */

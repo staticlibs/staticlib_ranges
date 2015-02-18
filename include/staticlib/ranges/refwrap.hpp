@@ -52,12 +52,15 @@ public:
     refwrapped_iter(std::move(other.source_iter)) { }
 
     /**
-     * Deleted move assignment operator
+     * Move assignment operator
      *
      * @param other other instance
      * @return reference to this instance
      */
-    refwrapped_iter& operator=(refwrapped_iter&& other) = delete;
+    refwrapped_iter& operator=(refwrapped_iter&& other) {
+        this->source_iter = std::move(other.iter);
+        return *this;
+    }
 
     /**
      * Constructor
@@ -190,9 +193,6 @@ public:
     }
 };
 
-} // namespace
-
-namespace detail_const {
 
 /**
  * Lazy `InputIterator` implementation for `std::ref`  operation.
@@ -201,7 +201,7 @@ namespace detail_const {
  * and moves wrappers them out from `operator*` method.
  */
 template<typename I, typename E>
-class refwrapped_iter : public std::iterator<std::input_iterator_tag, std::reference_wrapper<E>>
+class refwrapped_const_iter : public std::iterator<std::input_iterator_tag, std::reference_wrapper<E>>
 {
     I source_iter;
 
@@ -211,7 +211,7 @@ class refwrapped_iter : public std::iterator<std::input_iterator_tag, std::refer
      *
      * @param other other instance
      */
-    refwrapped_iter(const refwrapped_iter & other) = delete;
+    refwrapped_const_iter(const refwrapped_const_iter & other) = delete;
 
     /**
      * Deleted copy assignment operator
@@ -219,38 +219,41 @@ class refwrapped_iter : public std::iterator<std::input_iterator_tag, std::refer
      * @param other other instance
      * @return reference to this instance
      */
-    refwrapped_iter& operator=(const refwrapped_iter & other) = delete;
+    refwrapped_const_iter& operator=(const refwrapped_const_iter & other) = delete;
 
-    /**
+/**
      * Move constructor
      *
      * @param other other instance
      */
-    refwrapped_iter(refwrapped_iter && other) :
-            refwrapped_iter(std::move(other.source_iter)) { }
+    refwrapped_const_iter(refwrapped_const_iter && other) :
+    source_iter(std::move(other.source_iter)) { }
 
     /**
-     * Deleted move assignment operator
+     * Move assignment operator
      *
      * @param other other instance
      * @return reference to this instance
      */
-    refwrapped_iter& operator=(refwrapped_iter && other) = delete;
+    refwrapped_const_iter& operator=(refwrapped_const_iter && other) {
+        this->source_iter = std::move(other.source_iter);
+        return *this;
+    }
 
     /**
      * Constructor
      * 
      * @param source source iterator
      */
-    refwrapped_iter(I source_iter) :
-            source_iter(std::move(source_iter)) { }
+    refwrapped_const_iter(I source_iter) :
+    source_iter(std::move(source_iter)) { }
 
     /**
      * Delegated prefix operator implementation
      * 
      * @return reference to iter instance
      */
-    refwrapped_iter& operator++() {
+    refwrapped_const_iter& operator++() {
         ++source_iter;
         return *this;
     }
@@ -260,7 +263,7 @@ class refwrapped_iter : public std::iterator<std::input_iterator_tag, std::refer
      * 
      * @return reference to iter instance
      */
-    refwrapped_iter& operator++(int) {
+    refwrapped_const_iter& operator++(int) {
         source_iter++;
         return *this;
     }
@@ -282,7 +285,7 @@ class refwrapped_iter : public std::iterator<std::input_iterator_tag, std::refer
      * @param end
      * @return false if this iterator is exhausted
      */
-    bool operator!=(const refwrapped_iter & end) const {
+    bool operator!=(const refwrapped_const_iter & end) const {
         return this->source_iter != end.source_iter;
     }
 };
@@ -291,7 +294,7 @@ class refwrapped_iter : public std::iterator<std::input_iterator_tag, std::refer
  * Lazy implementation of `SinglePassRange` for `std::ref`  operation
  */
 template <typename R>
-class refwrapped_range {
+class refwrapped_const_range {
     const R& source_range;
 
 public:
@@ -315,7 +318,7 @@ public:
      *
      * @param other other instance
      */
-    refwrapped_range(const refwrapped_range& other) = delete;
+    refwrapped_const_range(const refwrapped_const_range& other) = delete;
 
     /**
      * Deleted copy assignment operator
@@ -323,14 +326,14 @@ public:
      * @param other other instance
      * @return reference to this instance
      */
-    refwrapped_range& operator=(const refwrapped_range& other) = delete;
+    refwrapped_const_range& operator=(const refwrapped_const_range& other) = delete;
 
     /**
      * Move constructor
      *
      * @param other other instance
      */
-    refwrapped_range(refwrapped_range&& other) :
+    refwrapped_const_range(refwrapped_const_range&& other) :
     source_range(other.source_range) { }
 
     /**
@@ -339,14 +342,14 @@ public:
      * @param other other instance
      * @return reference to this instance
      */
-    refwrapped_range& operator=(refwrapped_range&& other) = delete;
+    refwrapped_const_range& operator=(refwrapped_const_range&& other) = delete;
 
     /**
      * Constructor
      * 
      * @param range reference to source range
      */
-    refwrapped_range(const R& source_range) :
+    refwrapped_const_range(const R& source_range) :
     source_range(source_range) { }
 
     /**
@@ -354,8 +357,8 @@ public:
      * 
      * @return `begin` iterator
      */
-    refwrapped_iter<iterator, value_type_unwrapped> begin() {
-        return refwrapped_iter<iterator, value_type_unwrapped>{std::move(source_range.begin())};
+    refwrapped_const_iter<iterator, value_type_unwrapped> begin() {
+        return refwrapped_const_iter<iterator, value_type_unwrapped>{std::move(source_range.begin())};
     }
 
     /**
@@ -363,8 +366,8 @@ public:
      * 
      * @return `past_the_end` iterator
      */
-    refwrapped_iter<iterator, value_type_unwrapped> end() {
-        return refwrapped_iter<iterator, value_type_unwrapped>{std::move(source_range.end())};
+    refwrapped_const_iter<iterator, value_type_unwrapped> end() {
+        return refwrapped_const_iter<iterator, value_type_unwrapped>{std::move(source_range.end())};
     }
 };
 
@@ -383,8 +386,8 @@ detail::refwrapped_range<R> refwrap(R& range) {
 }
 
 template <typename R>
-detail_const::refwrapped_range<R> refwrap(const R& range) {
-    return detail_const::refwrapped_range<R>(range);
+detail::refwrapped_const_range<R> refwrap(const R& range) {
+    return detail::refwrapped_const_range<R>(range);
 }
 
 } // namespace

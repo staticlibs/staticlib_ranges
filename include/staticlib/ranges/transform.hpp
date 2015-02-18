@@ -25,7 +25,7 @@ namespace detail {
 template<typename I, typename E, typename F>
 class transformed_iter : public std::iterator<std::input_iterator_tag, E> {
     I source_iter;
-    F& functor;
+    F* functor;
 
 public:
     /**
@@ -49,15 +49,20 @@ public:
      * @param other other instance
      */
     transformed_iter(transformed_iter&& other) : 
-    source_iter(std::move(other.source_iter)), functor(other.functor) { }
+    source_iter(std::move(other.source_iter)), 
+    functor(std::move(other.functor)) { }
 
     /**
-     * Deleted move assignment operator
+     * Move assignment operator
      *
      * @param other other instance
      * @return reference to this instance
      */
-    transformed_iter& operator=(transformed_iter&& other) = delete;
+    transformed_iter& operator=(transformed_iter&& other) {
+        this->source_iter = std::move(other.source_iter);
+        this->functor = std::move(other.functor);
+        return *this;
+    }
 
     /**
      * Constructor
@@ -66,7 +71,8 @@ public:
      * @param functor `FunctionObject` to apply to returned values
      */
     transformed_iter(I source_iter, F& functor) : 
-    source_iter(std::move(source_iter)), functor(functor) { }
+    source_iter(std::move(source_iter)), 
+    functor(&functor) { }
 
     /**
      * Delegated prefix operator implementation
@@ -95,7 +101,7 @@ public:
      * @return transformed element
      */
     E operator*() {
-        return functor(std::move(*source_iter));
+        return (*functor)(std::move(*source_iter));
     }
 
     /**
