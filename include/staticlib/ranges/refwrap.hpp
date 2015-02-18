@@ -214,7 +214,7 @@ class refwrapped_const_iter  {
 public:
     typedef std::reference_wrapper<const E> value_type;
     // do not support input_iterator
-    typedef std::nullptr_t iterator_category;
+    typedef std::input_iterator_tag iterator_category;
     typedef std::nullptr_t difference_type;
     typedef std::nullptr_t pointer;
     typedef std::nullptr_t reference;
