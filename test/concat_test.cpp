@@ -12,14 +12,11 @@
 #include <iostream>
 
 #include "domain_classes.hpp"
-#include "staticlib/ranges/move/concat.hpp"
-#include "staticlib/ranges/move/filter.hpp"
-#include "staticlib/ranges/move/transform.hpp"
-#include "staticlib/ranges/move/utils.hpp"
+#include "staticlib/ranges.hpp"
 
 namespace { // anonymous
 
-namespace mv = staticlib::ranges::move;
+namespace mv = staticlib::ranges;
 
 
 void test_containers() {

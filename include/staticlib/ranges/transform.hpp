@@ -1,73 +1,63 @@
 /* 
- * File:   transform_to_val.hpp
+ * File:   transform.hpp
  * Author: alex
  *
- * Created on February 17, 2015, 9:15 AM
+ * Created on January 28, 2015, 8:33 PM
  */
 
-#ifndef STATICLIB_REF_TRANSFORM_TO_VAL_HPP
-#define	STATICLIB_REF_TRANSFORM_TO_VAL_HPP
+#ifndef STATICLIB_MOVE_TRANSFORM_HPP
+#define STATICLIB_MOVE_TRANSFORM_HPP
 
 #include <utility>
 #include <iterator>
 
 namespace staticlib {
 namespace ranges {
-namespace ref {
 
-namespace detail_to_val {
+namespace detail {
 
 /**
  * Lazy `InputIterator` implementation for `transform`  operation.
- * 
+ * Do not support `CopyConstructible`, `CopyAssignable` and `Swappable`.
+ * Moves element from source iterator, applies `FunctionObject` (usually lambda) 
+ * to it and moves it out from `operator*` method.
  */
 template<typename I, typename E, typename F>
 class transformed_iter : public std::iterator<std::input_iterator_tag, E> {
     I source_iter;
-    F* functor;
+    F& functor;
 
 public:
     /**
-     * Copy constructor
+     * Deleted copy constructor
      *
      * @param other other instance
      */
-    transformed_iter(const transformed_iter& other) : 
-    source_iter(other.source_iter),
-    functor(other.functor) { }
+    transformed_iter(const transformed_iter& other) = delete;
 
     /**
-     * Copy assignment operator
+     * Deleted copy assignment operator
      *
      * @param other other instance
      * @return reference to this instance
      */
-    transformed_iter& operator=(const transformed_iter& other) {
-        this->source_iter = other.source_iter;
-        this->functor = other.functor;
-        return *this;
-    }
+    transformed_iter& operator=(const transformed_iter& other) = delete;
 
     /**
      * Move constructor
      *
      * @param other other instance
      */
-    transformed_iter(transformed_iter&& other) :
-    source_iter(std::move(other.source_iter)), 
-    functor(other.functor) { }
+    transformed_iter(transformed_iter&& other) : 
+    source_iter(std::move(other.source_iter)), functor(other.functor) { }
 
     /**
-     * Move assignment operator
+     * Deleted move assignment operator
      *
      * @param other other instance
      * @return reference to this instance
      */
-    transformed_iter& operator=(transformed_iter&& other) {
-        this->source_iter = std::move(other.source_iter);
-        this->functor = std::move(other.functor);
-        return *this;
-    }
+    transformed_iter& operator=(transformed_iter&& other) = delete;
 
     /**
      * Constructor
@@ -75,8 +65,8 @@ public:
      * @param source source iterator
      * @param functor `FunctionObject` to apply to returned values
      */
-    transformed_iter(I source_iter, F& functor) :
-    source_iter(std::move(source_iter)), functor(&functor) { }
+    transformed_iter(I source_iter, F& functor) : 
+    source_iter(std::move(source_iter)), functor(functor) { }
 
     /**
      * Delegated prefix operator implementation
@@ -99,14 +89,13 @@ public:
     }
 
     /**
-     * Accesses element from source iterator by reference, applies functor (usually lambda) 
+     * Moves element from source iterator, applies functor (usually lambda) 
      * to it and returns it.
      * 
      * @return transformed element
      */
-    E operator*() const {
-        auto& el = *source_iter;
-        return std::move((*functor)(el));
+    E operator*() {
+        return functor(std::move(*source_iter));
     }
 
     /**
@@ -121,9 +110,11 @@ public:
     }
 };
 
+
 /**
- * Lazy implementation of `SinglePassRange` for `transform`  operation. 
- * 
+ * Lazy implementation of `SinglePassRange` for `transform`  operation, 
+ * after the pass all accessed elements of source range will be moved from
+ * (will retain in "valid but unspecified" state).
  */
 template <typename R, typename F>
 class transformed_range {
@@ -140,9 +131,7 @@ public:
      * Result value type of iterators returned from this range
      */
     // https://connect.microsoft.com/VisualStudio/feedback/details/797682/c-decltype-of-class-member-access-incompletely-implemented
-    typedef decltype(std::declval<decltype(functor)>()(*std::declval<decltype(source_range)>().begin())) value_ref_type;
-    
-    typedef typename std::decay<value_ref_type>::type value_type;
+    typedef decltype(std::declval<decltype(functor)>()(std::move(*std::declval<decltype(source_range)>().begin()))) value_type;
 
     /**
      * Deleted copy constructor
@@ -181,7 +170,7 @@ public:
      * @param range reference to source range
      * @param functor transformation `FunctionObject`, can be move-only
      */
-    transformed_range(R& source_range, F functor) :
+    transformed_range(R& source_range, F functor) : 
     source_range(source_range), functor(std::move(functor)) { }
 
     /**
@@ -215,13 +204,12 @@ public:
  * @return transformed range
  */
 template <typename R, typename F>
-detail_to_val::transformed_range<R, F> transform_to_val(R& range, F functor) {
-    return detail_to_val::transformed_range<R, F>(range, std::move(functor));
+detail::transformed_range<R, F> transform(R& range, F functor) {
+    return detail::transformed_range<R, F>(range, std::move(functor));
 }
 
 } // namespace
 }
-}
 
-#endif	/* STATICLIB_REF_TRANSFORM_TO_VAL_HPP */
+#endif    /* STATICLIB_MOVE_TRANSFORM_HPP */
 

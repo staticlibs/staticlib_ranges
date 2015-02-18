@@ -14,11 +14,8 @@
 class MyInt {
     int val;
 public:
-
     MyInt(int val) : val(val) { }
-
-    
-    int get_int() {
+    int get_int() const {
         return val;
     }
     
@@ -34,7 +31,7 @@ public:
 
     MyStr(std::string val) : val(val) { }
 
-    std::string get_str() {
+    std::string get_str() const {
         return val;
     }
     MyStr(const MyStr&) = delete;
@@ -48,10 +45,7 @@ class MyMovable {
 public:
 
     MyMovable(int val) : val(val) { }
-    int get_val() {
-        return val;
-    }
-    int get_int() {
+    int get_val() const {
         return val;
     }
     void set_val(int val) {
@@ -82,7 +76,7 @@ public:
 
     MyMovableStr(std::string val) : val(val) { }
 
-    std::string get_val() {
+    std::string get_val() const {
         return val;
     }
 

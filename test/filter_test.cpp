@@ -11,14 +11,11 @@
 #include <memory>
 
 #include "domain_classes.hpp"
-#include "staticlib/ranges/move/concat.hpp"
-#include "staticlib/ranges/move/filter.hpp"
-#include "staticlib/ranges/move/transform.hpp"
-#include "staticlib/ranges/move/utils.hpp"
+#include "staticlib/ranges.hpp"
 
 namespace { //anonymous
 
-namespace mv = staticlib::ranges::move;
+namespace mv = staticlib::ranges;
 
 void test_vector() {
     auto vec = std::vector<std::unique_ptr<MyInt>>{};
@@ -68,14 +65,14 @@ void test_non_default_constructible() {
     vec.emplace_back(43);
     
     auto filtered = mv::filter(vec, [](MyMovable& el) {
-        return 42 != el.get_int();
+        return 42 != el.get_val();
     }, mv::ignore_offcast<MyMovable>);
 
     auto res = mv::emplace_to_vector(filtered);
 
     assert(2 == res.size());
-    assert(41 == res[0].get_int());
-    assert(43 == res[1].get_int());
+    assert(41 == res[0].get_val());
+    assert(43 == res[1].get_val());
 }
 
 } // namespace

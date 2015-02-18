@@ -10,15 +10,11 @@
 #include <string>
 #include <memory>
 
-#include "staticlib/ranges/move/concat.hpp"
-#include "staticlib/ranges/move/filter.hpp"
-#include "staticlib/ranges/move/transform.hpp"
-#include "staticlib/ranges/move/utils.hpp"
-
+#include "staticlib/ranges.hpp"
 
 namespace { //anonymous
 
-namespace mv = staticlib::ranges::move;
+namespace mv = staticlib::ranges;
 
 class MyStr {
     std::string val;

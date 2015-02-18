@@ -1,5 +1,5 @@
 /* 
- * File:   utils.hpp
+ * File:   range_utils.hpp
  * Author: alex
  *
  * Created on January 28, 2015, 8:34 PM
@@ -13,7 +13,6 @@
 
 namespace staticlib {
 namespace ranges {
-namespace move {
 
 /**
  * Moves all the elements from specified range into vector using `emplace_back`
@@ -74,7 +73,6 @@ std::function<void(E) > offcast_into(T& dest) {
 }
 
 } // namespace
-}
 }
 
 #endif	/* STATICLIB_MOVE_UTILS_HPP */

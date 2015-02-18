@@ -15,7 +15,6 @@
 
 namespace staticlib {
 namespace ranges {
-namespace move {
 
 namespace detail {
 
@@ -260,7 +259,6 @@ detail::filtered_range<T, P, D> filter(T& source_range, P predicate, D offcast_d
 
 
 } // namespace
-}
 }
 
 #endif    /* STATICLIB_MOVE_FILTER_HPP */
