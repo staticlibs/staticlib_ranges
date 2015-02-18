@@ -29,8 +29,9 @@ class concatted_iter {
 
 public:
     typedef E value_type;
-    // do not support input_iterator
-    typedef std::nullptr_t iterator_category;
+    // do not support input_iterator, but valid tag is required
+    // for std::iterator_traits with libc++ on mac
+    typedef std::input_iterator_tag iterator_category;
     typedef std::nullptr_t difference_type;
     typedef std::nullptr_t pointer;
     typedef std::nullptr_t reference;

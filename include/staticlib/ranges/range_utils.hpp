@@ -72,27 +72,27 @@ std::function<void(E)> offcast_into(T& dest) {
     };
 }
 
-template <typename R, typename P>
-bool any(R& range, P predicate) {
-    for (auto&& el : range) {
-        auto& ref = el;
-        if (predicate(ref)) {
-            return true;
-        }
-    }
-    return false;
-}
-
-template <typename R, typename P, typename E>
-E find(R& range, P predicate, E not_found_el) {
-    for (auto&& el : range) {
-        auto& ref = el;
-        if (predicate(ref)) {
-            return std::move(el);
-        }
-    }
-    return std::move(not_found_el);
-}
+//template <typename R, typename P>
+//bool any(R& range, P predicate) {
+//    for (auto&& el : range) {
+//        auto& ref = el;
+//        if (predicate(ref)) {
+//            return true;
+//        }
+//    }
+//    return false;
+//}
+//
+//template <typename R, typename P, typename E>
+//E find(R& range, P predicate, E not_found_el) {
+//    for (auto&& el : range) {
+//        auto& ref = el;
+//        if (predicate(ref)) {
+//            return std::move(el);
+//        }
+//    }
+//    return std::move(not_found_el);
+//}
 
 
 } // namespace
