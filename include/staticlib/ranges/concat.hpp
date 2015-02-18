@@ -144,7 +144,7 @@ public:
     /**
      * Type of iterator of first source range
      */
-    typedef decltype(std::declval<decltype(source_range1)>().begin()) iterator1;
+    typedef decltype(std::declval<decltype(source_range1)>().begin()) iterator;
     /**
      * Type of iterator of second source range
      */
@@ -152,7 +152,7 @@ public:
     /**
      * Result value type of iterators returned from this range
      */
-    typedef typename std::iterator_traits<iterator1>::value_type value_type;
+    typedef typename std::iterator_traits<iterator>::value_type value_type;
 
     /**
      * Deleted copy constructor
@@ -199,9 +199,9 @@ public:
      * 
      * @return `begin` iterator
      */    
-    concatted_iter<iterator1, iterator2, value_type> begin() {
+    concatted_iter<iterator, iterator2, value_type> begin() {
         // move here is required by msvs
-        return concatted_iter<iterator1, iterator2, value_type>{
+        return concatted_iter<iterator, iterator2, value_type>{
             std::move(source_range1.begin()), std::move(source_range1.end()), std::move(source_range2.begin())
         };
     }
@@ -211,8 +211,8 @@ public:
      * 
      * @return `past_the_end` iterator
      */
-    concatted_iter<iterator1, iterator2, value_type> end() {
-        return concatted_iter<iterator1, iterator2, value_type>{
+    concatted_iter<iterator, iterator2, value_type> end() {
+        return concatted_iter<iterator, iterator2, value_type>{
             std::move(source_range1.end()), std::move(source_range1.end()), std::move(source_range2.end())
         };
     }

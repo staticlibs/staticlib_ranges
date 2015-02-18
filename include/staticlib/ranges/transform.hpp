@@ -126,12 +126,17 @@ public:
      * Type of iterator of source range
      */
     typedef decltype(std::declval<decltype(source_range)>().begin()) source_iterator;
-
+           
     /**
      * Result value type of iterators returned from this range
      */
     // https://connect.microsoft.com/VisualStudio/feedback/details/797682/c-decltype-of-class-member-access-incompletely-implemented
     typedef decltype(std::declval<decltype(functor)>()(std::move(*std::declval<decltype(source_range)>().begin()))) value_type;
+    
+    /**
+     * Result iterator type
+     */
+    typedef transformed_iter<source_iterator, value_type, F> iterator;
 
     /**
      * Deleted copy constructor
