@@ -23,11 +23,18 @@ namespace detail {
  * to it and moves it out from `operator*` method.
  */
 template<typename I, typename E, typename F>
-class transformed_iter : public std::iterator<std::input_iterator_tag, E> {
+class transformed_iter {
     I source_iter;
     F* functor;
 
 public:
+    typedef E value_type;
+    // do not support input_iterator
+    typedef std::nullptr_t iterator_category;
+    typedef std::nullptr_t difference_type;
+    typedef std::nullptr_t pointer;
+    typedef std::nullptr_t reference;
+    
     /**
      * Deleted copy constructor
      *

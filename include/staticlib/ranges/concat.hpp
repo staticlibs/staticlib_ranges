@@ -22,12 +22,19 @@ namespace detail {
  * Moves element from source iterators one by one and moves it out from `operator*` method.
  */
 template<typename I1, typename I2, typename E>
-class concatted_iter : public std::iterator<std::input_iterator_tag, E> {
+class concatted_iter {
     I1 source_iter1;
     I1 source_iter1_end;
     I2 source_iter2;
 
 public:
+    typedef E value_type;
+    // do not support input_iterator
+    typedef std::nullptr_t iterator_category;
+    typedef std::nullptr_t difference_type;
+    typedef std::nullptr_t pointer;
+    typedef std::nullptr_t reference;
+    
     /**
      * Deleted copy constructor
      *

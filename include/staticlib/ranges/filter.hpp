@@ -26,7 +26,7 @@ namespace detail {
  * Elements, that do not match predicate will be applied to specified `FunctionObject`.
  */
 template <typename I, typename E, typename P, typename D>
-class filtered_iter : public std::iterator<std::input_iterator_tag, E> {
+class filtered_iter {
     I source_iter;
     I source_iter_end;
     // non-owning pointers
@@ -37,6 +37,13 @@ class filtered_iter : public std::iterator<std::input_iterator_tag, E> {
     std::unique_ptr<E> current_ptr;
     
 public:
+    typedef E value_type;
+    // do not support input_iterator
+    typedef std::nullptr_t iterator_category;
+    typedef std::nullptr_t difference_type;
+    typedef std::nullptr_t pointer;
+    typedef std::nullptr_t reference;
+    
     /**
      * Deleted copy constructor
      *

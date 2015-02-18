@@ -24,10 +24,17 @@ namespace detail {
  * and moves wrappers them out from `operator*` method.
  */
 template<typename I, typename E>
-class refwrapped_iter : public std::iterator<std::input_iterator_tag, std::reference_wrapper<E>> {
+class refwrapped_iter {
     I source_iter;
 
 public:
+    typedef std::reference_wrapper<E> value_type;
+    // do not support input_iterator
+    typedef std::nullptr_t iterator_category;
+    typedef std::nullptr_t difference_type;
+    typedef std::nullptr_t pointer;
+    typedef std::nullptr_t reference;
+    
     /**
      * Deleted copy constructor
      *
@@ -201,11 +208,17 @@ public:
  * and moves wrappers them out from `operator*` method.
  */
 template<typename I, typename E>
-class refwrapped_const_iter : public std::iterator<std::input_iterator_tag, std::reference_wrapper<E>>
-{
+class refwrapped_const_iter  {
     I source_iter;
 
-    public:
+public:
+    typedef std::reference_wrapper<const E> value_type;
+    // do not support input_iterator
+    typedef std::nullptr_t iterator_category;
+    typedef std::nullptr_t difference_type;
+    typedef std::nullptr_t pointer;
+    typedef std::nullptr_t reference;
+        
     /**
      * Deleted copy constructor
      *
