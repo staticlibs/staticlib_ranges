@@ -5,8 +5,8 @@
  * Created on February 16, 2015, 10:58 AM
  */
 
-#ifndef STATICLIB_REFWRAP_HPP
-#define	STATICLIB_REFWRAP_HPP
+#ifndef STATICLIB_RANGES_REFWRAP_HPP
+#define	STATICLIB_RANGES_REFWRAP_HPP
 
 #include <utility>
 #include <iterator>
@@ -103,7 +103,7 @@ public:
      * @return transformed element
      */
     std::reference_wrapper<E> operator*() {
-        E& el = *source_iter;
+        auto& el = *source_iter;
         return std::ref(el);
     }
 
@@ -234,7 +234,7 @@ public:
      */
     refwrapped_const_iter& operator=(const refwrapped_const_iter & other) = delete;
 
-/**
+    /**
      * Move constructor
      *
      * @param other other instance
@@ -287,7 +287,7 @@ public:
      * @return transformed element
      */
     std::reference_wrapper<const E> operator*() {
-        const E& el = *source_iter;
+        const auto& el = *source_iter;
         return std::cref(el);
     }
 
@@ -406,5 +406,5 @@ detail::refwrapped_const_range<R> refwrap(const R& range) {
 } // namespace
 }
 
-#endif	/* STATICLIB_REFWRAP_HPP */
+#endif	/* STATICLIB_RANGES_REFWRAP_HPP */
 

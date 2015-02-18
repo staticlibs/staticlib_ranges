@@ -5,8 +5,8 @@
  * Created on January 28, 2015, 8:34 PM
  */
 
-#ifndef STATICLIB_MOVE_FILTER_HPP
-#define STATICLIB_MOVE_FILTER_HPP
+#ifndef STATICLIB_RANGES_FILTER_HPP
+#define STATICLIB_RANGES_FILTER_HPP
 
 #include <utility>
 #include <iterator>
@@ -157,7 +157,8 @@ private:
     void next() {
         for (++source_iter; source_iter != source_iter_end; ++source_iter) {
             *current_ptr.get() = std::move(*source_iter);
-            if ((*predicate)(*current_ptr.get())) break;
+            auto& ref = *current_ptr.get();
+            if ((*predicate)(ref)) break;
             (*offcast_dest)(std::move(*current_ptr.get()));
         }
     }
@@ -278,5 +279,5 @@ detail::filtered_range<T, P, D> filter(T& source_range, P predicate, D offcast_d
 } // namespace
 }
 
-#endif    /* STATICLIB_MOVE_FILTER_HPP */
+#endif    /* STATICLIB_RANGES_FILTER_HPP */
 

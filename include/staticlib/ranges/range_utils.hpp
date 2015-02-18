@@ -5,8 +5,8 @@
  * Created on January 28, 2015, 8:34 PM
  */
 
-#ifndef STATICLIB_MOVE_UTILS_HPP
-#define	STATICLIB_MOVE_UTILS_HPP
+#ifndef STATICLIB_RANGES_UTILS_HPP
+#define	STATICLIB_RANGES_UTILS_HPP
 
 #include <vector>
 #include <iterator>
@@ -66,14 +66,36 @@ void ignore_offcast(T t) {
  * @return `FunctionObject` argument for `filter` function
  */
 template <typename T, typename E = typename T::value_type>
-std::function<void(E) > offcast_into(T& dest) {
+std::function<void(E)> offcast_into(T& dest) {
     return [&dest](E el) {
         dest.emplace_back(std::move(el));
     };
 }
 
+template <typename R, typename P>
+bool any(R& range, P predicate) {
+    for (auto&& el : range) {
+        auto& ref = el;
+        if (predicate(ref)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+template <typename R, typename P, typename E>
+E find(R& range, P predicate, E not_found_el) {
+    for (auto&& el : range) {
+        auto& ref = el;
+        if (predicate(ref)) {
+            return std::move(el);
+        }
+    }
+    return std::move(not_found_el);
+}
+
+
 } // namespace
 }
 
-#endif	/* STATICLIB_MOVE_UTILS_HPP */
-
+#endif	/* STATICLIB_RANGES_UTILS_HPP */

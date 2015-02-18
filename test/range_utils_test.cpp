@@ -1,5 +1,5 @@
 /* 
- * File:   move_utils_test.cpp
+ * File:   range_utils_test.cpp
  * Author: alex
  *
  * Created on January 28, 2015, 8:35 PM
@@ -10,11 +10,12 @@
 #include <string>
 #include <memory>
 
+#include "domain_classes.hpp"
 #include "staticlib/ranges.hpp"
 
 namespace { //anonymous
 
-namespace mv = staticlib::ranges;
+namespace sit = staticlib::ranges;
 
 class MyStr {
     std::string val;
@@ -35,7 +36,7 @@ void test_vector() {
     vec.emplace_back(new MyStr("foo"));
     vec.emplace_back(new MyStr("bar"));
     
-    auto res = mv::emplace_to_vector(vec);
+    auto res = sit::emplace_to_vector(vec);
 
     assert(2 == res.size());
     assert("foo" == res[0]->get_str());
@@ -47,11 +48,11 @@ void test_range() {
     vec.emplace_back(new MyStr("foo"));
     vec.emplace_back(new MyStr("bar"));    
     vec.emplace_back(new MyStr("baz"));
-    auto range = mv::filter(vec, [](std::unique_ptr<MyStr>& el) {
+    auto range = sit::filter(vec, [](std::unique_ptr<MyStr>& el) {
         return "bar" != el->get_str();
-    }, mv::ignore_offcast<std::unique_ptr<MyStr>>);
+    }, sit::ignore_offcast<std::unique_ptr<MyStr>>);
     
-    auto res = mv::emplace_to_vector(range);
+    auto res = sit::emplace_to_vector(range);
     
     assert(2 == res.size());
     assert("foo" == res[0]->get_str());
@@ -63,17 +64,91 @@ void test_emplace_to() {
     vec.emplace_back(new MyStr("foo"));
     vec.emplace_back(new MyStr("bar"));
 
-    auto range = mv::transform(vec, [](std::unique_ptr<MyStr> el) {
+    auto range = sit::transform(vec, [](std::unique_ptr<MyStr> el) {
         return std::unique_ptr<MyStr>(new MyStr(el->get_str() + "_42"));
     });
 
     auto res = std::vector<std::unique_ptr<MyStr>>{};
     res.reserve(vec.size());
-    mv::emplace_to(res, range);
+    sit::emplace_to(res, range);
     
     assert(2 == res.size());
     assert("foo_42" == res[0]->get_str());
     assert("bar_42" == res[1]->get_str());
+}
+
+void test_any() {
+    std::vector<MyMovable> vec{};
+    vec.emplace_back(41);
+    vec.emplace_back(42);
+    const auto vec2 = std::move(vec);
+    
+    auto rvec = sit::refwrap(vec2);
+    auto filtered1 = sit::filter(rvec, [](const MyMovable& el) {
+        return el.get_val() >= 42;
+    }, sit::ignore_offcast<const MyMovable&>);
+    bool res1 = sit::any(filtered1, [](const MyMovable& el) {
+        return 41 == el.get_val();
+    });
+
+    assert(!res1);
+    
+    auto filtered2 = sit::filter(rvec, [](const MyMovable& el) {
+        return el.get_val() <= 41;
+    }, sit::ignore_offcast<const MyMovable&>);
+    auto transformed2 = sit::transform(filtered2, [](const MyMovable& el) {
+        return MyMovableStr(to_string(el.get_val()));
+    });
+    bool res2 = sit::any(transformed2, [](MyMovableStr& st) {
+        return "41" == st.get_val();
+    });
+    
+    assert(res2);
+    
+    bool res3 = sit::any(rvec, [](const MyMovable& el) {
+        return 41 == el.get_val();
+    });
+    
+    assert(res3);
+}
+
+void test_find() {
+    std::vector<MyMovable> vec{};
+    vec.emplace_back(41);
+    vec.emplace_back(42);
+    const auto vec2 = std::move(vec);
+
+    auto rvec = sit::refwrap(vec2);
+    auto filtered1 = sit::filter(rvec, [](const MyMovable& el) {
+        return el.get_val() >= 42;
+    }, sit::ignore_offcast<const MyMovable&>);
+    auto transformed1 = sit::transform(filtered1, [](const MyMovable& el) {
+        return MyMovableStr(to_string(el.get_val()));
+    });
+    auto res1 = sit::find(transformed1, [](MyMovableStr& el) {
+        return "41" == el.get_val();
+    }, MyMovableStr("-1"));
+
+    assert("-1" == res1.get_val());
+
+    auto filtered2 = sit::filter(rvec, [](const MyMovable & el) {
+        return el.get_val() <= 41;
+    }, sit::ignore_offcast<const MyMovable&>);
+    auto transformed2 = sit::transform(filtered2, [](const MyMovable& el) {
+        return MyMovableStr(to_string(el.get_val()));
+    });
+    auto res2 = sit::find(transformed2, [](MyMovableStr& st) {
+        return "41" == st.get_val();
+    }, MyMovableStr("-1"));
+
+    assert("41" == res2.get_val());  
+    
+    auto mm = MyMovable(-1);
+    auto res3 = sit::find(rvec, [](std::reference_wrapper<const MyMovable>& el) {
+        return 41 == el.get().get_val();
+    }, std::cref(mm));
+
+    assert(41 == res3.get().get_val());  
 }
 
 } // namespace
@@ -82,6 +157,8 @@ int main() {
     test_vector();
     test_range();
     test_emplace_to();
+    test_any();
+    test_find();
     
     return 0;
 }

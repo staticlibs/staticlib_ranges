@@ -5,8 +5,8 @@
  * Created on January 28, 2015, 8:33 PM
  */
 
-#ifndef STATICLIB_MOVE_TRANSFORM_HPP
-#define STATICLIB_MOVE_TRANSFORM_HPP
+#ifndef STATICLIB_RANGES_TRANSFORM_HPP
+#define STATICLIB_RANGES_TRANSFORM_HPP
 
 #include <utility>
 #include <iterator>
@@ -229,5 +229,5 @@ detail::transformed_range<R, F> transform(R& range, F functor) {
 } // namespace
 }
 
-#endif    /* STATICLIB_MOVE_TRANSFORM_HPP */
+#endif    /* STATICLIB_RANGES_TRANSFORM_HPP */
 
