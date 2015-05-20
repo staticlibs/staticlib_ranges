@@ -27,8 +27,8 @@ include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/staticlibs_common.cmake )
 # tests and docs
 set ( ${PROJECT_NAME}_TEST_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/include )
 set ( ${PROJECT_NAME}_TEST_LIBS "" )
-set ( ${PROJECT_NAME}_TEST_DEFS "" )
-staticlib_enable_testing ( ${PROJECT_NAME}_TEST_INCLUDES ${PROJECT_NAME}_TEST_LIBS ${PROJECT_NAME}_TEST_DEFS )
+set ( ${PROJECT_NAME}_TEST_OPTS "" )
+staticlib_enable_testing ( ${PROJECT_NAME}_TEST_INCLUDES ${PROJECT_NAME}_TEST_LIBS ${PROJECT_NAME}_TEST_OPTS )
 staticlib_enable_docs ( )
 
 # export headers
