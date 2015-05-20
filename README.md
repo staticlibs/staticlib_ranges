@@ -1,7 +1,7 @@
 Staticlibs ranges library
 =========================
 
-This project is part of [Staticlibs](http://staticlibs.net/).
+This project is a part of [Staticlibs](http://staticlibs.net/).
 
 This project contains implementation for the lazy transformation wrappers for arbitrary ranges.
 It is designed to work primarily with move-only non-copyable objects. 
