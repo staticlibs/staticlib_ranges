@@ -12,7 +12,7 @@ move-only objects.
 
 This library is header-only.
 
-Link to [API documentation](http://staticlibs.github.com/staticlib_ranges/docs/html/namespacestaticlib_1_1ranges.html).
+Link to [API documentation](http://staticlibs.github.io/staticlib_ranges/docs/html/namespacestaticlib_1_1ranges.html).
 
 Lazy transformation ranges wrappers
 -----------------------------------
