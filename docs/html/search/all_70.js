@@ -1,0 +1,4 @@
+var searchData=
+[
+  ['pointer',['pointer',['../classstaticlib_1_1ranges_1_1detail_1_1concatted__iter.html#a5048b81a3561d3a621fac12d6edfd2e8',1,'staticlib::ranges::detail::concatted_iter::pointer()'],['../classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ac96352ef510ce639666516fc5de26ba3',1,'staticlib::ranges::detail::filtered_iter::pointer()'],['../classstaticlib_1_1ranges_1_1detail_1_1refwrapped__iter.html#a8ba9381f494c67b8be3602bebada1331',1,'staticlib::ranges::detail::refwrapped_iter::pointer()'],['../classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__iter.html#a2614f63ca508eb76b1933e2f98075eb1',1,'staticlib::ranges::detail::refwrapped_const_iter::pointer()'],['../classstaticlib_1_1ranges_1_1detail_1_1transformed__iter.html#ab45ffa15703edb8d16923328ddcb9137',1,'staticlib::ranges::detail::transformed_iter::pointer()']]]
+];
