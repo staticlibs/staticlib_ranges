@@ -39,6 +39,7 @@ namespace sit = staticlib::ranges;
 void test_state_after_move() {
     auto a = MyMovable(42);
     auto b = std::move(a);
+    (void) b;
     assert(42 == b.get_val());
     assert(-1 == a.get_val());
 }

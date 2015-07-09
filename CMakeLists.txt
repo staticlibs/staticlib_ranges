@@ -20,7 +20,7 @@ set ( CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_LIST_DIR}/cmake/toolchains/${STATICLI
 
 # project setup
 project ( staticlib_ranges CXX )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.1 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.2 )
 # common include
 include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/staticlibs_common.cmake )
 

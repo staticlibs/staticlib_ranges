@@ -107,7 +107,7 @@ void test_any() {
         return 41 == el.get_val();
     });
 
-    assert(!res1);
+    (void) res1; assert(!res1);
     
     auto filtered2 = sit::filter(rvec, [](const MyMovable& el) {
         return el.get_val() <= 41;
@@ -119,13 +119,13 @@ void test_any() {
         return "41" == st.get_val();
     });
     
-    assert(res2);
+    (void) res2; assert(res2);
     
     bool res3 = sit::any(rvec, [](const MyMovable& el) {
         return 41 == el.get_val();
     });
     
-    assert(res3);
+    (void) res3; assert(res3);
 }
 
 void test_find() {
@@ -164,6 +164,7 @@ void test_find() {
         return 41 == el.get().get_val();
     }, std::cref(mm));
 
+    (void) res3;
     assert(41 == res3.get().get_val());  
 }
 
