@@ -4,7 +4,8 @@ Staticlibs ranges library
 This project is a part of [Staticlibs](http://staticlibs.net/).
 
 This project contains implementation for the lazy transformation wrappers for arbitrary ranges.
-It is designed to work primarily with move-only non-copyable objects. 
+
+All range wrappers don't allocate dynamic memory on heap and were designed to be used primarily with move-only non-copyable objects. 
 
 This library is similar in nature with [cppitertools](https://github.com/ryanhaining/cppitertools) library
 but much less powerful and much less complex. It was implemented before cppitertools got support for
@@ -86,6 +87,12 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 
 Changelog
 ---------
+
+**2015-09-18**
+
+ * version 1.1.0 
+ * make filter to not allocate on heap
+ * add pkg-config descriptor
 
 **2015-07-08**
 

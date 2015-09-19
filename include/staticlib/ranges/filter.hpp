@@ -27,7 +27,7 @@
 #include <utility>
 #include <iterator>
 #include <functional>
-#include <memory>
+#include <array>
 
 namespace staticlib {
 namespace ranges {
@@ -48,9 +48,9 @@ class filtered_iter {
     // non-owning pointers
     P* predicate;
     D* offcast_dest;
-    // heap allocation (one per iterator instance) is required here
-    // to support element type that are not DefaultConstructible
-    std::unique_ptr<E> current_ptr;
+    // space in iter for placement of E instance (to not require DefaultConstructible)
+    std::array<char, sizeof(E)> current_space; 
+    E* current_ptr;
     
 public:
     typedef E value_type;
@@ -85,7 +85,12 @@ public:
     source_iter_end(std::move(other.source_iter_end)),
     predicate(std::move(other.predicate)),
     offcast_dest(std::move(other.offcast_dest)),
-    current_ptr(std::move(other.current_ptr)) { }
+    current_space(),
+    current_ptr() { 
+        if (other.current_ptr) {
+            this->current_ptr = new (current_space.data()) E(std::move(*other.current_ptr));
+        }
+    }
 
     /**
      * Move assignment operator
@@ -98,7 +103,9 @@ public:
         this->source_iter_end = std::move(other.source_iter_end);
         this->predicate = std::move(other.predicate);
         this->offcast_dest = std::move(other.offcast_dest);
-        this->current_ptr = std::move(other.current_ptr);
+        if (other.current_ptr) {
+            *this->current_ptr = std::move(*other.current_ptr);
+        }
         return *this;
     }
 
@@ -115,13 +122,23 @@ public:
     source_iter_end(std::move(source_iter_end)),
     predicate(&predicate),
     offcast_dest(&offcast_dest),
-    current_ptr(std::unique_ptr<E>{}) {
+    current_space(),
+    current_ptr() {
         if (this->source_iter != this->source_iter_end) {
-            this->current_ptr = std::unique_ptr<E>(new E(std::move(*this->source_iter)));
-            if (!(*this->predicate)(*current_ptr.get())) {
-                (*this->offcast_dest)(std::move(*current_ptr.get()));
+            this->current_ptr = new (current_space.data()) E(std::move(*this->source_iter));
+            if (!(*this->predicate)(*current_ptr)) {
+                (*this->offcast_dest)(std::move(*current_ptr));
                 next();
             }
+        }
+    }
+    
+    /**
+     * Destructor to clean-up current object
+     */
+    ~filtered_iter() {
+        if (current_ptr) {
+            current_ptr->~E();
         }
     }
 
@@ -155,7 +172,7 @@ public:
      * @return current element
      */
     E operator*() {
-        return std::move(*current_ptr.get());
+        return std::move(*current_ptr);
     }
 
     /**
@@ -172,10 +189,10 @@ public:
 private:
     void next() {
         for (++source_iter; source_iter != source_iter_end; ++source_iter) {
-            *current_ptr.get() = std::move(*source_iter);
-            auto& ref = *current_ptr.get();
+            *current_ptr = std::move(*source_iter);
+            auto& ref = *current_ptr;
             if ((*predicate)(ref)) break;
-            (*offcast_dest)(std::move(*current_ptr.get()));
+            (*offcast_dest)(std::move(*current_ptr));
         }
     }
     
