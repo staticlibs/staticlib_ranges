@@ -14,22 +14,24 @@
 
 cmake_minimum_required ( VERSION 2.8.12 )
 
-# toolchain setup
-set ( STATICLIB_TOOLCHAIN linux_amd64_gcc CACHE STRING "toolchain triplet" )
-set ( CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_LIST_DIR}/cmake/toolchains/${STATICLIB_TOOLCHAIN}.cmake CACHE INTERNAL "" )
-
-# project setup
+# project
 project ( staticlib_ranges CXX )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.0.2 )
-# common include
-include ( ${CMAKE_CURRENT_LIST_DIR}/cmake/staticlibs_common.cmake )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.3.0 )
+set ( ${PROJECT_NAME}_DESCRIPTION "Staticlibs ranges library" )
+set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/staticlib_ranges )
 
-# tests and docs
-set ( ${PROJECT_NAME}_TEST_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/include )
-set ( ${PROJECT_NAME}_TEST_LIBS "" )
-set ( ${PROJECT_NAME}_TEST_OPTS "" )
-staticlib_enable_testing ( ${PROJECT_NAME}_TEST_INCLUDES ${PROJECT_NAME}_TEST_LIBS ${PROJECT_NAME}_TEST_OPTS )
-staticlib_enable_docs ( )
+# docs
+option ( ${PROJECT_NAME}_ENABLE_DOCS "Generate doxyfile and exit build" OFF )
+if ( ${PROJECT_NAME}_ENABLE_DOCS )
+    configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile )
+    return ( )
+endif ( )
 
-# export headers
-set ( ${PROJECT_NAME}_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/include CACHE INTERNAL "" )
+# pkg-config
+if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY )
+    set ( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
+endif ( )
+set ( ${PROJECT_NAME}_PC_CFLAGS "-I${CMAKE_CURRENT_LIST_DIR}/include" )
+configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/pkg-config.in 
+        ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/pkgconfig/${PROJECT_NAME}.pc )
+
