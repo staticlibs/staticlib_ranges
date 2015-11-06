@@ -83,10 +83,15 @@ Usage example
 License information
 -------------------
 
-This project is released under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+This project is released under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
 Changelog
 ---------
+
+**2015-11-06**
+
+ * version 1.1.1
+ * cmake gen improvements for windows
 
 **2015-09-18**
 

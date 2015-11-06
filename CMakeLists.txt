@@ -16,7 +16,7 @@ cmake_minimum_required ( VERSION 2.8.12 )
 
 # project
 project ( staticlib_ranges CXX )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.0 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.1 )
 set ( ${PROJECT_NAME}_DESCRIPTION "Staticlibs ranges library" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/staticlib_ranges )
 
@@ -26,6 +26,11 @@ if ( ${PROJECT_NAME}_ENABLE_DOCS )
     configure_file ( ${CMAKE_CURRENT_LIST_DIR}/resources/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile )
     return ( )
 endif ( )
+
+# target
+file ( GLOB_RECURSE ${PROJECT_NAME}_HEADERS ${CMAKE_CURRENT_LIST_DIR}/include/*.hpp )
+add_library ( ${PROJECT_NAME} STATIC ${${PROJECT_NAME}_HEADERS} )
+set_target_properties ( ${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX )
 
 # pkg-config
 if ( NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY )
