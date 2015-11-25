@@ -95,7 +95,7 @@ Usage example
     auto concatted = concat(transformed2, refwrapped2);
 
     // evaluate all operations and store results in vector ("auto res" will work here too)
-    std::vector<std::reference_wrapper<MyMovable>> res = sit::emplace_to_vector(concatted);
+    vector<reference_wrapper<MyMovable>> res = emplace_to_vector(concatted);
 
 License information
 -------------------
