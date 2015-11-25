@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">staticlib_ranges
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.2</span>
    </div>
   </td>
  </tr>
@@ -120,13 +120,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ab5cc348655a19c781bc1f3024b784dd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator.  <a href="#ab5cc348655a19c781bc1f3024b784dd7"></a><br/></td></tr>
 <tr class="memitem:a326a5510e28a2394783cb619b0f5eeda"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a326a5510e28a2394783cb619b0f5eeda">filtered_iter</a> (I source_iter, I source_iter_end, P &amp;predicate, D &amp;offcast_dest)</td></tr>
 <tr class="memdesc:a326a5510e28a2394783cb619b0f5eeda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a326a5510e28a2394783cb619b0f5eeda"></a><br/></td></tr>
+<tr class="memitem:a0020bdc6e4079a4b8fbe563c230d4227"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a0020bdc6e4079a4b8fbe563c230d4227">~filtered_iter</a> ()</td></tr>
+<tr class="memdesc:a0020bdc6e4079a4b8fbe563c230d4227"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor to clean-up current object.  <a href="#a0020bdc6e4079a4b8fbe563c230d4227"></a><br/></td></tr>
+<tr class="memitem:a9f9b82b32f85166905aa69f54df4ba2b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html">filtered_iter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a9f9b82b32f85166905aa69f54df4ba2b">operator++</a> ()</td></tr>
+<tr class="memdesc:a9f9b82b32f85166905aa69f54df4ba2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Will iterate over source elements until successful <code>Predicate</code> application or source exhaustion.  <a href="#a9f9b82b32f85166905aa69f54df4ba2b"></a><br/></td></tr>
+<tr class="memitem:a52f0f5688c7f76cb9b2619714efc4304"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html">filtered_iter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a52f0f5688c7f76cb9b2619714efc4304">operator++</a> (int)</td></tr>
+<tr class="memdesc:a52f0f5688c7f76cb9b2619714efc4304"><td class="mdescLeft">&#160;</td><td class="mdescRight">Will iterate over source elements until successful <code>Predicate</code> application or source exhaustion.  <a href="#a52f0f5688c7f76cb9b2619714efc4304"></a><br/></td></tr>
+<tr class="memitem:afa6139eeb9a815cb401b736c09c7cf69"><td class="memItemLeft" align="right" valign="top">E&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#afa6139eeb9a815cb401b736c09c7cf69">operator*</a> ()</td></tr>
+<tr class="memdesc:afa6139eeb9a815cb401b736c09c7cf69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Will move out current element that matched predicate.  <a href="#afa6139eeb9a815cb401b736c09c7cf69"></a><br/></td></tr>
+<tr class="memitem:a710fb815427df9a1a335d26fc543afd8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a710fb815427df9a1a335d26fc543afd8">operator!=</a> (const <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html">filtered_iter</a> &amp;end) const </td></tr>
+<tr class="memdesc:a710fb815427df9a1a335d26fc543afd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delegated operator implementation, do NOT support arbitrary input instances, should be used only to compare with <code>past_the_end</code> iterator.  <a href="#a710fb815427df9a1a335d26fc543afd8"></a><br/></td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename I, typename E, typename P, typename D&gt;<br/>
 class staticlib::ranges::detail::filtered_iter&lt; I, E, P, D &gt;</h3>
 
 <p>Lazy <code>InputIterator</code> implementation for <code>filter</code> operation. </p>
-<p>Do not support <code>CopyConstructible</code>, <code>CopyAssignable</code> and <code>Swappable</code>. Moves element from source iterator, checks it against specified <code>Predicate</code> and on success moves it out from <code>operator*</code> method. Elements, that do not match predicate will be applied to specified <code>FunctionObject</code>. </p>
+<p>Does not support <code>CopyConstructible</code>, <code>CopyAssignable</code> and <code>Swappable</code>. Moves element from source iterator, checks it against specified <code>Predicate</code> and on success moves it out from <code>operator*</code> method. Elements, that do not match predicate will be applied to specified <code>FunctionObject</code>. </p>
 </div><h2>Member Typedef Documentation</h2>
 <a class="anchor" id="a640fa1da9d23b3ea1e1a26be0393e52d"></a>
 <div class="memitem">
@@ -318,7 +328,156 @@ template&lt;typename I , typename E , typename P , typename D &gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a0020bdc6e4079a4b8fbe563c230d4227"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename I , typename E , typename P , typename D &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html">staticlib::ranges::detail::filtered_iter</a>&lt; I, E, P, D &gt;::~<a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html">filtered_iter</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Destructor to clean-up current object. </p>
+
+</div>
+</div>
 <h2>Member Function Documentation</h2>
+<a class="anchor" id="a710fb815427df9a1a335d26fc543afd8"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename I , typename E , typename P , typename D &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html">staticlib::ranges::detail::filtered_iter</a>&lt; I, E, P, D &gt;::operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html">filtered_iter</a>&lt; I, E, P, D &gt; &amp;&#160;</td>
+          <td class="paramname"><em>end</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Delegated operator implementation, do NOT support arbitrary input instances, should be used only to compare with <code>past_the_end</code> iterator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">end</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>false if this iterator is exhausted </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="afa6139eeb9a815cb401b736c09c7cf69"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename I , typename E , typename P , typename D &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">E <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html">staticlib::ranges::detail::filtered_iter</a>&lt; I, E, P, D &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Will move out current element that matched predicate. </p>
+<dl class="section return"><dt>Returns</dt><dd>current element </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a9f9b82b32f85166905aa69f54df4ba2b"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename I , typename E , typename P , typename D &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html">filtered_iter</a>&amp; <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html">staticlib::ranges::detail::filtered_iter</a>&lt; I, E, P, D &gt;::operator++ </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Will iterate over source elements until successful <code>Predicate</code> application or source exhaustion. </p>
+<p>Offcast elements will be applied to <code>FunctionObject</code></p>
+<dl class="section return"><dt>Returns</dt><dd>reference to this iterator </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a52f0f5688c7f76cb9b2619714efc4304"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename I , typename E , typename P , typename D &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html">filtered_iter</a>&amp; <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html">staticlib::ranges::detail::filtered_iter</a>&lt; I, E, P, D &gt;::operator++ </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Will iterate over source elements until successful <code>Predicate</code> application or source exhaustion. </p>
+<p>Offcast elements will be applied to `FunctionObject</p>
+<dl class="section return"><dt>Returns</dt><dd>reference to this iterator </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a97f7fd8fa2d500adaf4207b736f50319"></a>
 <div class="memitem">
 <div class="memproto">
@@ -387,7 +546,7 @@ template&lt;typename I , typename E , typename P , typename D &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 24 2015 20:55:47 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Nov 25 2015 09:57:37 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

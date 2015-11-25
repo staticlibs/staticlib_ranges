@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">staticlib_ranges
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.2</span>
    </div>
   </td>
  </tr>
@@ -105,12 +105,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a99e98be08109ae3a6875fd9c7277aa36"><td class="memTemplParams" colspan="2">template&lt;typename T , typename P , typename D &gt; </td></tr>
 <tr class="memitem:a99e98be08109ae3a6875fd9c7277aa36"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html">detail::filtered_range</a>&lt; T, P, D &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a99e98be08109ae3a6875fd9c7277aa36">filter</a> (T &amp;source_range, P predicate, D offcast_dest)</td></tr>
 <tr class="memdesc:a99e98be08109ae3a6875fd9c7277aa36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily filters input range into output range checking each element using specified <code>Predicate</code>.  <a href="#a99e98be08109ae3a6875fd9c7277aa36"></a><br/></td></tr>
-<tr class="memitem:ac5db8d4cdc8539752bc86315e9d51626"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
-<tr class="memitem:ac5db8d4cdc8539752bc86315e9d51626"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#ac5db8d4cdc8539752bc86315e9d51626">emplace_to_vector</a> (R &amp;range)-&gt; std</td></tr>
-<tr class="memdesc:ac5db8d4cdc8539752bc86315e9d51626"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from specified range into vector using <code>emplace_back</code>  <a href="#ac5db8d4cdc8539752bc86315e9d51626"></a><br/></td></tr>
+<tr class="memitem:a0fbba46a40946ae4b837a85d3044992b"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
+<tr class="memitem:a0fbba46a40946ae4b837a85d3044992b"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a0fbba46a40946ae4b837a85d3044992b">emplace_to_vector</a> (R &amp;&amp;range)-&gt; std</td></tr>
+<tr class="memdesc:a0fbba46a40946ae4b837a85d3044992b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from the specified range into vector using <code>emplace_back</code>  <a href="#a0fbba46a40946ae4b837a85d3044992b"></a><br/></td></tr>
 <tr class="memitem:ad00f01a16e0f61e5c66e42e3dbc9b11f"><td class="memTemplParams" colspan="2">template&lt;typename D , typename R &gt; </td></tr>
 <tr class="memitem:ad00f01a16e0f61e5c66e42e3dbc9b11f"><td class="memTemplItemLeft" align="right" valign="top">D &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#ad00f01a16e0f61e5c66e42e3dbc9b11f">emplace_to</a> (D &amp;dest, R &amp;&amp;range)</td></tr>
-<tr class="memdesc:ad00f01a16e0f61e5c66e42e3dbc9b11f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from specified range into specified destination using <code>emplace_back</code>.  <a href="#ad00f01a16e0f61e5c66e42e3dbc9b11f"></a><br/></td></tr>
+<tr class="memdesc:ad00f01a16e0f61e5c66e42e3dbc9b11f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from the specified range into specified destination using <code>emplace_back</code>.  <a href="#ad00f01a16e0f61e5c66e42e3dbc9b11f"></a><br/></td></tr>
 <tr class="memitem:a10c38adaf67ee61cba6a78c21b077109"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a10c38adaf67ee61cba6a78c21b077109"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a10c38adaf67ee61cba6a78c21b077109">ignore_offcast</a> (T t)</td></tr>
 <tr class="memdesc:a10c38adaf67ee61cba6a78c21b077109"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility function to use as an offcast <code>FunctionObject</code> argument for <code>filter</code> function.  <a href="#a10c38adaf67ee61cba6a78c21b077109"></a><br/></td></tr>
@@ -119,13 +119,16 @@ Functions</h2></td></tr>
 <tr class="memdesc:a4e4c76f12020e2509ed1ed14db0eb05a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility function to use as an offcast <code>FunctionObject</code> argument for <code>filter</code> function.  <a href="#a4e4c76f12020e2509ed1ed14db0eb05a"></a><br/></td></tr>
 <tr class="memitem:a2713dc623209037997fa19173f9a5246"><td class="memTemplParams" colspan="2">template&lt;typename R , typename P &gt; </td></tr>
 <tr class="memitem:a2713dc623209037997fa19173f9a5246"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a2713dc623209037997fa19173f9a5246">any</a> (R &amp;range, P predicate)</td></tr>
+<tr class="memdesc:a2713dc623209037997fa19173f9a5246"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>any</code> algorithm implementation for the arbitrary ranges  <a href="#a2713dc623209037997fa19173f9a5246"></a><br/></td></tr>
 <tr class="memitem:a66db27c360c9a53fde5e437db1f6c008"><td class="memTemplParams" colspan="2">template&lt;typename R , typename P , typename E &gt; </td></tr>
 <tr class="memitem:a66db27c360c9a53fde5e437db1f6c008"><td class="memTemplItemLeft" align="right" valign="top">E&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a66db27c360c9a53fde5e437db1f6c008">find</a> (R &amp;range, P predicate, E not_found_el)</td></tr>
+<tr class="memdesc:a66db27c360c9a53fde5e437db1f6c008"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>find</code> algorithm implementation for the arbitrary ranges, found element will be <code>move-returned</code> to the caller  <a href="#a66db27c360c9a53fde5e437db1f6c008"></a><br/></td></tr>
 <tr class="memitem:a50527d5e91b011e429ad4ab865b0d117"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
 <tr class="memitem:a50527d5e91b011e429ad4ab865b0d117"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__range.html">detail::refwrapped_range</a>&lt; R &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a50527d5e91b011e429ad4ab865b0d117">refwrap</a> (R &amp;range)</td></tr>
 <tr class="memdesc:a50527d5e91b011e429ad4ab865b0d117"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily copies input range into output range using <code>std::ref</code> function on each element.  <a href="#a50527d5e91b011e429ad4ab865b0d117"></a><br/></td></tr>
 <tr class="memitem:a257878ca0caf2add96f5bb14e284c4a6"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
 <tr class="memitem:a257878ca0caf2add96f5bb14e284c4a6"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__range.html">detail::refwrapped_const_range</a>&lt; R &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a257878ca0caf2add96f5bb14e284c4a6">refwrap</a> (const R &amp;range)</td></tr>
+<tr class="memdesc:a257878ca0caf2add96f5bb14e284c4a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily copies input range into output range using <code>std::cref</code> function on each element.  <a href="#a257878ca0caf2add96f5bb14e284c4a6"></a><br/></td></tr>
 <tr class="memitem:ac6475b8908f1af4409477f29ca43399e"><td class="memTemplParams" colspan="2">template&lt;typename R , typename F &gt; </td></tr>
 <tr class="memitem:ac6475b8908f1af4409477f29ca43399e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1transformed__range.html">detail::transformed_range</a>&lt; R, F &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#ac6475b8908f1af4409477f29ca43399e">transform</a> (R &amp;range, F functor)</td></tr>
 <tr class="memdesc:ac6475b8908f1af4409477f29ca43399e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily transforms input range into output range applying functor to each element.  <a href="#ac6475b8908f1af4409477f29ca43399e"></a><br/></td></tr>
@@ -156,6 +159,16 @@ template&lt;typename R , typename P &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p><code>any</code> algorithm implementation for the arbitrary ranges </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">range</td><td>input range </td></tr>
+    <tr><td class="paramname">predicate</td><td>function to check range elements with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if function returned true on some range element, false otherwise </dd></dl>
 
 </div>
 </div>
@@ -224,7 +237,7 @@ template&lt;typename D , typename R &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Moves all the elements from specified range into specified destination using <code>emplace_back</code>. </p>
+<p>Moves all the elements from the specified range into specified destination using <code>emplace_back</code>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dest</td><td>destination container </td></tr>
@@ -236,7 +249,7 @@ template&lt;typename D , typename R &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ac5db8d4cdc8539752bc86315e9d51626"></a>
+<a class="anchor" id="a0fbba46a40946ae4b837a85d3044992b"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -245,14 +258,14 @@ template&lt;typename R &gt; </div>
         <tr>
           <td class="memname">auto staticlib::ranges::emplace_to_vector </td>
           <td>(</td>
-          <td class="paramtype">R &amp;&#160;</td>
+          <td class="paramtype">R &amp;&amp;&#160;</td>
           <td class="paramname"><em>range</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Moves all the elements from specified range into vector using <code>emplace_back</code> </p>
+<p>Moves all the elements from the specified range into vector using <code>emplace_back</code> </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">range</td><td>range with <code>MoveConstructible</code> elements </td></tr>
@@ -340,6 +353,17 @@ template&lt;typename R , typename P , typename E &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p><code>find</code> algorithm implementation for the arbitrary ranges, found element will be <code>move-returned</code> to the caller </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">range</td><td>input range </td></tr>
+    <tr><td class="paramname">predicate</td><td>function to check range elements with </td></tr>
+    <tr><td class="paramname">not_found_el</td><td>this element will be returned if predicate won't match any element </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>range element that will match the predicate, <code>not_found_el</code> argument if no elements will match </dd></dl>
 
 </div>
 </div>
@@ -441,6 +465,15 @@ template&lt;typename R &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Lazily copies input range into output range using <code>std::cref</code> function on each element. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">range</td><td>source range </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>cloned range </dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="ac6475b8908f1af4409477f29ca43399e"></a>
@@ -485,7 +518,7 @@ template&lt;typename R , typename F &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 24 2015 20:55:47 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Nov 25 2015 09:57:37 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

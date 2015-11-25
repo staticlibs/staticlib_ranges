@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">staticlib_ranges
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.2</span>
    </div>
   </td>
  </tr>
@@ -114,10 +114,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#ifndef STATICLIB_RANGES_FILTER_HPP</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define STATICLIB_RANGES_FILTER_HPP</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;array&gt;</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;iterator&gt;</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;utility&gt;</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>staticlib {</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">namespace </span>ranges {</div>
@@ -131,141 +131,156 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">// non-owning pointers</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    P* predicate;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    D* offcast_dest;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// heap allocation (one per iterator instance) is required here</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">// to support element type that are not DefaultConstructible</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    std::unique_ptr&lt;E&gt; current_ptr;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// space in iter for placement of E instance (to not require DefaultConstructible)</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    std::array&lt;char, sizeof(E)&gt; current_space; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    E* current_ptr;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    </div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00056"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#afa8944423c8fc285142b6231671e1699">   56</a></span>&#160;    <span class="keyword">typedef</span> E <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#afa8944423c8fc285142b6231671e1699">value_type</a>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">// do not support input_iterator</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a7b7e8fda587d7f9dc5069316ef857d79">   58</a></span>&#160;    <span class="keyword">typedef</span> std::input_iterator_tag <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a7b7e8fda587d7f9dc5069316ef857d79">iterator_category</a>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a640fa1da9d23b3ea1e1a26be0393e52d">   59</a></span>&#160;    <span class="keyword">typedef</span> std::nullptr_t <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a640fa1da9d23b3ea1e1a26be0393e52d">difference_type</a>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ac96352ef510ce639666516fc5de26ba3">   60</a></span>&#160;    <span class="keyword">typedef</span> std::nullptr_t <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ac96352ef510ce639666516fc5de26ba3">pointer</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a17f1b2911bc6f023c3fe646f4f44f523">   61</a></span>&#160;    <span class="keyword">typedef</span> std::nullptr_t <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a17f1b2911bc6f023c3fe646f4f44f523">reference</a>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ae2449bb09829990cb830e821ba2458fb" title="Deleted copy constructor.">filtered_iter</a>(<span class="keyword">const</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp; other) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp; <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a97f7fd8fa2d500adaf4207b736f50319" title="Deleted copy assignment operator.">operator=</a>(<span class="keyword">const</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp; other) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ae5afc52eca30fb3f2d5cc5bf58d8f562">   83</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ae2449bb09829990cb830e821ba2458fb" title="Deleted copy constructor.">filtered_iter</a>(<a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp;&amp; other) :</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    source_iter(std::move(other.source_iter)),</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    source_iter_end(std::move(other.source_iter_end)),</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    predicate(std::move(other.predicate)),</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    offcast_dest(std::move(other.offcast_dest)),</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    current_ptr(std::move(other.current_ptr)) { }</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ab5cc348655a19c781bc1f3024b784dd7">   96</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp; <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ab5cc348655a19c781bc1f3024b784dd7" title="Move assignment operator.">operator=</a>(<a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp;&amp; other) {</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        this-&gt;source_iter = std::move(other.source_iter);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        this-&gt;source_iter_end = std::move(other.source_iter_end);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        this-&gt;predicate = std::move(other.predicate);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        this-&gt;offcast_dest = std::move(other.offcast_dest);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        this-&gt;current_ptr = std::move(other.current_ptr);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    }</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a326a5510e28a2394783cb619b0f5eeda">  113</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ae2449bb09829990cb830e821ba2458fb" title="Deleted copy constructor.">filtered_iter</a>(I source_iter, I source_iter_end, P&amp; predicate, D&amp; offcast_dest) :</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    source_iter(std::move(source_iter)),</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    source_iter_end(std::move(source_iter_end)),</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    predicate(&amp;predicate),</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    offcast_dest(&amp;offcast_dest),</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    current_ptr(std::unique_ptr&lt;E&gt;{}) {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordflow">if</span> (this-&gt;source_iter != this-&gt;source_iter_end) {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            this-&gt;current_ptr = std::unique_ptr&lt;E&gt;(<span class="keyword">new</span> E(std::move(*this-&gt;source_iter)));</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="keywordflow">if</span> (!(*this-&gt;predicate)(*current_ptr.get())) {</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                (*this-&gt;offcast_dest)(std::move(*current_ptr.get()));</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                next();</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            }</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        }</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    }</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ae2449bb09829990cb830e821ba2458fb" title="Deleted copy constructor.">filtered_iter</a>&amp; operator++() {</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        next();</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    }</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ae2449bb09829990cb830e821ba2458fb" title="Deleted copy constructor.">filtered_iter</a>&amp; operator++(<span class="keywordtype">int</span>) {</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        next();</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    }</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    </div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    E operator*() {</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keywordflow">return</span> std::move(*current_ptr.get());</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    }</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordtype">bool</span> operator!=(<span class="keyword">const</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ae2449bb09829990cb830e821ba2458fb" title="Deleted copy constructor.">filtered_iter</a>&amp; end)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordflow">return</span> this-&gt;source_iter != end.source_iter;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    }</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordtype">void</span> next() {</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="keywordflow">for</span> (++source_iter; source_iter != source_iter_end; ++source_iter) {</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            *current_ptr.get() = std::move(*source_iter);</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            <span class="keyword">auto</span>&amp; ref = *current_ptr.get();</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            <span class="keywordflow">if</span> ((*predicate)(ref)) <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            (*offcast_dest)(std::move(*current_ptr.get()));</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        }</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    }</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    </div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;};</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> R, <span class="keyword">typename</span> P, <span class="keyword">typename</span> D&gt;</div>
-<div class="line"><a name="l00192"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html">  192</a></span>&#160;<span class="keyword">class </span><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">filtered_range</a> {</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    R&amp; source_range;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    P predicate;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    D offcast_dest;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a9c0686e20710c84b87d41630d6e2da4a" title="Type of iterator of this range.">decltype</a>(std::declval&lt;<a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a9c0686e20710c84b87d41630d6e2da4a" title="Type of iterator of this range.">decltype</a>(source_range)&gt;().<a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a487d124a7308716cb857d3af04e34097" title="Returns begin filtered iterator.">begin</a>()) iterator;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">// does not support input_iterator, but valid tag is required</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">// for std::iterator_traits with libc++ on mac</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a7b7e8fda587d7f9dc5069316ef857d79">   59</a></span>&#160;    <span class="keyword">typedef</span> std::input_iterator_tag <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a7b7e8fda587d7f9dc5069316ef857d79">iterator_category</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a640fa1da9d23b3ea1e1a26be0393e52d">   60</a></span>&#160;    <span class="keyword">typedef</span> std::nullptr_t <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a640fa1da9d23b3ea1e1a26be0393e52d">difference_type</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ac96352ef510ce639666516fc5de26ba3">   61</a></span>&#160;    <span class="keyword">typedef</span> std::nullptr_t <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ac96352ef510ce639666516fc5de26ba3">pointer</a>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a17f1b2911bc6f023c3fe646f4f44f523">   62</a></span>&#160;    <span class="keyword">typedef</span> std::nullptr_t <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a17f1b2911bc6f023c3fe646f4f44f523">reference</a>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ae2449bb09829990cb830e821ba2458fb" title="Deleted copy constructor.">filtered_iter</a>(<span class="keyword">const</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp; other) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp; <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a97f7fd8fa2d500adaf4207b736f50319" title="Deleted copy assignment operator.">operator=</a>(<span class="keyword">const</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp; other) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ae5afc52eca30fb3f2d5cc5bf58d8f562">   84</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ae2449bb09829990cb830e821ba2458fb" title="Deleted copy constructor.">filtered_iter</a>(<a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp;&amp; other) :</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    source_iter(std::move(other.source_iter)),</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    source_iter_end(std::move(other.source_iter_end)),</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    predicate(std::move(other.predicate)),</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    offcast_dest(std::move(other.offcast_dest)),</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    current_space(),</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    current_ptr() { </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">if</span> (other.current_ptr) {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            this-&gt;current_ptr = <span class="keyword">new</span> (current_space.data()) E(std::move(*other.current_ptr));</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ab5cc348655a19c781bc1f3024b784dd7">  102</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp; <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ab5cc348655a19c781bc1f3024b784dd7" title="Move assignment operator.">operator=</a>(<a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp;&amp; other) {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        this-&gt;source_iter = std::move(other.source_iter);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        this-&gt;source_iter_end = std::move(other.source_iter_end);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        this-&gt;predicate = std::move(other.predicate);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        this-&gt;offcast_dest = std::move(other.offcast_dest);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordflow">if</span> (other.current_ptr) {</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            *this-&gt;current_ptr = std::move(*other.current_ptr);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    }</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a326a5510e28a2394783cb619b0f5eeda">  121</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ae2449bb09829990cb830e821ba2458fb" title="Deleted copy constructor.">filtered_iter</a>(I source_iter, I source_iter_end, P&amp; predicate, D&amp; offcast_dest) :</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    source_iter(std::move(source_iter)),</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    source_iter_end(std::move(source_iter_end)),</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    predicate(&amp;predicate),</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    offcast_dest(&amp;offcast_dest),</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    current_space(),</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    current_ptr() {</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keywordflow">if</span> (this-&gt;source_iter != this-&gt;source_iter_end) {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            this-&gt;current_ptr = <span class="keyword">new</span> (current_space.data()) E(std::move(*this-&gt;source_iter));</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            <span class="keywordflow">if</span> (!(*this-&gt;predicate)(*current_ptr)) {</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                (*this-&gt;offcast_dest)(std::move(*current_ptr));</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                next();</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            }</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        }</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    }</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    </div>
+<div class="line"><a name="l00140"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a0020bdc6e4079a4b8fbe563c230d4227">  140</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a0020bdc6e4079a4b8fbe563c230d4227" title="Destructor to clean-up current object.">~filtered_iter</a>() {</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        <span class="keywordflow">if</span> (current_ptr) {</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            current_ptr-&gt;~E();</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        }</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    }</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00153"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a9f9b82b32f85166905aa69f54df4ba2b">  153</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp; <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a9f9b82b32f85166905aa69f54df4ba2b" title="Will iterate over source elements until successful Predicate application or source exhaustion...">operator++</a>() {</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        next();</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    }</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00165"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a52f0f5688c7f76cb9b2619714efc4304">  165</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp; <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a52f0f5688c7f76cb9b2619714efc4304" title="Will iterate over source elements until successful Predicate application or source exhaustion...">operator++</a>(<span class="keywordtype">int</span>) {</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        next();</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    }</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    </div>
+<div class="line"><a name="l00175"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#afa6139eeb9a815cb401b736c09c7cf69">  175</a></span>&#160;    E <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#afa6139eeb9a815cb401b736c09c7cf69" title="Will move out current element that matched predicate.">operator*</a>() {</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        <span class="keywordflow">return</span> std::move(*current_ptr);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    }</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
+<div class="line"><a name="l00186"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a710fb815427df9a1a335d26fc543afd8">  186</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a710fb815427df9a1a335d26fc543afd8" title="Delegated operator implementation, do NOT support arbitrary input instances, should be used only to c...">operator!=</a>(<span class="keyword">const</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter</a>&amp; end)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <span class="keywordflow">return</span> this-&gt;source_iter != end.source_iter;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    }</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordtype">void</span> next() {</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="keywordflow">for</span> (++source_iter; source_iter != source_iter_end; ++source_iter) {</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            *current_ptr = std::move(*source_iter);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            <span class="keyword">auto</span>&amp; ref = *current_ptr;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            <span class="keywordflow">if</span> ((*predicate)(ref)) <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            (*offcast_dest)(std::move(*current_ptr));</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        }</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    }</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    </div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;};</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;</div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;</div>
-<div class="line"><a name="l00206"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a133b9806d9e53ae1c973c5f3ed22c14c">  206</a></span>&#160;    <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;iterator&gt;::value_type <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a133b9806d9e53ae1c973c5f3ed22c14c" title="Result value type of iterators returned from this range.">value_type</a>;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#ad7aff2fea48f181423f5262b2a6377c3" title="Deleted copy constructor.">filtered_range</a>(<span class="keyword">const</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">filtered_range</a>&amp; other) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> R, <span class="keyword">typename</span> P, <span class="keyword">typename</span> D&gt;</div>
+<div class="line"><a name="l00210"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html">  210</a></span>&#160;<span class="keyword">class </span><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">filtered_range</a> {</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    R&amp; source_range;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    P predicate;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    D offcast_dest;</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">filtered_range</a>&amp; <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a8da9aab51bb79bcefa86b5763d417d4d" title="Deleted copy assignment operator.">operator=</a>(<span class="keyword">const</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">filtered_range</a>&amp; other) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;</div>
-<div class="line"><a name="l00228"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#ac354dcb2ae65212426b8e49d0590169f">  228</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#ad7aff2fea48f181423f5262b2a6377c3" title="Deleted copy constructor.">filtered_range</a>(<a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">filtered_range</a>&amp;&amp; other) :</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    source_range(other.source_range), </div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    predicate(std::move(other.predicate)),</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    offcast_dest(std::move(other.offcast_dest)) { }</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a9c0686e20710c84b87d41630d6e2da4a" title="Type of iterator of this range.">decltype</a>(std::declval&lt;<a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a9c0686e20710c84b87d41630d6e2da4a" title="Type of iterator of this range.">decltype</a>(source_range)&gt;().<a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a487d124a7308716cb857d3af04e34097" title="Returns begin filtered iterator.">begin</a>()) iterator;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;</div>
+<div class="line"><a name="l00224"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a133b9806d9e53ae1c973c5f3ed22c14c">  224</a></span>&#160;    <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;iterator&gt;::value_type <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a133b9806d9e53ae1c973c5f3ed22c14c" title="Result value type of iterators returned from this range.">value_type</a>;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#ad7aff2fea48f181423f5262b2a6377c3" title="Deleted copy constructor.">filtered_range</a>(<span class="keyword">const</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">filtered_range</a>&amp; other) = <span class="keyword">delete</span>;</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">filtered_range</a>&amp; <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a8da9aab51bb79bcefa86b5763d417d4d" title="Deleted copy assignment operator.">operator=</a>(<a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">filtered_range</a>&amp;&amp; other) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">filtered_range</a>&amp; <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a8da9aab51bb79bcefa86b5763d417d4d" title="Deleted copy assignment operator.">operator=</a>(<span class="keyword">const</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">filtered_range</a>&amp; other) = <span class="keyword">delete</span>;</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div>
-<div class="line"><a name="l00248"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#af3bf8b868c220daaa0f9685f71213749">  248</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#ad7aff2fea48f181423f5262b2a6377c3" title="Deleted copy constructor.">filtered_range</a>(R&amp; source_range, P predicate, D offcast_dest) : </div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    source_range(source_range), </div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    predicate(std::move(predicate)), </div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    offcast_dest(std::move(offcast_dest)) { }</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;</div>
-<div class="line"><a name="l00258"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a487d124a7308716cb857d3af04e34097">  258</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter&lt;iterator, value_type, P, D&gt;</a> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a487d124a7308716cb857d3af04e34097" title="Returns begin filtered iterator.">begin</a>() {</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter&lt;iterator, value_type, P, D&gt;</a>{</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            std::move(source_range.begin()), std::move(source_range.end()), predicate, offcast_dest</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        };</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    }</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;</div>
-<div class="line"><a name="l00269"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a2ad754288355c033be5bc1500590aef7">  269</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter&lt;iterator, value_type, P, D&gt;</a> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a2ad754288355c033be5bc1500590aef7" title="Returns past_the_end iterator.">end</a>() {</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter&lt;iterator, value_type, P, D&gt;</a>{</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            std::move(source_range.end()), std::move(source_range.end()), predicate, offcast_dest</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        };</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    }</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;};</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;} <span class="comment">// namespace</span></div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> P, <span class="keyword">typename</span> D&gt;</div>
-<div class="line"><a name="l00290"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#a99e98be08109ae3a6875fd9c7277aa36">  290</a></span>&#160;<a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">detail::filtered_range&lt;T, P, D&gt;</a> <a class="code" href="namespacestaticlib_1_1ranges.html#a99e98be08109ae3a6875fd9c7277aa36" title="Lazily filters input range into output range checking each element using specified Predicate...">filter</a>(T&amp; source_range, P predicate, D offcast_dest) {</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">detail::filtered_range&lt;T, P, D&gt;</a>(source_range, std::move(predicate), std::move(offcast_dest));</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;}</div>
+<div class="line"><a name="l00246"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#ac354dcb2ae65212426b8e49d0590169f">  246</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#ad7aff2fea48f181423f5262b2a6377c3" title="Deleted copy constructor.">filtered_range</a>(<a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">filtered_range</a>&amp;&amp; other) :</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    source_range(other.source_range), </div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    predicate(std::move(other.predicate)),</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    offcast_dest(std::move(other.offcast_dest)) { }</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">filtered_range</a>&amp; <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a8da9aab51bb79bcefa86b5763d417d4d" title="Deleted copy assignment operator.">operator=</a>(<a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">filtered_range</a>&amp;&amp; other) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;</div>
+<div class="line"><a name="l00266"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#af3bf8b868c220daaa0f9685f71213749">  266</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#ad7aff2fea48f181423f5262b2a6377c3" title="Deleted copy constructor.">filtered_range</a>(R&amp; source_range, P predicate, D offcast_dest) : </div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    source_range(source_range), </div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    predicate(std::move(predicate)), </div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    offcast_dest(std::move(offcast_dest)) { }</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;</div>
+<div class="line"><a name="l00276"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a487d124a7308716cb857d3af04e34097">  276</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter&lt;iterator, value_type, P, D&gt;</a> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a487d124a7308716cb857d3af04e34097" title="Returns begin filtered iterator.">begin</a>() {</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter&lt;iterator, value_type, P, D&gt;</a>{</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;            std::move(source_range.begin()), std::move(source_range.end()), predicate, offcast_dest</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        };</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    }</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;</div>
+<div class="line"><a name="l00287"></a><span class="lineno"><a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a2ad754288355c033be5bc1500590aef7">  287</a></span>&#160;    <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter&lt;iterator, value_type, P, D&gt;</a> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a2ad754288355c033be5bc1500590aef7" title="Returns past_the_end iterator.">end</a>() {</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html" title="Lazy InputIterator implementation for filter operation.">filtered_iter&lt;iterator, value_type, P, D&gt;</a>{</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            std::move(source_range.end()), std::move(source_range.end()), predicate, offcast_dest</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        };</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    }</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;};</div>
 <div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;} <span class="comment">// namespace</span></div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;}</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="preprocessor">#endif    </span><span class="comment">/* STATICLIB_RANGES_FILTER_HPP */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;} <span class="comment">// namespace</span></div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> P, <span class="keyword">typename</span> D&gt;</div>
+<div class="line"><a name="l00308"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#a99e98be08109ae3a6875fd9c7277aa36">  308</a></span>&#160;<a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">detail::filtered_range&lt;T, P, D&gt;</a> <a class="code" href="namespacestaticlib_1_1ranges.html#a99e98be08109ae3a6875fd9c7277aa36" title="Lazily filters input range into output range checking each element using specified Predicate...">filter</a>(T&amp; source_range, P predicate, D offcast_dest) {</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html" title="Lazy implementation of SinglePassRange for filter operation, after the pass all accessed elements of ...">detail::filtered_range&lt;T, P, D&gt;</a>(source_range, std::move(predicate), std::move(offcast_dest));</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;}</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;} <span class="comment">// namespace</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;}</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="preprocessor">#endif    </span><span class="comment">/* STATICLIB_RANGES_FILTER_HPP */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 24 2015 20:55:47 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Nov 25 2015 09:57:37 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

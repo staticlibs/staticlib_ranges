@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">staticlib_ranges
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.2</span>
    </div>
   </td>
  </tr>
@@ -91,8 +91,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">range_utils.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;vector&gt;</code><br/>
-<code>#include &lt;iterator&gt;</code><br/>
+<div class="textblock"><code>#include &lt;iterator&gt;</code><br/>
+<code>#include &lt;functional&gt;</code><br/>
+<code>#include &lt;vector&gt;</code><br/>
 </div>
 <p><a href="range__utils_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -103,12 +104,12 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac5db8d4cdc8539752bc86315e9d51626"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
-<tr class="memitem:ac5db8d4cdc8539752bc86315e9d51626"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#ac5db8d4cdc8539752bc86315e9d51626">staticlib::ranges::emplace_to_vector</a> (R &amp;range)-&gt; std</td></tr>
-<tr class="memdesc:ac5db8d4cdc8539752bc86315e9d51626"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from specified range into vector using <code>emplace_back</code>  <a href="#ac5db8d4cdc8539752bc86315e9d51626"></a><br/></td></tr>
+<tr class="memitem:a0fbba46a40946ae4b837a85d3044992b"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
+<tr class="memitem:a0fbba46a40946ae4b837a85d3044992b"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a0fbba46a40946ae4b837a85d3044992b">staticlib::ranges::emplace_to_vector</a> (R &amp;&amp;range)-&gt; std</td></tr>
+<tr class="memdesc:a0fbba46a40946ae4b837a85d3044992b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from the specified range into vector using <code>emplace_back</code>  <a href="#a0fbba46a40946ae4b837a85d3044992b"></a><br/></td></tr>
 <tr class="memitem:ad00f01a16e0f61e5c66e42e3dbc9b11f"><td class="memTemplParams" colspan="2">template&lt;typename D , typename R &gt; </td></tr>
 <tr class="memitem:ad00f01a16e0f61e5c66e42e3dbc9b11f"><td class="memTemplItemLeft" align="right" valign="top">D &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#ad00f01a16e0f61e5c66e42e3dbc9b11f">staticlib::ranges::emplace_to</a> (D &amp;dest, R &amp;&amp;range)</td></tr>
-<tr class="memdesc:ad00f01a16e0f61e5c66e42e3dbc9b11f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from specified range into specified destination using <code>emplace_back</code>.  <a href="#ad00f01a16e0f61e5c66e42e3dbc9b11f"></a><br/></td></tr>
+<tr class="memdesc:ad00f01a16e0f61e5c66e42e3dbc9b11f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from the specified range into specified destination using <code>emplace_back</code>.  <a href="#ad00f01a16e0f61e5c66e42e3dbc9b11f"></a><br/></td></tr>
 <tr class="memitem:a10c38adaf67ee61cba6a78c21b077109"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a10c38adaf67ee61cba6a78c21b077109"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a10c38adaf67ee61cba6a78c21b077109">staticlib::ranges::ignore_offcast</a> (T t)</td></tr>
 <tr class="memdesc:a10c38adaf67ee61cba6a78c21b077109"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility function to use as an offcast <code>FunctionObject</code> argument for <code>filter</code> function.  <a href="#a10c38adaf67ee61cba6a78c21b077109"></a><br/></td></tr>
@@ -117,13 +118,15 @@ Functions</h2></td></tr>
 <tr class="memdesc:a4e4c76f12020e2509ed1ed14db0eb05a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility function to use as an offcast <code>FunctionObject</code> argument for <code>filter</code> function.  <a href="#a4e4c76f12020e2509ed1ed14db0eb05a"></a><br/></td></tr>
 <tr class="memitem:a2713dc623209037997fa19173f9a5246"><td class="memTemplParams" colspan="2">template&lt;typename R , typename P &gt; </td></tr>
 <tr class="memitem:a2713dc623209037997fa19173f9a5246"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a2713dc623209037997fa19173f9a5246">staticlib::ranges::any</a> (R &amp;range, P predicate)</td></tr>
+<tr class="memdesc:a2713dc623209037997fa19173f9a5246"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>any</code> algorithm implementation for the arbitrary ranges  <a href="#a2713dc623209037997fa19173f9a5246"></a><br/></td></tr>
 <tr class="memitem:a66db27c360c9a53fde5e437db1f6c008"><td class="memTemplParams" colspan="2">template&lt;typename R , typename P , typename E &gt; </td></tr>
 <tr class="memitem:a66db27c360c9a53fde5e437db1f6c008"><td class="memTemplItemLeft" align="right" valign="top">E&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a66db27c360c9a53fde5e437db1f6c008">staticlib::ranges::find</a> (R &amp;range, P predicate, E not_found_el)</td></tr>
+<tr class="memdesc:a66db27c360c9a53fde5e437db1f6c008"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>find</code> algorithm implementation for the arbitrary ranges, found element will be <code>move-returned</code> to the caller  <a href="#a66db27c360c9a53fde5e437db1f6c008"></a><br/></td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 24 2015 20:55:47 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Nov 25 2015 09:57:37 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>
