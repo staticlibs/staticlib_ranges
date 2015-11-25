@@ -21,19 +21,22 @@
  * Created on January 28, 2015, 8:34 PM
  */
 
-#include <cassert>
+#include "staticlib/ranges/concat.hpp"
+
+#include <iostream>
 #include <vector>
 #include <list>
 #include <memory>
-#include <iostream>
 
+#include "staticlib/config/assert.hpp"
+
+#include "staticlib/ranges/filter.hpp"
+#include "staticlib/ranges/range_utils.hpp"
+#include "staticlib/ranges/transform.hpp"
 #include "domain_classes.hpp"
-#include "staticlib/ranges.hpp"
 
-namespace { // anonymous
 
-namespace mv = staticlib::ranges;
-
+namespace ra = staticlib::ranges;
 
 void test_containers() {
     auto vec = std::vector<std::unique_ptr<MyInt>>{};
@@ -44,14 +47,14 @@ void test_containers() {
     list.emplace_back(new MyInt(42));
     list.emplace_back(new MyInt(43));
     
-    auto concatted = mv::concat(vec, list);
-    auto res = mv::emplace_to_vector(concatted);
+    auto concatted = ra::concat(vec, list);
+    auto res = ra::emplace_to_vector(concatted);
     
-    assert(4 == res.size());
-    assert(40 == res[0]->get_int());
-    assert(41 == res[1]->get_int());
-    assert(42 == res[2]->get_int());
-    assert(43 == res[3]->get_int());
+    slassert(4 == res.size());
+    slassert(40 == res[0]->get_int());
+    slassert(41 == res[1]->get_int());
+    slassert(42 == res[2]->get_int());
+    slassert(43 == res[3]->get_int());
 }
 
 void test_empty_first() {
@@ -60,12 +63,12 @@ void test_empty_first() {
     vec.emplace_back(new MyInt(40));
     vec.emplace_back(new MyInt(41));
     
-    auto range = mv::concat(vec_empty, vec);
-    auto res = mv::emplace_to_vector(range);
+    auto range = ra::concat(vec_empty, vec);
+    auto res = ra::emplace_to_vector(range);
     
-    assert(2 == res.size());
-    assert(40 == res[0]->get_int());
-    assert(41 == res[1]->get_int());
+    slassert(2 == res.size());
+    slassert(40 == res[0]->get_int());
+    slassert(41 == res[1]->get_int());
 }
 
 void test_empty_second() {
@@ -74,22 +77,22 @@ void test_empty_second() {
     vec.emplace_back(new MyInt(40));
     vec.emplace_back(new MyInt(41));
 
-    auto range = mv::concat(vec, vec_empty);
-    auto res = mv::emplace_to_vector(range);
+    auto range = ra::concat(vec, vec_empty);
+    auto res = ra::emplace_to_vector(range);
     
-    assert(2 == res.size());
-    assert(40 == res[0]->get_int());
-    assert(41 == res[1]->get_int());
+    slassert(2 == res.size());
+    slassert(40 == res[0]->get_int());
+    slassert(41 == res[1]->get_int());
 }
 
 void test_empty_both() {
     auto vec_empty1 = std::vector<std::unique_ptr<MyInt>>{};
     auto vec_empty2 = std::vector<std::unique_ptr<MyInt>>{};
 
-    auto range = mv::concat(vec_empty1, vec_empty2);
-    auto res = mv::emplace_to_vector(range);
+    auto range = ra::concat(vec_empty1, vec_empty2);
+    auto res = ra::emplace_to_vector(range);
     
-    assert(0 == res.size());
+    slassert(0 == res.size());
 }
 
 void test_ranges() {
@@ -102,31 +105,32 @@ void test_ranges() {
     list.emplace_back(new MyInt(43));
     list.emplace_back(new MyInt(44));
     
-    auto transformed = mv::transform(vec, [](std::unique_ptr<MyInt> el) {
+    auto transformed = ra::transform(vec, [](std::unique_ptr<MyInt> el) {
         return std::unique_ptr<MyInt>(new MyInt(el->get_int() - 10));
     });
-    auto filtered = mv::filter(list, [](std::unique_ptr<MyInt>& el) {
+    auto filtered = ra::filter(list, [](std::unique_ptr<MyInt>& el) {
         return 42 != el->get_int();
-    }, mv::ignore_offcast<std::unique_ptr<MyInt>>);
-    auto concatted = mv::concat(transformed, filtered);
-    auto res = mv::emplace_to_vector(concatted);
+    }, ra::ignore_offcast<std::unique_ptr<MyInt>>);
+    auto concatted = ra::concat(transformed, filtered);
+    auto res = ra::emplace_to_vector(concatted);
 
-    assert(4 == res.size());
-    assert(30 == res[0]->get_int());
-    assert(31 == res[1]->get_int());
-    assert(43 == res[2]->get_int());
-    assert(44 == res[3]->get_int());
+    slassert(4 == res.size());
+    slassert(30 == res[0]->get_int());
+    slassert(31 == res[1]->get_int());
+    slassert(43 == res[2]->get_int());
+    slassert(44 == res[3]->get_int());
 }
-
-} // namespace
 
 int main() {
-    test_containers();
-    test_empty_first();
-    test_empty_second();
-    test_empty_both();
-    test_ranges();
-    
+    try {
+        test_containers();
+        test_empty_first();
+        test_empty_second();
+        test_empty_both();
+        test_ranges();
+    } catch (const std::exception& e) {
+        std::cout << e.what() << std::endl;
+        return 1;
+    }
     return 0;
 }
-

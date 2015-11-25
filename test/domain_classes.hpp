@@ -21,11 +21,11 @@
  * Created on February 17, 2015, 11:04 PM
  */
 
-#ifndef DOMAIN_CLASSES_HPP
-#define	DOMAIN_CLASSES_HPP
+#ifndef STATICLIB_RANGES_TEST_DOMAIN_CLASSES_HPP
+#define	STATICLIB_RANGES_TEST_DOMAIN_CLASSES_HPP
 
-#include <string>
 #include <sstream>
+#include <string>
 
 class MyInt {
     int val;
@@ -118,12 +118,5 @@ public:
     }
 };
 
-template<typename T>
-std::string to_string(T t) {
-    std::stringstream ss{};
-    ss << t;
-    return ss.str();
-}
-
-#endif	/* DOMAIN_CLASSES_HPP */
+#endif	/* STATICLIB_RANGES_TEST_DOMAIN_CLASSES_HPP */
 

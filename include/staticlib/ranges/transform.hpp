@@ -24,8 +24,8 @@
 #ifndef STATICLIB_RANGES_TRANSFORM_HPP
 #define STATICLIB_RANGES_TRANSFORM_HPP
 
-#include <utility>
 #include <iterator>
+#include <utility>
 
 namespace staticlib {
 namespace ranges {
@@ -34,7 +34,7 @@ namespace detail {
 
 /**
  * Lazy `InputIterator` implementation for `transform`  operation.
- * Do not support `CopyConstructible`, `CopyAssignable` and `Swappable`.
+ * Does not support `CopyConstructible`, `CopyAssignable` and `Swappable`.
  * Moves element from source iterator, applies `FunctionObject` (usually lambda) 
  * to it and moves it out from `operator*` method.
  */
@@ -45,7 +45,8 @@ class transformed_iter {
 
 public:
     typedef E value_type;
-    // do not support input_iterator
+    // does not support input_iterator, but valid tag is required
+    // for std::iterator_traits with libc++ on mac
     typedef std::input_iterator_tag iterator_category;
     typedef std::nullptr_t difference_type;
     typedef std::nullptr_t pointer;

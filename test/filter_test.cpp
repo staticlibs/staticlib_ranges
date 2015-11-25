@@ -21,17 +21,21 @@
  * Created on January 28, 2015, 8:35 PM
  */
 
-#include <cassert>
-#include <vector>
+#include "staticlib/ranges/filter.hpp"
+
+#include <iostream>
 #include <list>
 #include <memory>
+#include <vector>
+
+#include "staticlib/config/assert.hpp"
+
+#include "staticlib/ranges/concat.hpp"
+#include "staticlib/ranges/range_utils.hpp"
 
 #include "domain_classes.hpp"
-#include "staticlib/ranges.hpp"
 
-namespace { //anonymous
-
-namespace mv = staticlib::ranges;
+namespace ra = staticlib::ranges;
 
 void test_vector() {
     auto vec = std::vector<std::unique_ptr<MyInt>>{};
@@ -41,19 +45,19 @@ void test_vector() {
     vec.emplace_back(new MyInt(43));
     
     auto offcasted = std::vector<std::unique_ptr<MyInt>>{};
-    auto range = mv::filter(vec, [](std::unique_ptr<MyInt>& el) {
+    auto range = ra::filter(vec, [](std::unique_ptr<MyInt>& el) {
         return 42 == el->get_int();
-    }, mv::offcast_into(offcasted));
+    }, ra::offcast_into(offcasted));
 
-    auto res = mv::emplace_to_vector(range);
+    auto res = ra::emplace_to_vector(range);
 
-    assert(1 == res.size());
-    assert(42 == res[0]->get_int());
+    slassert(1 == res.size());
+    slassert(42 == res[0]->get_int());
 
-    assert(3 == offcasted.size());
-    assert(40 == offcasted[0]->get_int());
-    assert(41 == offcasted[1]->get_int());
-    assert(43 == offcasted[2]->get_int());
+    slassert(3 == offcasted.size());
+    slassert(40 == offcasted[0]->get_int());
+    slassert(41 == offcasted[1]->get_int());
+    slassert(43 == offcasted[2]->get_int());
 }
 
 void test_range() {
@@ -63,15 +67,15 @@ void test_range() {
     auto list = std::list<std::unique_ptr<MyInt>>{};
     list.emplace_back(new MyInt(42));
     list.emplace_back(new MyInt(43));
-    auto range = mv::concat(vec, list);
+    auto range = ra::concat(vec, list);
     
-    auto filtered = mv::filter(range, [](std::unique_ptr<MyInt>& el) {
+    auto filtered = ra::filter(range, [](std::unique_ptr<MyInt>& el) {
         return el->get_int() <= 40;
-    }, mv::ignore_offcast<std::unique_ptr<MyInt>>);
-    auto res = mv::emplace_to_vector(filtered);
+    }, ra::ignore_offcast<std::unique_ptr<MyInt>>);
+    auto res = ra::emplace_to_vector(filtered);
 
-    assert(1 == res.size());
-    assert(40 == res[0]->get_int());
+    slassert(1 == res.size());
+    slassert(40 == res[0]->get_int());
 }
 
 void test_non_default_constructible() {
@@ -80,24 +84,26 @@ void test_non_default_constructible() {
     vec.emplace_back(42);
     vec.emplace_back(43);
     
-    auto filtered = mv::filter(vec, [](MyMovable& el) {
+    auto filtered = ra::filter(vec, [](MyMovable& el) {
         return 42 != el.get_val();
-    }, mv::ignore_offcast<MyMovable>);
+    }, ra::ignore_offcast<MyMovable>);
 
-    auto res = mv::emplace_to_vector(filtered);
+    auto res = ra::emplace_to_vector(filtered);
 
-    assert(2 == res.size());
-    assert(41 == res[0].get_val());
-    assert(43 == res[1].get_val());
+    slassert(2 == res.size());
+    slassert(41 == res[0].get_val());
+    slassert(43 == res[1].get_val());
 }
 
-} // namespace
- 
 int main() {
-    test_vector();
-    test_range();
-    test_non_default_constructible();
-
+    try {
+        test_vector();
+        test_range();
+        test_non_default_constructible();
+    } catch (const std::exception& e) {
+        std::cout << e.what() << std::endl;
+        return 1;
+    }
     return 0;
 }
 

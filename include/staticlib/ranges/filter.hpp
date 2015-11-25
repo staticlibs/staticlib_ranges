@@ -24,10 +24,10 @@
 #ifndef STATICLIB_RANGES_FILTER_HPP
 #define STATICLIB_RANGES_FILTER_HPP
 
-#include <utility>
+#include <array>
 #include <iterator>
 #include <functional>
-#include <array>
+#include <utility>
 
 namespace staticlib {
 namespace ranges {
@@ -36,7 +36,7 @@ namespace detail {
 
 /**
  * Lazy `InputIterator` implementation for `filter`  operation.
- * Do not support `CopyConstructible`, `CopyAssignable` and `Swappable`.
+ * Does not support `CopyConstructible`, `CopyAssignable` and `Swappable`.
  * Moves element from source iterator, checks it against specified `Predicate`
  * and on success moves it out from `operator*` method.
  * Elements, that do not match predicate will be applied to specified `FunctionObject`.
@@ -54,7 +54,8 @@ class filtered_iter {
     
 public:
     typedef E value_type;
-    // do not support input_iterator
+    // does not support input_iterator, but valid tag is required
+    // for std::iterator_traits with libc++ on mac
     typedef std::input_iterator_tag iterator_category;
     typedef std::nullptr_t difference_type;
     typedef std::nullptr_t pointer;

@@ -21,18 +21,25 @@
  * Created on January 28, 2015, 8:35 PM
  */
 
-#include <cassert>
-#include <vector>
+#include "staticlib/ranges/transform.hpp"
+
+#include <iostream>
 #include <list>
 #include <memory>
 #include <sstream>
-#include <iostream>
+#include <vector>
+
+#include "staticlib/config/assert.hpp"
+#include "staticlib/config/to_string.hpp"
+
+#include "staticlib/ranges/concat.hpp"
+#include "staticlib/ranges/filter.hpp"
+#include "staticlib/ranges/range_utils.hpp"
 
 #include "domain_classes.hpp"
-#include "staticlib/ranges.hpp"
 
-namespace { // anonymous
 
+namespace sc = staticlib::config;
 namespace sit = staticlib::ranges;
 
 void test_vector() {
@@ -41,14 +48,14 @@ void test_vector() {
     vec.emplace_back(new MyInt(41));
     
     auto range = sit::transform(vec, [](std::unique_ptr<MyInt> el) {
-        return std::unique_ptr<MyStr>(new MyStr(to_string(el->get_int() - 10)));
+        return std::unique_ptr<MyStr>(new MyStr(sc::to_string(el->get_int() - 10)));
     });
 
     auto res = sit::emplace_to_vector(range);
 
-    assert(2 == res.size());
-    assert("30" == res[0]->get_str());
-    assert("31" == res[1]->get_str());
+    slassert(2 == res.size());
+    slassert("30" == res[0]->get_str());
+    slassert("31" == res[1]->get_str());
 }
 
 void test_range() {
@@ -62,7 +69,7 @@ void test_range() {
     vec2.emplace_back(new MyStr("54"));
     
     auto range1 = sit::transform(vec1, [](std::unique_ptr<MyInt> el) {
-        return std::unique_ptr<MyStr>(new MyStr(to_string(el->get_int() + 10)));
+        return std::unique_ptr<MyStr>(new MyStr(sc::to_string(el->get_int() + 10)));
     });
     auto range2 = sit::concat(range1, vec2);
     auto range3 = sit::filter(range2, [](std::unique_ptr<MyStr>& el) {
@@ -73,20 +80,20 @@ void test_range() {
     });
     auto res = sit::emplace_to_vector(range4);
 
-    assert(4 == res.size());
-    assert("50_42" == res[0]->get_str());
-    assert("51_42" == res[1]->get_str());
-    assert("53_42" == res[2]->get_str());
-    assert("54_42" == res[3]->get_str());
+    slassert(4 == res.size());
+    slassert("50_42" == res[0]->get_str());
+    slassert("51_42" == res[1]->get_str());
+    slassert("53_42" == res[2]->get_str());
+    slassert("54_42" == res[3]->get_str());
 }
-
-} // namespace
-
 
 int main() {
-    test_vector();
-    test_range();
-
+    try {
+        test_vector();
+        test_range();
+    } catch (const std::exception& e) {
+        std::cout << e.what() << std::endl;
+        return 1;
+    }
     return 0;
 }
-

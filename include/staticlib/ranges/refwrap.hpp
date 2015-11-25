@@ -24,9 +24,9 @@
 #ifndef STATICLIB_RANGES_REFWRAP_HPP
 #define	STATICLIB_RANGES_REFWRAP_HPP
 
-#include <utility>
 #include <iterator>
 #include <functional>
+#include <utility>
 
 namespace staticlib {
 namespace ranges {
@@ -35,7 +35,7 @@ namespace detail {
 
 /**
  * Lazy `InputIterator` implementation for `std::ref`  operation.
- * Do not support `CopyConstructible`, `CopyAssignable` and `Swappable`.
+ * Does not support `CopyConstructible`, `CopyAssignable` and `Swappable`.
  * Wraps elements from source iterator into std::reference_wrapper, 
  * and moves wrappers them out from `operator*` method.
  */
@@ -45,7 +45,8 @@ class refwrapped_iter {
 
 public:
     typedef std::reference_wrapper<E> value_type;
-    // do not support input_iterator
+    // does not support input_iterator, but valid tag is required
+    // for std::iterator_traits with libc++ on mac
     typedef std::input_iterator_tag iterator_category;
     typedef std::nullptr_t difference_type;
     typedef std::nullptr_t pointer;
@@ -218,7 +219,7 @@ public:
 
 
 /**
- * Lazy `InputIterator` implementation for `std::ref`  operation.
+ * Lazy `InputIterator` implementation for `std::cref`  operation.
  * Do not support `CopyConstructible`, `CopyAssignable` and `Swappable`.
  * Wraps elements from source iterator into std::reference_wrapper, 
  * and moves wrappers them out from `operator*` method.
@@ -320,7 +321,7 @@ public:
 };
 
 /**
- * Lazy implementation of `SinglePassRange` for `std::ref`  operation
+ * Lazy implementation of `SinglePassRange` for `std::cref`  operation
  */
 template <typename R>
 class refwrapped_const_range {
@@ -414,6 +415,13 @@ detail::refwrapped_range<R> refwrap(R& range) {
     return detail::refwrapped_range<R>(range);
 }
 
+/**
+ * Lazily copies input range into output range using `std::cref` function on
+ * each element.
+ * 
+ * @param range source range
+ * @return cloned range
+ */
 template <typename R>
 detail::refwrapped_const_range<R> refwrap(const R& range) {
     return detail::refwrapped_const_range<R>(range);

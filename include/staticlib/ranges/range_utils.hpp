@@ -21,23 +21,24 @@
  * Created on January 28, 2015, 8:34 PM
  */
 
-#ifndef STATICLIB_RANGES_UTILS_HPP
-#define	STATICLIB_RANGES_UTILS_HPP
+#ifndef STATICLIB_RANGES_RANGES_UTILS_HPP
+#define	STATICLIB_RANGES_RANGES_UTILS_HPP
 
-#include <vector>
 #include <iterator>
+#include <functional>
+#include <vector>
 
 namespace staticlib {
 namespace ranges {
 
 /**
- * Moves all the elements from specified range into vector using `emplace_back`
+ * Moves all the elements from the specified range into vector using `emplace_back`
  * 
  * @param range range with `MoveConstructible` elements
  * @return vector containing all element from specified range
  */
 template <typename R>
-auto emplace_to_vector(R& range) -> std::vector<typename std::iterator_traits<decltype(range.begin())>::value_type> {
+auto emplace_to_vector(R&& range) -> std::vector<typename std::iterator_traits<decltype(range.begin())>::value_type> {
     auto vec = std::vector<typename std::iterator_traits<decltype(range.begin())>::value_type>{};
     // resize is not used here, as neither 'transformed' nor 'filtered' 
     // range will have O(1) size available
@@ -48,7 +49,7 @@ auto emplace_to_vector(R& range) -> std::vector<typename std::iterator_traits<de
 }
 
 /**
- * Moves all the elements from specified range into specified destination
+ * Moves all the elements from the specified range into specified destination
  * using `emplace_back`.
  * 
  * @param dest destination container
@@ -88,6 +89,14 @@ std::function<void(E)> offcast_into(T& dest) {
     };
 }
 
+/**
+ * `any` algorithm implementation for the arbitrary ranges
+ * 
+ * @param range input range
+ * @param predicate function to check range elements with
+ * @return true if function returned true on some range element,
+ *         false otherwise
+ */
 template <typename R, typename P>
 bool any(R& range, P predicate) {
     for (auto&& el : range) {
@@ -99,6 +108,17 @@ bool any(R& range, P predicate) {
     return false;
 }
 
+/**
+ * `find` algorithm implementation for the arbitrary ranges,
+ *  found element will be `move-returned` to the caller
+ * 
+ * @param range input range
+ * @param predicate function to check range elements with
+ * @param not_found_el this element will be returned if 
+ *        predicate won't match any element
+ * @return range element that will match the predicate, 
+ *         `not_found_el` argument if no elements will match
+ */
 template <typename R, typename P, typename E>
 E find(R& range, P predicate, E not_found_el) {
     for (auto&& el : range) {
@@ -114,4 +134,4 @@ E find(R& range, P predicate, E not_found_el) {
 } // namespace
 }
 
-#endif	/* STATICLIB_RANGES_UTILS_HPP */
+#endif	/* STATICLIB_RANGES_RANGES_UTILS_HPP */
