@@ -125,7 +125,7 @@ public:
     }
 
     /**
-     * Delegated operator implementation, do NOT support arbitrary input instances,
+     * Delegated operator implementation, does NOT support arbitrary input instances,
      * should be used only to compare with `past_the_end` iterator.
      * 
      * @param end

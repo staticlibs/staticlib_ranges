@@ -35,6 +35,10 @@ namespace ranges {
 
 namespace detail_adapter {
 
+/**
+ * Iterator implementation for the range adapter.
+ * Holds a reference to the range and call it for the next elements.
+ */
 template <typename Range>
 class range_adapter_iter {
     Range& range;
@@ -81,26 +85,53 @@ public:
      */
     range_adapter_iter& operator=(range_adapter_iter&& other) = delete;
     
-    range_adapter_iter(Range& range) :
-    range(range) { }
-
-    range_adapter_iter(Range& range, bool past_the_end) :
-    range(range), past_the_end(past_the_end) { }    
+    /**
+     * Constructor
+     * 
+     * @param range parent range
+     * @param past_the_end true for the "past the end" iterator
+     */
+    range_adapter_iter(Range& range, bool past_the_end = false) :
+    range(range), 
+    past_the_end(past_the_end) { }    
     
+    /**
+     * Iterates to the next element
+     * 
+     * @return reference to this iterator instance
+     */
     range_adapter_iter& operator++() {
         past_the_end = !range.compute_next_and_set_state();
         return *this;
     }
 
+    /**
+     * Iterates to the next element
+     * 
+     * @return reference to this iterator instance
+     */
     range_adapter_iter& operator++(int) {
         past_the_end = !range.compute_next_and_set_state();
         return *this;
     }
 
+    /**
+     * Returns current element
+     * 
+     * @return current element
+     */
     typename Range::value_type operator*() {
         return std::move(range.get_current());
     }
 
+    /**
+     * Compares this iterator instance with a "past the end"
+     * Does NOT support arbitrary input instances,
+     * should be used only to compare with "past the end" iterator.
+     * 
+     * @param end
+     * @return 
+     */
     bool operator!=(const range_adapter_iter& end) const {
         return this->past_the_end != end.past_the_end;
     }
@@ -109,6 +140,14 @@ public:
 
 } // namespace
 
+/**
+ * Abstract Range for move-only objects, implements all the boilerplate
+ * to support C++11 `for` loops. Inheritors should implement single method
+ * `compute_next` that should set next element as `current` using 
+ * `set_current` and return `true`, or return `false` if range is exhausted.
+ * Inheritors should use CRTP - `compute_next` will be called using compile-time
+ * polymorphism.
+ */
 template <typename Range, typename Elem>
 class range_adapter {
     enum class State { CREATED, READY, CONSUMED, EXHAUSTED };
@@ -120,14 +159,12 @@ class range_adapter {
     
     State state = State::CREATED;    
     
-public:
+protected:
     /**
-     * Result value type of iterators returned from this range
+     * Constructor for inheritors
      */
-    typedef Elem value_type;
-
     range_adapter() { }
-    
+
     /**
      * Deleted copy constructor
      *
@@ -171,8 +208,17 @@ public:
         return *this;
     }
 
+    
+public:
     /**
-     * Destructor to clean-up current object
+     * Result value type of iterators returned from this range
+     */
+    typedef Elem value_type;
+    
+
+    /**
+     * Destructor to clean-up current object,
+     * non-virtual, as pointers to base class should not be used.
      */
     ~range_adapter() {
         if (current_ptr) {
@@ -181,7 +227,7 @@ public:
     }
 
     /**
-     * Returns `begin` transformed iterator
+     * Returns `begin` iterator
      * 
      * @return `begin` iterator
      */
@@ -205,17 +251,15 @@ public:
 
 protected:
 
-    Elem get_current() {
-        switch(state) {
-        case State::READY: {
-                state = State::CONSUMED;
-                return std::move(*current_ptr);
-            }
-        default:
-            throw std::range_error("Invalid attempt to dereference a range that is not ready");
-        }
-    }
-
+    /**
+     * Sets current element for this range, this element will be move-returned
+     * through the next iterator dereference call. 
+     * Inheritors should call this method from the `compute_next` method
+     * passing the next element.
+     * 
+     * @param current next element to be returned through the iterator dereference
+     * @return true
+     */
     bool set_current(Elem&& current) {
         switch (state) {
         case State::CREATED:
@@ -235,6 +279,11 @@ protected:
     }
     
 private:
+    /**
+     * Calls the `compute_next` method and sets the state according to its results.
+     * 
+     * @return true if next element exists, false (range exhausted) otherwise
+     */
     bool compute_next_and_set_state() {
         switch (state) {
         case State::CREATED:
@@ -250,6 +299,23 @@ private:
             throw std::range_error("Invalid attempt to increment an exhausted range");
         default:
             throw std::runtime_error("Unsupported range state");
+        }
+    }
+
+    /**
+     * Move-return accessor to the current element of this range
+     * 
+     * @return curennt element
+     */
+    Elem get_current() {
+        switch (state) {
+        case State::READY:
+        {
+            state = State::CONSUMED;
+            return std::move(*current_ptr);
+        }
+        default:
+            throw std::range_error("Invalid attempt to dereference a range that is not ready");
         }
     }
 
