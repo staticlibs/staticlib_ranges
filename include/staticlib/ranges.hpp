@@ -26,6 +26,7 @@
 
 #include "staticlib/ranges/concat.hpp"
 #include "staticlib/ranges/filter.hpp"
+#include "staticlib/ranges/range_adapter.hpp"
 #include "staticlib/ranges/range_utils.hpp"
 #include "staticlib/ranges/refwrap.hpp"
 #include "staticlib/ranges/transform.hpp"
