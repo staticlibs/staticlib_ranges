@@ -20,7 +20,7 @@ Link to the [API documentation](http://staticlibs.github.io/staticlib_ranges/doc
 Ranges
 ------
 
-In this library `Range` library means an arbitrary C++ object that can be used with the C++11 `foreach` loop:
+In this library `Range` means an arbitrary C++ object that can be used with the C++11 `foreach` loop:
 
     for (auto&& el : range) {
        ...
