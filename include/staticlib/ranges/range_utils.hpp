@@ -37,8 +37,8 @@ namespace ranges {
  * @param range range with `MoveConstructible` elements
  * @return vector containing all element from specified range
  */
-template <typename R>
-auto emplace_to_vector(R&& range) -> std::vector<typename std::iterator_traits<decltype(range.begin())>::value_type> {
+template <typename Range>
+auto emplace_to_vector(Range&& range) -> std::vector<typename std::iterator_traits<decltype(range.begin())>::value_type> {
     auto vec = std::vector<typename std::iterator_traits<decltype(range.begin())>::value_type>{};
     // resize is not used here, as neither 'transformed' nor 'filtered' 
     // range will have O(1) size available
@@ -56,8 +56,8 @@ auto emplace_to_vector(R&& range) -> std::vector<typename std::iterator_traits<d
  * @param range source range
  * @return destination container
  */
-template <typename D, typename R>
-D& emplace_to(D& dest, R&& range) {
+template <typename Dest, typename Range>
+Dest& emplace_to(Dest& dest, Range&& range) {
     for (auto&& el : range) {
         dest.emplace_back(std::move(el));
     }
@@ -70,9 +70,9 @@ D& emplace_to(D& dest, R&& range) {
  * 
  * @param t offcast object
  */
-template <typename T>
-void ignore_offcast(T t) {
-    (void) t; // ignored
+template <typename Elem>
+void ignore_offcast(Elem el) {
+    (void) el; // ignored
 }
 
 /**
@@ -82,9 +82,9 @@ void ignore_offcast(T t) {
  * @param dest container to emplace offcast elements into
  * @return `FunctionObject` argument for `filter` function
  */
-template <typename T, typename E = typename T::value_type>
-std::function<void(E)> offcast_into(T& dest) {
-    return [&dest](E el) {
+template <typename Dest, typename Elem = typename Dest::value_type>
+std::function<void(Elem)> offcast_into(Dest& dest) {
+    return [&dest](Elem el) {
         dest.emplace_back(std::move(el));
     };
 }
@@ -97,8 +97,8 @@ std::function<void(E)> offcast_into(T& dest) {
  * @return true if function returned true on some range element,
  *         false otherwise
  */
-template <typename R, typename P>
-bool any(R& range, P predicate) {
+template <typename Range, typename Pred>
+bool any(Range& range, Pred predicate) {
     for (auto&& el : range) {
         auto& ref = el;
         if (predicate(ref)) {
@@ -119,8 +119,8 @@ bool any(R& range, P predicate) {
  * @return range element that will match the predicate, 
  *         `not_found_el` argument if no elements will match
  */
-template <typename R, typename P, typename E>
-E find(R& range, P predicate, E not_found_el) {
+template <typename Range, typename Pred, typename Elem>
+Elem find(Range& range, Pred predicate, Elem not_found_el) {
     for (auto&& el : range) {
         auto& ref = el;
         if (predicate(ref)) {

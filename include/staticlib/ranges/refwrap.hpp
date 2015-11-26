@@ -31,7 +31,7 @@
 namespace staticlib {
 namespace ranges {
 
-namespace detail {
+namespace detail_refwrap {
 
 /**
  * Lazy `InputIterator` implementation for `std::ref`  operation.
@@ -39,12 +39,12 @@ namespace detail {
  * Wraps elements from source iterator into std::reference_wrapper, 
  * and moves wrappers them out from `operator*` method.
  */
-template<typename I, typename E>
+template<typename Iter, typename Elem>
 class refwrapped_iter {
-    I source_iter;
+    Iter source_iter;
 
 public:
-    typedef std::reference_wrapper<E> value_type;
+    typedef std::reference_wrapper<Elem> value_type;
     // does not support input_iterator, but valid tag is required
     // for std::iterator_traits with libc++ on mac
     typedef std::input_iterator_tag iterator_category;
@@ -91,7 +91,7 @@ public:
      * 
      * @param source source iterator
      */
-    refwrapped_iter(I source_iter) :
+    refwrapped_iter(Iter source_iter) :
     source_iter(std::move(source_iter)) { }
 
     /**
@@ -119,7 +119,7 @@ public:
      * 
      * @return transformed element
      */
-    std::reference_wrapper<E> operator*() {
+    std::reference_wrapper<Elem> operator*() {
         auto& el = *source_iter;
         return std::ref(el);
     }
@@ -139,9 +139,9 @@ public:
 /**
  * Lazy implementation of `SinglePassRange` for `std::ref`  operation
  */
-template <typename R>
+template <typename Range>
 class refwrapped_range {
-    R& source_range;
+    Range& source_range;
 
 public:
     /**
@@ -195,7 +195,7 @@ public:
      * 
      * @param range reference to source range
      */
-    refwrapped_range(R& source_range) :
+    refwrapped_range(Range& source_range) :
     source_range(source_range) { }
 
     /**
@@ -224,12 +224,12 @@ public:
  * Wraps elements from source iterator into std::reference_wrapper, 
  * and moves wrappers them out from `operator*` method.
  */
-template<typename I, typename E>
+template<typename Iter, typename Elem>
 class refwrapped_const_iter  {
-    I source_iter;
+    Iter source_iter;
 
 public:
-    typedef std::reference_wrapper<const E> value_type;
+    typedef std::reference_wrapper<const Elem> value_type;
     // do not support input_iterator
     typedef std::input_iterator_tag iterator_category;
     typedef std::nullptr_t difference_type;
@@ -275,7 +275,7 @@ public:
      * 
      * @param source source iterator
      */
-    refwrapped_const_iter(I source_iter) :
+    refwrapped_const_iter(Iter source_iter) :
     source_iter(std::move(source_iter)) { }
 
     /**
@@ -303,7 +303,7 @@ public:
      * 
      * @return transformed element
      */
-    std::reference_wrapper<const E> operator*() {
+    std::reference_wrapper<const Elem> operator*() {
         const auto& el = *source_iter;
         return std::cref(el);
     }
@@ -323,9 +323,9 @@ public:
 /**
  * Lazy implementation of `SinglePassRange` for `std::cref`  operation
  */
-template <typename R>
+template <typename Range>
 class refwrapped_const_range {
-    const R& source_range;
+    const Range& source_range;
 
 public:
     /**
@@ -379,7 +379,7 @@ public:
      * 
      * @param range reference to source range
      */
-    refwrapped_const_range(const R& source_range) :
+    refwrapped_const_range(const Range& source_range) :
     source_range(source_range) { }
 
     /**
@@ -410,9 +410,9 @@ public:
  * @param range source range
  * @return cloned range
  */
-template <typename R>
-detail::refwrapped_range<R> refwrap(R& range) {
-    return detail::refwrapped_range<R>(range);
+template <typename Range>
+detail_refwrap::refwrapped_range<Range> refwrap(Range& range) {
+    return detail_refwrap::refwrapped_range<Range>(range);
 }
 
 /**
@@ -422,9 +422,9 @@ detail::refwrapped_range<R> refwrap(R& range) {
  * @param range source range
  * @return cloned range
  */
-template <typename R>
-detail::refwrapped_const_range<R> refwrap(const R& range) {
-    return detail::refwrapped_const_range<R>(range);
+template <typename Range>
+detail_refwrap::refwrapped_const_range<Range> refwrap(const Range& range) {
+    return detail_refwrap::refwrapped_const_range<Range>(range);
 }
 
 } // namespace

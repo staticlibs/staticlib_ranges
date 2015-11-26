@@ -32,7 +32,7 @@
 namespace staticlib {
 namespace ranges {
 
-namespace detail {
+namespace detail_filter {
 
 /**
  * Lazy `InputIterator` implementation for `filter`  operation.
@@ -41,19 +41,19 @@ namespace detail {
  * and on success moves it out from `operator*` method.
  * Elements, that do not match predicate will be applied to specified `FunctionObject`.
  */
-template <typename I, typename E, typename P, typename D>
+template <typename Iter, typename Elem, typename Pred, typename Dest>
 class filtered_iter {
-    I source_iter;
-    I source_iter_end;
+    Iter source_iter;
+    Iter source_iter_end;
     // non-owning pointers
-    P* predicate;
-    D* offcast_dest;
-    // space in iter for placement of E instance (to not require DefaultConstructible)
-    std::array<char, sizeof(E)> current_space; 
-    E* current_ptr;
+    Pred* predicate;
+    Dest* offcast_dest;
+    // space in iter for placement of Elem instance (to not require DefaultConstructible)
+    std::array<char, sizeof(Elem)> current_space; 
+    Elem* current_ptr;
     
 public:
-    typedef E value_type;
+    typedef Elem value_type;
     // does not support input_iterator, but valid tag is required
     // for std::iterator_traits with libc++ on mac
     typedef std::input_iterator_tag iterator_category;
@@ -89,7 +89,7 @@ public:
     current_space(),
     current_ptr() { 
         if (other.current_ptr) {
-            this->current_ptr = new (current_space.data()) E(std::move(*other.current_ptr));
+            this->current_ptr = new (current_space.data()) Elem(std::move(*other.current_ptr));
         }
     }
 
@@ -118,7 +118,7 @@ public:
      * @param predicate filtering `Predicate`
      * @param offcast_dest `FunctionObject` for offcast elements
      */
-    filtered_iter(I source_iter, I source_iter_end, P& predicate, D& offcast_dest) :
+    filtered_iter(Iter source_iter, Iter source_iter_end, Pred& predicate, Dest& offcast_dest) :
     source_iter(std::move(source_iter)),
     source_iter_end(std::move(source_iter_end)),
     predicate(&predicate),
@@ -126,7 +126,7 @@ public:
     current_space(),
     current_ptr() {
         if (this->source_iter != this->source_iter_end) {
-            this->current_ptr = new (current_space.data()) E(std::move(*this->source_iter));
+            this->current_ptr = new (current_space.data()) Elem(std::move(*this->source_iter));
             if (!(*this->predicate)(*current_ptr)) {
                 (*this->offcast_dest)(std::move(*current_ptr));
                 next();
@@ -139,7 +139,7 @@ public:
      */
     ~filtered_iter() {
         if (current_ptr) {
-            current_ptr->~E();
+            current_ptr->~Elem();
         }
     }
 
@@ -172,7 +172,7 @@ public:
      * 
      * @return current element
      */
-    E operator*() {
+    Elem operator*() {
         return std::move(*current_ptr);
     }
 
@@ -206,11 +206,11 @@ private:
  * (will retain in "valid but unspecified" state). Elements that won't match the 
  * `Predicate` will be applied to specified `FunctionObject`
  */
-template <typename R, typename P, typename D>
+template <typename Range, typename Pred, typename Dest>
 class filtered_range {
-    R& source_range;
-    P predicate;
-    D offcast_dest;
+    Range& source_range;
+    Pred predicate;
+    Dest offcast_dest;
 
 public:
     /**
@@ -263,7 +263,7 @@ public:
      * @param predicate `Predicate` to check source element againt it
      * @param offcast_dest `FunctionObject` to apply offcast elements to it
      */
-    filtered_range(R& source_range, P predicate, D offcast_dest) : 
+    filtered_range(Range& source_range, Pred predicate, Dest offcast_dest) : 
     source_range(source_range), 
     predicate(std::move(predicate)), 
     offcast_dest(std::move(offcast_dest)) { }
@@ -273,8 +273,8 @@ public:
      * 
      * @return `begin` iterator
      */
-    filtered_iter<iterator, value_type, P, D> begin() {
-        return filtered_iter<iterator, value_type, P, D>{
+    filtered_iter<iterator, value_type, Pred, Dest> begin() {
+        return filtered_iter<iterator, value_type, Pred, Dest>{
             std::move(source_range.begin()), std::move(source_range.end()), predicate, offcast_dest
         };
     }
@@ -284,8 +284,8 @@ public:
      * 
      * @return `past_the_end` iterator
      */
-    filtered_iter<iterator, value_type, P, D> end() {
-        return filtered_iter<iterator, value_type, P, D>{
+    filtered_iter<iterator, value_type, Pred, Dest> end() {
+        return filtered_iter<iterator, value_type, Pred, Dest>{
             std::move(source_range.end()), std::move(source_range.end()), predicate, offcast_dest
         };
     }
@@ -304,9 +304,9 @@ public:
  * @param offcast_dest `FunctionObject` to apply offcast elements to it
  * @return filtered range
  */
-template <typename T, typename P, typename D>
-detail::filtered_range<T, P, D> filter(T& source_range, P predicate, D offcast_dest) {
-    return detail::filtered_range<T, P, D>(source_range, std::move(predicate), std::move(offcast_dest));
+template <typename Range, typename Pred, typename Dest>
+detail_filter::filtered_range<Range, Pred, Dest> filter(Range& source_range, Pred predicate, Dest offcast_dest) {
+    return detail_filter::filtered_range<Range, Pred, Dest>(source_range, std::move(predicate), std::move(offcast_dest));
 }
 
 

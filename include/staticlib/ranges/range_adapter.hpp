@@ -33,15 +33,15 @@
 namespace staticlib {
 namespace ranges {
 
-namespace detail {
+namespace detail_adapter {
 
-template <typename R>
+template <typename Range>
 class range_adapter_iter {
-    R& range;
+    Range& range;
     bool past_the_end = false;
     
 public:    
-    typedef typename R::value_type value_type;
+    typedef typename Range::value_type value_type;
     // does not support input_iterator, but valid tag is required
     // for std::iterator_traits with libc++ on mac
     typedef std::input_iterator_tag iterator_category;
@@ -81,10 +81,10 @@ public:
      */
     range_adapter_iter& operator=(range_adapter_iter&& other) = delete;
     
-    range_adapter_iter(R& range) :
+    range_adapter_iter(Range& range) :
     range(range) { }
 
-    range_adapter_iter(R& range, bool past_the_end) :
+    range_adapter_iter(Range& range, bool past_the_end) :
     range(range), past_the_end(past_the_end) { }    
     
     range_adapter_iter& operator++() {
@@ -97,7 +97,7 @@ public:
         return *this;
     }
 
-    typename R::value_type operator*() {
+    typename Range::value_type operator*() {
         return std::move(range.get_current());
     }
 
@@ -109,14 +109,14 @@ public:
 
 } // namespace
 
-template <typename R, typename E>
+template <typename Range, typename Elem>
 class range_adapter {
     enum class State { CREATED, READY, CONSUMED, EXHAUSTED };
-    friend class detail::range_adapter_iter<R>;
+    friend class detail_adapter::range_adapter_iter<Range>;
 
-    // space in iter for placement of E instance (to not require DefaultConstructible)
-    std::array<char, sizeof(E)> current_space;
-    E* current_ptr;
+    // space in iter for placement of Elem instance (to not require DefaultConstructible)
+    std::array<char, sizeof(Elem)> current_space;
+    Elem* current_ptr;
     
     State state = State::CREATED;    
     
@@ -124,7 +124,7 @@ public:
     /**
      * Result value type of iterators returned from this range
      */
-    typedef E value_type;
+    typedef Elem value_type;
 
     range_adapter() { }
     
@@ -153,7 +153,7 @@ public:
     current_ptr(),
     state(other.state) {
         if (other.current_ptr) {
-            this->current_ptr = new (current_space.data()) E(std::move(*other.current_ptr));
+            this->current_ptr = new (current_space.data()) Elem(std::move(*other.current_ptr));
         }
     }
 
@@ -176,7 +176,7 @@ public:
      */
     ~range_adapter() {
         if (current_ptr) {
-            current_ptr->~E();
+            current_ptr->~Elem();
         }
     }
 
@@ -185,10 +185,10 @@ public:
      * 
      * @return `begin` iterator
      */
-    detail::range_adapter_iter<R> begin() {
+    detail_adapter::range_adapter_iter<Range> begin() {
         if (State::CREATED == state) {
             compute_next_and_set_state();
-            return detail::range_adapter_iter<R>(*static_cast<R*>(this));
+            return detail_adapter::range_adapter_iter<Range>(*static_cast<Range*>(this));
         } else {
             throw std::range_error("Invalid attempt to get a 'begin()' iterator the second time");
         }
@@ -199,13 +199,13 @@ public:
      * 
      * @return `past_the_end` iterator
      */
-    detail::range_adapter_iter<R> end() {
-        return detail::range_adapter_iter<R>(*static_cast<R*>(this), true);
+    detail_adapter::range_adapter_iter<Range> end() {
+        return detail_adapter::range_adapter_iter<Range>(*static_cast<Range*>(this), true);
     }
 
 protected:
 
-    E get_current() {
+    Elem get_current() {
         switch(state) {
         case State::READY: {
                 state = State::CONSUMED;
@@ -216,10 +216,10 @@ protected:
         }
     }
 
-    bool set_current(E&& current) {
+    bool set_current(Elem&& current) {
         switch (state) {
         case State::CREATED:
-            this->current_ptr = new (current_space.data()) E(std::move(current));
+            this->current_ptr = new (current_space.data()) Elem(std::move(current));
             break;
         case State::READY:
         case State::CONSUMED:
@@ -240,7 +240,7 @@ private:
         case State::CREATED:
         case State::READY:
         case State::CONSUMED: {
-            bool has_next = static_cast<R*> (this)->compute_next();
+            bool has_next = static_cast<Range*> (this)->compute_next();
             if (!has_next) {
                 state = State::EXHAUSTED;
             }

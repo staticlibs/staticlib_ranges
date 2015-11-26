@@ -5,11 +5,11 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICElemNSElem-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * WITHOUT WARRANTIElemS OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
@@ -30,21 +30,21 @@
 namespace staticlib {
 namespace ranges {
 
-namespace detail {
+namespace detail_concat {
 
 /**
  * Lazy `InputIterator` implementation for `concat` (or `chain`) operation.
  * Does not support `CopyConstructible`, `CopyAssignable` and `Swappable`.
  * Moves element from source iterators one by one and moves it out from `operator*` method.
  */
-template<typename I1, typename I2, typename E>
+template<typename Iter1, typename Iter2, typename Elem>
 class concatted_iter {
-    I1 source_iter1;
-    I1 source_iter1_end;
-    I2 source_iter2;
+    Iter1 source_iter1;
+    Iter1 source_iter1_end;
+    Iter2 source_iter2;
 
 public:
-    typedef E value_type;
+    typedef Elem value_type;
     // does not support input_iterator, but valid tag is required
     // for std::iterator_traits with libc++ on mac
     typedef std::input_iterator_tag iterator_category;
@@ -97,7 +97,7 @@ public:
      * @param source_iter1_end `past_the_end` first source iterator
      * @param source_iter2 `begin` second iterator
      */
-    concatted_iter(I1 source_iter1, I1 source_iter1_end, I2 source_iter2) :
+    concatted_iter(Iter1 source_iter1, Iter1 source_iter1_end, Iter2 source_iter2) :
     source_iter1(std::move(source_iter1)), 
     source_iter1_end(std::move(source_iter1_end)),
     source_iter2(std::move(source_iter2)) { }
@@ -129,7 +129,7 @@ public:
      * 
      * @return current element
      */
-    E operator*() {
+    Elem operator*() {
         if (source_iter1 != source_iter1_end) {
             return std::move(*source_iter1);
         } else {
@@ -165,10 +165,10 @@ private:
  * after the pass all accessed elements of source ranges will be moved from
  * (will retain in "valid but unspecified" state).
  */
-template <typename R1, typename R2>
+template <typename Range1, typename Range2>
 class concatted_range {
-    R1& source_range1;
-    R2& source_range2;
+    Range1& source_range1;
+    Range2& source_range2;
 
 public:
     /**
@@ -222,7 +222,7 @@ public:
      * @param source_range1 first source range
      * @param source_range2 second source range
      */
-    concatted_range(R1& source_range1, R2& source_range2) :
+    concatted_range(Range1& source_range1, Range2& source_range2) :
     source_range1(source_range1), 
     source_range2(source_range2) { }
 
@@ -261,9 +261,9 @@ public:
  * @param source_range2 second source range
  * @return concatenated range
  */
-template <typename R1, typename R2>
-detail::concatted_range<R1, R2> concat(R1& range1, R2& range2) {
-    return detail::concatted_range<R1, R2>(range1, range2);
+template <typename Range1, typename Range2>
+detail_concat::concatted_range<Range1, Range2> concat(Range1& range1, Range2& range2) {
+    return detail_concat::concatted_range<Range1, Range2>(range1, range2);
 }
 
 } // namespace

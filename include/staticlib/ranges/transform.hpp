@@ -30,7 +30,7 @@
 namespace staticlib {
 namespace ranges {
 
-namespace detail {
+namespace detail_transform {
 
 /**
  * Lazy `InputIterator` implementation for `transform`  operation.
@@ -38,13 +38,13 @@ namespace detail {
  * Moves element from source iterator, applies `FunctionObject` (usually lambda) 
  * to it and moves it out from `operator*` method.
  */
-template<typename I, typename E, typename F>
+template<typename Iter, typename Elem, typename Func>
 class transformed_iter {
-    I source_iter;
-    F* functor;
+    Iter source_iter;
+    Func* functor;
 
 public:
-    typedef E value_type;
+    typedef Elem value_type;
     // does not support input_iterator, but valid tag is required
     // for std::iterator_traits with libc++ on mac
     typedef std::input_iterator_tag iterator_category;
@@ -94,7 +94,7 @@ public:
      * @param source source iterator
      * @param functor `FunctionObject` to apply to returned values
      */
-    transformed_iter(I source_iter, F& functor) : 
+    transformed_iter(Iter source_iter, Func& functor) : 
     source_iter(std::move(source_iter)), 
     functor(&functor) { }
 
@@ -124,7 +124,7 @@ public:
      * 
      * @return transformed element
      */
-    E operator*() {
+    Elem operator*() {
         return (*functor)(std::move(*source_iter));
     }
 
@@ -146,10 +146,10 @@ public:
  * after the pass all accessed elements of source range will be moved from
  * (will retain in "valid but unspecified" state).
  */
-template <typename R, typename F>
+template <typename Range, typename Func>
 class transformed_range {
-    R& source_range;
-    F functor;
+    Range& source_range;
+    Func functor;
 
 public:
     /**
@@ -166,7 +166,7 @@ public:
     /**
      * Result iterator type
      */
-    typedef transformed_iter<source_iterator, value_type, F> iterator;
+    typedef transformed_iter<source_iterator, value_type, Func> iterator;
 
     /**
      * Deleted copy constructor
@@ -205,7 +205,7 @@ public:
      * @param range reference to source range
      * @param functor transformation `FunctionObject`, can be move-only
      */
-    transformed_range(R& source_range, F functor) : 
+    transformed_range(Range& source_range, Func functor) : 
     source_range(source_range), functor(std::move(functor)) { }
 
     /**
@@ -213,8 +213,8 @@ public:
      * 
      * @return `begin` iterator
      */
-    transformed_iter<source_iterator, value_type, F> begin() {
-        return transformed_iter<source_iterator, value_type, F>{std::move(source_range.begin()), functor};
+    transformed_iter<source_iterator, value_type, Func> begin() {
+        return transformed_iter<source_iterator, value_type, Func>{std::move(source_range.begin()), functor};
     }
 
     /**
@@ -222,8 +222,8 @@ public:
      * 
      * @return `past_the_end` iterator
      */
-    transformed_iter<source_iterator, value_type, F> end() {
-        return transformed_iter<source_iterator, value_type, F>{std::move(source_range.end()), functor};
+    transformed_iter<source_iterator, value_type, Func> end() {
+        return transformed_iter<source_iterator, value_type, Func>{std::move(source_range.end()), functor};
     }
 };
 
@@ -238,9 +238,9 @@ public:
  * @param functor transformation `FunctionObject`, can be move-only
  * @return transformed range
  */
-template <typename R, typename F>
-detail::transformed_range<R, F> transform(R& range, F functor) {
-    return detail::transformed_range<R, F>(range, std::move(functor));
+template <typename Range, typename Func>
+detail_transform::transformed_range<Range, Func> transform(Range& range, Func functor) {
+    return detail_transform::transformed_range<Range, Func>(range, std::move(functor));
 }
 
 } // namespace
