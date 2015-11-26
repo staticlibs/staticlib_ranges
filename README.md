@@ -3,9 +3,11 @@ Staticlibs Ranges library
 
 This project is a part of [Staticlibs](http://staticlibs.net/).
 
-This project implements lazy transformation wrappers for arbitrary ranges.
+This project implements lazy transformation wrappers for arbitrary ranges, `range_adapter` for
+"single-method" range implementations and some range-utility functions.
 
-All range wrappers don't allocate dynamic memory on heap and were designed to be used primarily with move-only non-copyable objects. 
+All range wrappers don't allocate dynamic memory on heap and were designed to be used primarily
+with move-only non-copyable objects. 
 
 This library is similar in nature with [cppitertools](https://github.com/ryanhaining/cppitertools) library
 but much less powerful and much less complex. It was implemented before cppitertools got support for
@@ -15,29 +17,65 @@ This library is header-only and has no dependencies.
 
 Link to the [API documentation](http://staticlibs.github.io/staticlib_ranges/docs/html/namespacestaticlib_1_1ranges.html).
 
-Lazy transformation ranges wrappers
------------------------------------
+Ranges
+------
 
-This library works on arbitrary C++ ranges - the objects that can return `begin` and
-`past_the_end` input iterators using `begin()` and `end()` methods.
+In this library `Range` library means an arbitrary C++ object that can be used with the C++11 `foreach` loop:
+
+    for (auto&& el : range) {
+       ...
+    }
+
+Term `Range` in C++ also can have more specific meanings, see [Boost.Range](http://www.boost.org/doc/libs/1_59_0/libs/range/doc/html/range/concepts/overview.html)
+and [range-v3](https://github.com/ericniebler/range-v3) libraries.
+
+In this library all `Iterator`s returned from the `Range`s satisfy standard C++ [Iterator concept](http://en.cppreference.com/w/cpp/concept/Iterator)
+but do **NOT** satisfy [InputIterator concept](http://en.cppreference.com/w/cpp/concept/InputIterator) 
+(due to problematic `i->m` requirement that implies "reference logic" for elements access instead of "value" one).
+So these `Iterator`s generally can **NOT** be used with the standard STL algorithms.
+
+All `Range`s/`Iterator`s in this library implement "destructive" value-semantics when on `Iterator`
+dereference element is "move-returned" (using `std::move`) to the caller by value. This allows to 
+use common lazy range operations like `transform` and `filter` on move-only non-copyable objects.
+
+If required, reference ("non-destructive") logic can be achieved wrapping the `Range` with 
+`std::reference_wrapper` lazy transformation using `refwrap` function.
+
+Range adapter
+-------------
+
+`range_adapter` template can be inherited using [CRTP](https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern)
+for the easy implementation of the `Range` with "move-return" semantics. Inheritors should implement 
+a single method `compute_next` that should set next element as `current` using `set_current` and return `true`,
+or return `false` if `Range` is exhausted:
+
+    class MyRange : public range_adapter<MyRange, MyElem> {
+    public:
+        bool compute_next() {
+            if (<has next>) {
+                return this->set_current(<next element>);
+            } else {
+                return false;
+            }
+        }
+    };
+
+Lazy transformation range wrappers
+----------------------------------
+
+All the following range wrappers are implemented without heap memory allocation.
 
 Wrappers are destructive to source ranges - they use `std::move` to get the elements from the input iterator
-and returns elements to callers from its own iterators also using `std::move`. Because of this
-wrapper iterators do not conform with `InputIterator` concepts. They still can be used with C++11 `foreach` syntax.
+and returns elements to callers from its own iterators also using `std::move`.
 
 To prevent the possibly-destructive `std::move` on source ranges `refwrap` wrapper can be used before
 transformation wrappers: it will lazily wrap all the source elements using `std::ref` 
 (`std::cref` for const source ranges) so following `std::move` will effectively operate on
-`std::reference_wrapper` objects over source range elements.
-
-Operations
-----------
-
-All following range wrappers are implemented without heap memory allocation.
+`std::reference_wrapper` objects over unchanged source range elements.
 
 ####transform 
 
-Lazily transforms input range into output range lazily applying specified function to each element of source range.
+Lazily transforms input range into output range lazily applying specified function to each element of the source range.
  
 ####filter 
 
@@ -104,6 +142,11 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 
 Changelog
 ---------
+
+**2015-11-26**
+
+ * version 1.2.0
+ * range adapter added
 
 **2015-11-25**
 

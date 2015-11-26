@@ -16,7 +16,7 @@ cmake_minimum_required ( VERSION 2.8.12 )
 
 # project
 project ( staticlib_ranges CXX )
-set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.1.2 )
+set ( ${PROJECT_NAME}_STATICLIB_VERSION 1.2.0 )
 set ( ${PROJECT_NAME}_DESCRIPTION "Staticlibs ranges library" )
 set ( ${PROJECT_NAME}_URL https://github.com/staticlibs/staticlib_ranges )
 

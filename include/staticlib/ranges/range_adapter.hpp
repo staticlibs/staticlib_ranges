@@ -142,7 +142,7 @@ public:
 
 /**
  * Abstract Range for move-only objects, implements all the boilerplate
- * to support C++11 `for` loops. Inheritors should implement single method
+ * to support C++11 `for` loops. Inheritors should implement a single method
  * `compute_next` that should set next element as `current` using 
  * `set_current` and return `true`, or return `false` if range is exhausted.
  * Inheritors should use CRTP - `compute_next` will be called using compile-time
