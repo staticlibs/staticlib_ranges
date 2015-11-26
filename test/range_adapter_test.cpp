@@ -39,7 +39,7 @@ class MyMovableRange : public ra::range_adapter<MyMovableRange, MyMovable> {
     int count = 0;
     
 public:
-    MyMovableRange(uint32_t max):
+    MyMovableRange(int max) :
     max(max) { }
     
 public:
