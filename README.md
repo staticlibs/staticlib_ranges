@@ -10,8 +10,7 @@ All range wrappers don't allocate dynamic memory on heap and were designed to be
 with move-only non-copyable objects. 
 
 This library is similar in nature with [cppitertools](https://github.com/ryanhaining/cppitertools) library
-but much less powerful and much less complex. It was implemented before cppitertools got support for
-move-only objects.
+but much less powerful and much less complex.
 
 This library is header-only and has no dependencies.
 
@@ -29,10 +28,8 @@ In this library `Range` means an arbitrary C++ object that can be used with the 
 Term `Range` in C++ also can have more specific meanings, see [Boost.Range](http://www.boost.org/doc/libs/1_59_0/libs/range/doc/html/range/concepts/overview.html)
 and [range-v3](https://github.com/ericniebler/range-v3) libraries.
 
-In this library all `Iterator`s returned from the `Range`s satisfy standard C++ [Iterator concept](http://en.cppreference.com/w/cpp/concept/Iterator)
-but do **NOT** satisfy [InputIterator concept](http://en.cppreference.com/w/cpp/concept/InputIterator) 
-(due to problematic `i->m` requirement that implies "reference logic" for elements access instead of "value" one).
-So these `Iterator`s generally can **NOT** be used with the standard STL algorithms.
+In this library all `Iterator`s returned from the `Range`s do **NOT** satisfy standard C++ [Iterator concept](http://en.cppreference.com/w/cpp/concept/Iterator)
+(due to `Iterators` being "move-only" object) and generally can **NOT** be used with the standard STL algorithms.
 
 All `Range`s/`Iterator`s in this library implement "destructive" value-semantics when on `Iterator`
 dereference element is "move-returned" (using `std::move`) to the caller by value. This allows to 
@@ -142,6 +139,12 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 
 Changelog
 ---------
+
+**2015-11-27**
+
+ * version 1.2.1
+ * use aligned stack storage for temporary elements
+ * `range_adapter` iterator simplified
 
 **2015-11-26**
 
