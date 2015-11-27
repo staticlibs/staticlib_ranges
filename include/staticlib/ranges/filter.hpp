@@ -50,7 +50,7 @@ class filtered_iter {
     Pred* predicate;
     Dest* offcast_dest;
     // space in iter for placement of Elem instance (to not require DefaultConstructible)
-    typename std::aligned_storage<sizeof (Elem), alignof(Elem)>::type current_space;
+    typename std::aligned_storage<sizeof(Elem), std::alignment_of<Elem>::value>::type current_space;
     Elem* current_ptr = nullptr;
     
 public:

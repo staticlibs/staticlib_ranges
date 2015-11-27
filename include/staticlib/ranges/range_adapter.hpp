@@ -158,7 +158,7 @@ class range_adapter {
     friend class detail_adapter::range_adapter_iter<Range>;
 
     // space in iter for placement of Elem instance (to not require DefaultConstructible)
-    typename std::aligned_storage<sizeof (Elem), alignof(Elem)>::type current_space;
+    typename std::aligned_storage<sizeof(Elem), std::alignment_of<Elem>::value>::type current_space;
     Elem* current_ptr = nullptr;
     
     State state = State::CREATED;    
