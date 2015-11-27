@@ -177,8 +177,8 @@ public:
      * Delegated operator implementation, does NOT support arbitrary input instances,
      * should be used only to compare with `past_the_end` iterator.
      * 
-     * @param end
-     * @return false if this iterator is exhausted
+     * @param end "past the end" iterator
+     * @return whether not both this and specified iterators are "past the end"
      */    
     bool operator!=(const filtered_iter& end) const {
         return this->source_iter != end.source_iter;
