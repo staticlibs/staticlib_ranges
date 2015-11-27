@@ -29,7 +29,7 @@ Term `Range` in C++ also can have more specific meanings, see [Boost.Range](http
 and [range-v3](https://github.com/ericniebler/range-v3) libraries.
 
 In this library all `Iterator`s returned from the `Range`s do **NOT** satisfy standard C++ [Iterator concept](http://en.cppreference.com/w/cpp/concept/Iterator)
-(due to `Iterators` being "move-only" object) and generally can **NOT** be used with the standard STL algorithms.
+(due to `Iterator`s being "move-only") and generally can **NOT** be used with the standard STL algorithms.
 
 All `Range`s/`Iterator`s in this library implement "destructive" value-semantics when on `Iterator`
 dereference element is "move-returned" (using `std::move`) to the caller by value. This allows to 
