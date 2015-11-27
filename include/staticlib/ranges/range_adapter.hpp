@@ -43,7 +43,44 @@ template <typename Range>
 class range_adapter_iter : public std::iterator<std::input_iterator_tag, typename Range::value_type> {
     Range* range;
     
-public:    
+public:
+    /**
+     * Deleted copy constructor
+     *
+     * @param other other instance
+     */
+    range_adapter_iter(const range_adapter_iter& other) = delete;
+
+    /**
+     * Deleted copy assignment operator
+     *
+     * @param other other instance
+     * @return reference to this instance
+     */
+    range_adapter_iter& operator=(const range_adapter_iter& other) = delete;
+
+    /**
+     * Move constructor
+     *
+     * @param other other instance
+     */
+    range_adapter_iter(range_adapter_iter && other) :
+    range(other.range) { 
+        other.range = nullptr;
+    }
+
+    /**
+     * Move assignment operator
+     *
+     * @param other other instance
+     * @return reference to this instance
+     */
+    range_adapter_iter& operator=(range_adapter_iter && other) {
+        this->range = other.range;
+        other.range = nullptr;
+        return *this;
+    }
+    
     /**
      * Constructor
      * 
