@@ -27,6 +27,7 @@
 #include <array>
 #include <iterator>
 #include <functional>
+#include <type_traits>
 #include <utility>
 
 namespace staticlib {
@@ -49,8 +50,8 @@ class filtered_iter {
     Pred* predicate;
     Dest* offcast_dest;
     // space in iter for placement of Elem instance (to not require DefaultConstructible)
-    std::array<char, sizeof(Elem)> current_space; 
-    Elem* current_ptr;
+    typename std::aligned_storage<sizeof (Elem), alignof(Elem)>::type current_space;
+    Elem* current_ptr = nullptr;
     
 public:
     typedef Elem value_type;
@@ -85,11 +86,9 @@ public:
     source_iter(std::move(other.source_iter)),
     source_iter_end(std::move(other.source_iter_end)),
     predicate(std::move(other.predicate)),
-    offcast_dest(std::move(other.offcast_dest)),
-    current_space(),
-    current_ptr() { 
+    offcast_dest(std::move(other.offcast_dest)) { 
         if (other.current_ptr) {
-            this->current_ptr = new (current_space.data()) Elem(std::move(*other.current_ptr));
+            this->current_ptr = new (std::addressof(current_space)) Elem(std::move(*other.current_ptr));
         }
     }
 
@@ -122,11 +121,9 @@ public:
     source_iter(std::move(source_iter)),
     source_iter_end(std::move(source_iter_end)),
     predicate(&predicate),
-    offcast_dest(&offcast_dest),
-    current_space(),
-    current_ptr() {
+    offcast_dest(&offcast_dest) {
         if (this->source_iter != this->source_iter_end) {
-            this->current_ptr = new (current_space.data()) Elem(std::move(*this->source_iter));
+            this->current_ptr = new (std::addressof(current_space)) Elem(std::move(*this->source_iter));
             if (!(*this->predicate)(*current_ptr)) {
                 (*this->offcast_dest)(std::move(*current_ptr));
                 next();
