@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">staticlib_ranges
-   &#160;<span id="projectnumber">1.1.2</span>
+   &#160;<span id="projectnumber">1.2.1</span>
    </div>
   </td>
  </tr>
@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -87,6 +87,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">staticlib::ranges Namespace Reference</div>  </div>
@@ -95,61 +96,75 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:namespacestaticlib_1_1ranges_1_1detail"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges_1_1detail.html">detail</a></td></tr>
+<tr class="memitem:namespacestaticlib_1_1ranges_1_1detail__adapter"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges_1_1detail__adapter.html">detail_adapter</a></td></tr>
+<tr class="memitem:namespacestaticlib_1_1ranges_1_1detail__concat"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges_1_1detail__concat.html">detail_concat</a></td></tr>
+<tr class="memitem:namespacestaticlib_1_1ranges_1_1detail__filter"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges_1_1detail__filter.html">detail_filter</a></td></tr>
+<tr class="memitem:namespacestaticlib_1_1ranges_1_1detail__refwrap"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges_1_1detail__refwrap.html">detail_refwrap</a></td></tr>
+<tr class="memitem:namespacestaticlib_1_1ranges_1_1detail__transform"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges_1_1detail__transform.html">detail_transform</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1range__adapter.html">range_adapter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract Range for move-only objects, implements all the boilerplate to support C++11 <code>for</code> loops.  <a href="classstaticlib_1_1ranges_1_1range__adapter.html#details">More...</a><br/></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a959d060e31c40514f80756b9d581ed57"><td class="memTemplParams" colspan="2">template&lt;typename R1 , typename R2 &gt; </td></tr>
-<tr class="memitem:a959d060e31c40514f80756b9d581ed57"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1concatted__range.html">detail::concatted_range</a>&lt; R1, R2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a959d060e31c40514f80756b9d581ed57">concat</a> (R1 &amp;range1, R2 &amp;range2)</td></tr>
-<tr class="memdesc:a959d060e31c40514f80756b9d581ed57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily concatenates two input ranges into single output range.  <a href="#a959d060e31c40514f80756b9d581ed57"></a><br/></td></tr>
-<tr class="memitem:a99e98be08109ae3a6875fd9c7277aa36"><td class="memTemplParams" colspan="2">template&lt;typename T , typename P , typename D &gt; </td></tr>
-<tr class="memitem:a99e98be08109ae3a6875fd9c7277aa36"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html">detail::filtered_range</a>&lt; T, P, D &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a99e98be08109ae3a6875fd9c7277aa36">filter</a> (T &amp;source_range, P predicate, D offcast_dest)</td></tr>
-<tr class="memdesc:a99e98be08109ae3a6875fd9c7277aa36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily filters input range into output range checking each element using specified <code>Predicate</code>.  <a href="#a99e98be08109ae3a6875fd9c7277aa36"></a><br/></td></tr>
-<tr class="memitem:a0fbba46a40946ae4b837a85d3044992b"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
-<tr class="memitem:a0fbba46a40946ae4b837a85d3044992b"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a0fbba46a40946ae4b837a85d3044992b">emplace_to_vector</a> (R &amp;&amp;range)-&gt; std</td></tr>
-<tr class="memdesc:a0fbba46a40946ae4b837a85d3044992b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from the specified range into vector using <code>emplace_back</code>  <a href="#a0fbba46a40946ae4b837a85d3044992b"></a><br/></td></tr>
-<tr class="memitem:ad00f01a16e0f61e5c66e42e3dbc9b11f"><td class="memTemplParams" colspan="2">template&lt;typename D , typename R &gt; </td></tr>
-<tr class="memitem:ad00f01a16e0f61e5c66e42e3dbc9b11f"><td class="memTemplItemLeft" align="right" valign="top">D &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#ad00f01a16e0f61e5c66e42e3dbc9b11f">emplace_to</a> (D &amp;dest, R &amp;&amp;range)</td></tr>
-<tr class="memdesc:ad00f01a16e0f61e5c66e42e3dbc9b11f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from the specified range into specified destination using <code>emplace_back</code>.  <a href="#ad00f01a16e0f61e5c66e42e3dbc9b11f"></a><br/></td></tr>
-<tr class="memitem:a10c38adaf67ee61cba6a78c21b077109"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a10c38adaf67ee61cba6a78c21b077109"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a10c38adaf67ee61cba6a78c21b077109">ignore_offcast</a> (T t)</td></tr>
-<tr class="memdesc:a10c38adaf67ee61cba6a78c21b077109"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility function to use as an offcast <code>FunctionObject</code> argument for <code>filter</code> function.  <a href="#a10c38adaf67ee61cba6a78c21b077109"></a><br/></td></tr>
-<tr class="memitem:a4e4c76f12020e2509ed1ed14db0eb05a"><td class="memTemplParams" colspan="2">template&lt;typename T , typename E  = typename T::value_type&gt; </td></tr>
-<tr class="memitem:a4e4c76f12020e2509ed1ed14db0eb05a"><td class="memTemplItemLeft" align="right" valign="top">std::function&lt; void(E)&gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a4e4c76f12020e2509ed1ed14db0eb05a">offcast_into</a> (T &amp;dest)</td></tr>
-<tr class="memdesc:a4e4c76f12020e2509ed1ed14db0eb05a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility function to use as an offcast <code>FunctionObject</code> argument for <code>filter</code> function.  <a href="#a4e4c76f12020e2509ed1ed14db0eb05a"></a><br/></td></tr>
-<tr class="memitem:a2713dc623209037997fa19173f9a5246"><td class="memTemplParams" colspan="2">template&lt;typename R , typename P &gt; </td></tr>
-<tr class="memitem:a2713dc623209037997fa19173f9a5246"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a2713dc623209037997fa19173f9a5246">any</a> (R &amp;range, P predicate)</td></tr>
-<tr class="memdesc:a2713dc623209037997fa19173f9a5246"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>any</code> algorithm implementation for the arbitrary ranges  <a href="#a2713dc623209037997fa19173f9a5246"></a><br/></td></tr>
-<tr class="memitem:a66db27c360c9a53fde5e437db1f6c008"><td class="memTemplParams" colspan="2">template&lt;typename R , typename P , typename E &gt; </td></tr>
-<tr class="memitem:a66db27c360c9a53fde5e437db1f6c008"><td class="memTemplItemLeft" align="right" valign="top">E&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a66db27c360c9a53fde5e437db1f6c008">find</a> (R &amp;range, P predicate, E not_found_el)</td></tr>
-<tr class="memdesc:a66db27c360c9a53fde5e437db1f6c008"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>find</code> algorithm implementation for the arbitrary ranges, found element will be <code>move-returned</code> to the caller  <a href="#a66db27c360c9a53fde5e437db1f6c008"></a><br/></td></tr>
-<tr class="memitem:a50527d5e91b011e429ad4ab865b0d117"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
-<tr class="memitem:a50527d5e91b011e429ad4ab865b0d117"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__range.html">detail::refwrapped_range</a>&lt; R &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a50527d5e91b011e429ad4ab865b0d117">refwrap</a> (R &amp;range)</td></tr>
-<tr class="memdesc:a50527d5e91b011e429ad4ab865b0d117"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily copies input range into output range using <code>std::ref</code> function on each element.  <a href="#a50527d5e91b011e429ad4ab865b0d117"></a><br/></td></tr>
-<tr class="memitem:a257878ca0caf2add96f5bb14e284c4a6"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
-<tr class="memitem:a257878ca0caf2add96f5bb14e284c4a6"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__range.html">detail::refwrapped_const_range</a>&lt; R &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a257878ca0caf2add96f5bb14e284c4a6">refwrap</a> (const R &amp;range)</td></tr>
-<tr class="memdesc:a257878ca0caf2add96f5bb14e284c4a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily copies input range into output range using <code>std::cref</code> function on each element.  <a href="#a257878ca0caf2add96f5bb14e284c4a6"></a><br/></td></tr>
-<tr class="memitem:ac6475b8908f1af4409477f29ca43399e"><td class="memTemplParams" colspan="2">template&lt;typename R , typename F &gt; </td></tr>
-<tr class="memitem:ac6475b8908f1af4409477f29ca43399e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1transformed__range.html">detail::transformed_range</a>&lt; R, F &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#ac6475b8908f1af4409477f29ca43399e">transform</a> (R &amp;range, F functor)</td></tr>
-<tr class="memdesc:ac6475b8908f1af4409477f29ca43399e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily transforms input range into output range applying functor to each element.  <a href="#ac6475b8908f1af4409477f29ca43399e"></a><br/></td></tr>
+<tr class="memitem:a151ab3706bc74608eb6ec01e63dde85c"><td class="memTemplParams" colspan="2">template&lt;typename Range1 , typename Range2 &gt; </td></tr>
+<tr class="memitem:a151ab3706bc74608eb6ec01e63dde85c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail__concat_1_1concatted__range.html">detail_concat::concatted_range</a><br class="typebreak"/>
+&lt; Range1, Range2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a151ab3706bc74608eb6ec01e63dde85c">concat</a> (Range1 &amp;range1, Range2 &amp;range2)</td></tr>
+<tr class="memdesc:a151ab3706bc74608eb6ec01e63dde85c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily concatenates two input ranges into single output range.  <a href="#a151ab3706bc74608eb6ec01e63dde85c"></a><br/></td></tr>
+<tr class="memitem:af4c611601c827b6e7d18b9d3c2e72a3e"><td class="memTemplParams" colspan="2">template&lt;typename Range , typename Pred , typename Dest &gt; </td></tr>
+<tr class="memitem:af4c611601c827b6e7d18b9d3c2e72a3e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__range.html">detail_filter::filtered_range</a><br class="typebreak"/>
+&lt; Range, Pred, Dest &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#af4c611601c827b6e7d18b9d3c2e72a3e">filter</a> (Range &amp;source_range, Pred predicate, Dest offcast_dest)</td></tr>
+<tr class="memdesc:af4c611601c827b6e7d18b9d3c2e72a3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily filters input range into output range checking each element using specified <code>Predicate</code>.  <a href="#af4c611601c827b6e7d18b9d3c2e72a3e"></a><br/></td></tr>
+<tr class="memitem:ac1a41c6bdcd564e63ea69b86a3fe6b6d"><td class="memTemplParams" colspan="2">template&lt;typename Range &gt; </td></tr>
+<tr class="memitem:ac1a41c6bdcd564e63ea69b86a3fe6b6d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#ac1a41c6bdcd564e63ea69b86a3fe6b6d">emplace_to_vector</a> (Range &amp;&amp;range)-&gt; std</td></tr>
+<tr class="memdesc:ac1a41c6bdcd564e63ea69b86a3fe6b6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from the specified range into vector using <code>emplace_back</code>  <a href="#ac1a41c6bdcd564e63ea69b86a3fe6b6d"></a><br/></td></tr>
+<tr class="memitem:a7c594aee365eaa348a9a3edf3611aa4a"><td class="memTemplParams" colspan="2">template&lt;typename Dest , typename Range &gt; </td></tr>
+<tr class="memitem:a7c594aee365eaa348a9a3edf3611aa4a"><td class="memTemplItemLeft" align="right" valign="top">Dest &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a7c594aee365eaa348a9a3edf3611aa4a">emplace_to</a> (Dest &amp;dest, Range &amp;&amp;range)</td></tr>
+<tr class="memdesc:a7c594aee365eaa348a9a3edf3611aa4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from the specified range into specified destination using <code>emplace_back</code>.  <a href="#a7c594aee365eaa348a9a3edf3611aa4a"></a><br/></td></tr>
+<tr class="memitem:a74be3b78fbce7f7c9e2c65692f5af579"><td class="memTemplParams" colspan="2">template&lt;typename Elem &gt; </td></tr>
+<tr class="memitem:a74be3b78fbce7f7c9e2c65692f5af579"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a74be3b78fbce7f7c9e2c65692f5af579">ignore_offcast</a> (Elem el)</td></tr>
+<tr class="memdesc:a74be3b78fbce7f7c9e2c65692f5af579"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility function to use as an offcast <code>FunctionObject</code> argument for <code>filter</code> function.  <a href="#a74be3b78fbce7f7c9e2c65692f5af579"></a><br/></td></tr>
+<tr class="memitem:a146deb5a26b1a48da4c709afe6cad962"><td class="memTemplParams" colspan="2">template&lt;typename Dest , typename Elem  = typename Dest::value_type&gt; </td></tr>
+<tr class="memitem:a146deb5a26b1a48da4c709afe6cad962"><td class="memTemplItemLeft" align="right" valign="top">std::function&lt; void(Elem)&gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a146deb5a26b1a48da4c709afe6cad962">offcast_into</a> (Dest &amp;dest)</td></tr>
+<tr class="memdesc:a146deb5a26b1a48da4c709afe6cad962"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility function to use as an offcast <code>FunctionObject</code> argument for <code>filter</code> function.  <a href="#a146deb5a26b1a48da4c709afe6cad962"></a><br/></td></tr>
+<tr class="memitem:af3c7c7be3b948f790e6d0989f008f224"><td class="memTemplParams" colspan="2">template&lt;typename Range , typename Pred &gt; </td></tr>
+<tr class="memitem:af3c7c7be3b948f790e6d0989f008f224"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#af3c7c7be3b948f790e6d0989f008f224">any</a> (Range &amp;range, Pred predicate)</td></tr>
+<tr class="memdesc:af3c7c7be3b948f790e6d0989f008f224"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>any</code> algorithm implementation for the arbitrary ranges  <a href="#af3c7c7be3b948f790e6d0989f008f224"></a><br/></td></tr>
+<tr class="memitem:a425403bc10993c2a75e701749220b45b"><td class="memTemplParams" colspan="2">template&lt;typename Range , typename Pred , typename Elem &gt; </td></tr>
+<tr class="memitem:a425403bc10993c2a75e701749220b45b"><td class="memTemplItemLeft" align="right" valign="top">Elem&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a425403bc10993c2a75e701749220b45b">find</a> (Range &amp;range, Pred predicate, Elem not_found_el)</td></tr>
+<tr class="memdesc:a425403bc10993c2a75e701749220b45b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>find</code> algorithm implementation for the arbitrary ranges, found element will be <code>move-returned</code> to the caller  <a href="#a425403bc10993c2a75e701749220b45b"></a><br/></td></tr>
+<tr class="memitem:a137059e6e063b9a24adbe0aa26481b36"><td class="memTemplParams" colspan="2">template&lt;typename Range &gt; </td></tr>
+<tr class="memitem:a137059e6e063b9a24adbe0aa26481b36"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__range.html">detail_refwrap::refwrapped_range</a><br class="typebreak"/>
+&lt; Range &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a137059e6e063b9a24adbe0aa26481b36">refwrap</a> (Range &amp;range)</td></tr>
+<tr class="memdesc:a137059e6e063b9a24adbe0aa26481b36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily copies input range into output range using <code>std::ref</code> function on each element.  <a href="#a137059e6e063b9a24adbe0aa26481b36"></a><br/></td></tr>
+<tr class="memitem:a2d206b2e7ba13031a0dbdde7421f6da7"><td class="memTemplParams" colspan="2">template&lt;typename Range &gt; </td></tr>
+<tr class="memitem:a2d206b2e7ba13031a0dbdde7421f6da7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__range.html">detail_refwrap::refwrapped_const_range</a><br class="typebreak"/>
+&lt; Range &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a2d206b2e7ba13031a0dbdde7421f6da7">refwrap</a> (const Range &amp;range)</td></tr>
+<tr class="memdesc:a2d206b2e7ba13031a0dbdde7421f6da7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily copies input range into output range using <code>std::cref</code> function on each element.  <a href="#a2d206b2e7ba13031a0dbdde7421f6da7"></a><br/></td></tr>
+<tr class="memitem:a0e9aa0dccb1615d1a1009f45101030a4"><td class="memTemplParams" colspan="2">template&lt;typename Range , typename Func &gt; </td></tr>
+<tr class="memitem:a0e9aa0dccb1615d1a1009f45101030a4"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail__transform_1_1transformed__range.html">detail_transform::transformed_range</a><br class="typebreak"/>
+&lt; Range, Func &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a0e9aa0dccb1615d1a1009f45101030a4">transform</a> (Range &amp;range, Func functor)</td></tr>
+<tr class="memdesc:a0e9aa0dccb1615d1a1009f45101030a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily transforms input range into output range applying functor to each element.  <a href="#a0e9aa0dccb1615d1a1009f45101030a4"></a><br/></td></tr>
 </table>
 <h2>Function Documentation</h2>
-<a class="anchor" id="a2713dc623209037997fa19173f9a5246"></a>
+<a class="anchor" id="af3c7c7be3b948f790e6d0989f008f224"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename R , typename P &gt; </div>
+template&lt;typename Range , typename Pred &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">bool staticlib::ranges::any </td>
           <td>(</td>
-          <td class="paramtype">R &amp;&#160;</td>
+          <td class="paramtype">Range &amp;&#160;</td>
           <td class="paramname"><em>range</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">P&#160;</td>
+          <td class="paramtype">Pred&#160;</td>
           <td class="paramname"><em>predicate</em>&#160;</td>
         </tr>
         <tr>
@@ -172,22 +187,22 @@ template&lt;typename R , typename P &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a959d060e31c40514f80756b9d581ed57"></a>
+<a class="anchor" id="a151ab3706bc74608eb6ec01e63dde85c"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename R1 , typename R2 &gt; </div>
+template&lt;typename Range1 , typename Range2 &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1concatted__range.html">detail::concatted_range</a>&lt;R1, R2&gt; staticlib::ranges::concat </td>
+          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail__concat_1_1concatted__range.html">detail_concat::concatted_range</a>&lt;Range1, Range2&gt; staticlib::ranges::concat </td>
           <td>(</td>
-          <td class="paramtype">R1 &amp;&#160;</td>
+          <td class="paramtype">Range1 &amp;&#160;</td>
           <td class="paramname"><em>range1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">R2 &amp;&#160;</td>
+          <td class="paramtype">Range2 &amp;&#160;</td>
           <td class="paramname"><em>range2</em>&#160;</td>
         </tr>
         <tr>
@@ -211,22 +226,22 @@ template&lt;typename R1 , typename R2 &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ad00f01a16e0f61e5c66e42e3dbc9b11f"></a>
+<a class="anchor" id="a7c594aee365eaa348a9a3edf3611aa4a"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename D , typename R &gt; </div>
+template&lt;typename Dest , typename Range &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">D&amp; staticlib::ranges::emplace_to </td>
+          <td class="memname">Dest&amp; staticlib::ranges::emplace_to </td>
           <td>(</td>
-          <td class="paramtype">D &amp;&#160;</td>
+          <td class="paramtype">Dest &amp;&#160;</td>
           <td class="paramname"><em>dest</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">R &amp;&amp;&#160;</td>
+          <td class="paramtype">Range &amp;&amp;&#160;</td>
           <td class="paramname"><em>range</em>&#160;</td>
         </tr>
         <tr>
@@ -249,16 +264,16 @@ template&lt;typename D , typename R &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a0fbba46a40946ae4b837a85d3044992b"></a>
+<a class="anchor" id="ac1a41c6bdcd564e63ea69b86a3fe6b6d"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename R &gt; </div>
+template&lt;typename Range &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">auto staticlib::ranges::emplace_to_vector </td>
           <td>(</td>
-          <td class="paramtype">R &amp;&amp;&#160;</td>
+          <td class="paramtype">Range &amp;&amp;&#160;</td>
           <td class="paramname"><em>range</em></td><td>)</td>
           <td></td>
         </tr>
@@ -276,28 +291,28 @@ template&lt;typename R &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a99e98be08109ae3a6875fd9c7277aa36"></a>
+<a class="anchor" id="af4c611601c827b6e7d18b9d3c2e72a3e"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , typename P , typename D &gt; </div>
+template&lt;typename Range , typename Pred , typename Dest &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html">detail::filtered_range</a>&lt;T, P, D&gt; staticlib::ranges::filter </td>
+          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__range.html">detail_filter::filtered_range</a>&lt;Range, Pred, Dest&gt; staticlib::ranges::filter </td>
           <td>(</td>
-          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramtype">Range &amp;&#160;</td>
           <td class="paramname"><em>source_range</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">P&#160;</td>
+          <td class="paramtype">Pred&#160;</td>
           <td class="paramname"><em>predicate</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">D&#160;</td>
+          <td class="paramtype">Dest&#160;</td>
           <td class="paramname"><em>offcast_dest</em>&#160;</td>
         </tr>
         <tr>
@@ -322,28 +337,28 @@ template&lt;typename T , typename P , typename D &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a66db27c360c9a53fde5e437db1f6c008"></a>
+<a class="anchor" id="a425403bc10993c2a75e701749220b45b"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename R , typename P , typename E &gt; </div>
+template&lt;typename Range , typename Pred , typename Elem &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">E staticlib::ranges::find </td>
+          <td class="memname">Elem staticlib::ranges::find </td>
           <td>(</td>
-          <td class="paramtype">R &amp;&#160;</td>
+          <td class="paramtype">Range &amp;&#160;</td>
           <td class="paramname"><em>range</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">P&#160;</td>
+          <td class="paramtype">Pred&#160;</td>
           <td class="paramname"><em>predicate</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">E&#160;</td>
+          <td class="paramtype">Elem&#160;</td>
           <td class="paramname"><em>not_found_el</em>&#160;</td>
         </tr>
         <tr>
@@ -367,17 +382,17 @@ template&lt;typename R , typename P , typename E &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a10c38adaf67ee61cba6a78c21b077109"></a>
+<a class="anchor" id="a74be3b78fbce7f7c9e2c65692f5af579"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename Elem &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void staticlib::ranges::ignore_offcast </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>t</em></td><td>)</td>
+          <td class="paramtype">Elem&#160;</td>
+          <td class="paramname"><em>el</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -394,16 +409,16 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a4e4c76f12020e2509ed1ed14db0eb05a"></a>
+<a class="anchor" id="a146deb5a26b1a48da4c709afe6cad962"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , typename E  = typename T::value_type&gt; </div>
+template&lt;typename Dest , typename Elem  = typename Dest::value_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::function&lt;void(E)&gt; staticlib::ranges::offcast_into </td>
+          <td class="memname">std::function&lt;void(Elem)&gt; staticlib::ranges::offcast_into </td>
           <td>(</td>
-          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramtype">Dest &amp;&#160;</td>
           <td class="paramname"><em>dest</em></td><td>)</td>
           <td></td>
         </tr>
@@ -422,16 +437,16 @@ template&lt;typename T , typename E  = typename T::value_type&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a50527d5e91b011e429ad4ab865b0d117"></a>
+<a class="anchor" id="a137059e6e063b9a24adbe0aa26481b36"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename R &gt; </div>
+template&lt;typename Range &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__range.html">detail::refwrapped_range</a>&lt;R&gt; staticlib::ranges::refwrap </td>
+          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__range.html">detail_refwrap::refwrapped_range</a>&lt;Range&gt; staticlib::ranges::refwrap </td>
           <td>(</td>
-          <td class="paramtype">R &amp;&#160;</td>
+          <td class="paramtype">Range &amp;&#160;</td>
           <td class="paramname"><em>range</em></td><td>)</td>
           <td></td>
         </tr>
@@ -449,16 +464,16 @@ template&lt;typename R &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a257878ca0caf2add96f5bb14e284c4a6"></a>
+<a class="anchor" id="a2d206b2e7ba13031a0dbdde7421f6da7"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename R &gt; </div>
+template&lt;typename Range &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__range.html">detail::refwrapped_const_range</a>&lt;R&gt; staticlib::ranges::refwrap </td>
+          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__range.html">detail_refwrap::refwrapped_const_range</a>&lt;Range&gt; staticlib::ranges::refwrap </td>
           <td>(</td>
-          <td class="paramtype">const R &amp;&#160;</td>
+          <td class="paramtype">const Range &amp;&#160;</td>
           <td class="paramname"><em>range</em></td><td>)</td>
           <td></td>
         </tr>
@@ -476,22 +491,22 @@ template&lt;typename R &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ac6475b8908f1af4409477f29ca43399e"></a>
+<a class="anchor" id="a0e9aa0dccb1615d1a1009f45101030a4"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename R , typename F &gt; </div>
+template&lt;typename Range , typename Func &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1transformed__range.html">detail::transformed_range</a>&lt;R, F&gt; staticlib::ranges::transform </td>
+          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail__transform_1_1transformed__range.html">detail_transform::transformed_range</a>&lt;Range, Func&gt; staticlib::ranges::transform </td>
           <td>(</td>
-          <td class="paramtype">R &amp;&#160;</td>
+          <td class="paramtype">Range &amp;&#160;</td>
           <td class="paramname"><em>range</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">F&#160;</td>
+          <td class="paramtype">Func&#160;</td>
           <td class="paramname"><em>functor</em>&#160;</td>
         </tr>
         <tr>
@@ -518,7 +533,7 @@ template&lt;typename R , typename F &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Nov 25 2015 09:57:37 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 27 2015 22:08:14 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">staticlib_ranges
-   &#160;<span id="projectnumber">1.1.2</span>
+   &#160;<span id="projectnumber">1.2.1</span>
    </div>
   </td>
  </tr>
@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -100,34 +100,36 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__iter.html">staticlib::ranges::detail::refwrapped_iter&lt; I, E &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazy <code>InputIterator</code> implementation for <code>std::ref</code> operation.  <a href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__iter.html#details">More...</a><br/></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__range.html">staticlib::ranges::detail::refwrapped_range&lt; R &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazy implementation of <code>SinglePassRange</code> for <code>std::ref</code> operation.  <a href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__range.html#details">More...</a><br/></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__iter.html">staticlib::ranges::detail::refwrapped_const_iter&lt; I, E &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazy <code>InputIterator</code> implementation for <code>std::cref</code> operation.  <a href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__iter.html#details">More...</a><br/></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__range.html">staticlib::ranges::detail::refwrapped_const_range&lt; R &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazy implementation of <code>SinglePassRange</code> for <code>std::cref</code> operation.  <a href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__range.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__iter.html">staticlib::ranges::detail_refwrap::refwrapped_iter&lt; Iter, Elem &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazy <code>InputIterator</code> implementation for <code>std::ref</code> operation.  <a href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__iter.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__range.html">staticlib::ranges::detail_refwrap::refwrapped_range&lt; Range &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazy implementation of <code>SinglePassRange</code> for <code>std::ref</code> operation.  <a href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__range.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__iter.html">staticlib::ranges::detail_refwrap::refwrapped_const_iter&lt; Iter, Elem &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazy <code>InputIterator</code> implementation for <code>std::cref</code> operation.  <a href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__iter.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__range.html">staticlib::ranges::detail_refwrap::refwrapped_const_range&lt; Range &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazy implementation of <code>SinglePassRange</code> for <code>std::cref</code> operation.  <a href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__range.html#details">More...</a><br/></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacestaticlib"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestaticlib.html">staticlib</a></td></tr>
 <tr class="memitem:namespacestaticlib_1_1ranges"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html">staticlib::ranges</a></td></tr>
-<tr class="memitem:namespacestaticlib_1_1ranges_1_1detail"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges_1_1detail.html">staticlib::ranges::detail</a></td></tr>
+<tr class="memitem:namespacestaticlib_1_1ranges_1_1detail__refwrap"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges_1_1detail__refwrap.html">staticlib::ranges::detail_refwrap</a></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a50527d5e91b011e429ad4ab865b0d117"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
-<tr class="memitem:a50527d5e91b011e429ad4ab865b0d117"><td class="memTemplItemLeft" align="right" valign="top">detail::refwrapped_range&lt; R &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a50527d5e91b011e429ad4ab865b0d117">staticlib::ranges::refwrap</a> (R &amp;range)</td></tr>
-<tr class="memdesc:a50527d5e91b011e429ad4ab865b0d117"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily copies input range into output range using <code>std::ref</code> function on each element.  <a href="#a50527d5e91b011e429ad4ab865b0d117"></a><br/></td></tr>
-<tr class="memitem:a257878ca0caf2add96f5bb14e284c4a6"><td class="memTemplParams" colspan="2">template&lt;typename R &gt; </td></tr>
-<tr class="memitem:a257878ca0caf2add96f5bb14e284c4a6"><td class="memTemplItemLeft" align="right" valign="top">detail::refwrapped_const_range&lt; R &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a257878ca0caf2add96f5bb14e284c4a6">staticlib::ranges::refwrap</a> (const R &amp;range)</td></tr>
-<tr class="memdesc:a257878ca0caf2add96f5bb14e284c4a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily copies input range into output range using <code>std::cref</code> function on each element.  <a href="#a257878ca0caf2add96f5bb14e284c4a6"></a><br/></td></tr>
+<tr class="memitem:a137059e6e063b9a24adbe0aa26481b36"><td class="memTemplParams" colspan="2">template&lt;typename Range &gt; </td></tr>
+<tr class="memitem:a137059e6e063b9a24adbe0aa26481b36"><td class="memTemplItemLeft" align="right" valign="top">detail_refwrap::refwrapped_range<br class="typebreak"/>
+&lt; Range &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a137059e6e063b9a24adbe0aa26481b36">staticlib::ranges::refwrap</a> (Range &amp;range)</td></tr>
+<tr class="memdesc:a137059e6e063b9a24adbe0aa26481b36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily copies input range into output range using <code>std::ref</code> function on each element.  <a href="#a137059e6e063b9a24adbe0aa26481b36"></a><br/></td></tr>
+<tr class="memitem:a2d206b2e7ba13031a0dbdde7421f6da7"><td class="memTemplParams" colspan="2">template&lt;typename Range &gt; </td></tr>
+<tr class="memitem:a2d206b2e7ba13031a0dbdde7421f6da7"><td class="memTemplItemLeft" align="right" valign="top">detail_refwrap::refwrapped_const_range<br class="typebreak"/>
+&lt; Range &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a2d206b2e7ba13031a0dbdde7421f6da7">staticlib::ranges::refwrap</a> (const Range &amp;range)</td></tr>
+<tr class="memdesc:a2d206b2e7ba13031a0dbdde7421f6da7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily copies input range into output range using <code>std::cref</code> function on each element.  <a href="#a2d206b2e7ba13031a0dbdde7421f6da7"></a><br/></td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Nov 25 2015 09:57:37 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 27 2015 22:08:14 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

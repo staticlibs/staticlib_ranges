@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">staticlib_ranges
-   &#160;<span id="projectnumber">1.1.2</span>
+   &#160;<span id="projectnumber">1.2.1</span>
    </div>
   </td>
  </tr>
@@ -71,6 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>All</span></a></li>
       <li><a href="functions_func.html"><span>Functions</span></a></li>
       <li class="current"><a href="functions_type.html"><span>Typedefs</span></a></li>
+      <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -88,7 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -102,72 +103,73 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
 <li>difference_type
-: <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1concatted__iter.html#a257428adc7cf1f4d35996bf56c7e7d94">staticlib::ranges::detail::concatted_iter&lt; I1, I2, E &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1transformed__iter.html#a3554396933d236e08c198121f01206cd">staticlib::ranges::detail::transformed_iter&lt; I, E, F &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__iter.html#a91144eb62e71feaa106fdf4600d4b023">staticlib::ranges::detail::refwrapped_const_iter&lt; I, E &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__iter.html#acf94f31678b64746538b80358c6b2e8f">staticlib::ranges::detail::refwrapped_iter&lt; I, E &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a640fa1da9d23b3ea1e1a26be0393e52d">staticlib::ranges::detail::filtered_iter&lt; I, E, P, D &gt;</a>
+: <a class="el" href="classstaticlib_1_1ranges_1_1detail__concat_1_1concatted__iter.html#a22ddd3c14ca2f36f3d5e1d05feb80598">staticlib::ranges::detail_concat::concatted_iter&lt; Iter1, Iter2, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__transform_1_1transformed__iter.html#a07dca09d688934438256950f7c3c947c">staticlib::ranges::detail_transform::transformed_iter&lt; Iter, Elem, Func &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__iter.html#a89195db31aa6f680d4229411f5717259">staticlib::ranges::detail_refwrap::refwrapped_const_iter&lt; Iter, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__iter.html#a0aa8bbe88f2890adac70a054122fe3d9">staticlib::ranges::detail_refwrap::refwrapped_iter&lt; Iter, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#aa1ff84ad0a045e15b1268f35a7320de3">staticlib::ranges::detail_filter::filtered_iter&lt; Iter, Elem, Pred, Dest &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
 <li>iterator
-: <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1transformed__range.html#ac29370a9d3149fe70c9079e1ade4ad8a">staticlib::ranges::detail::transformed_range&lt; R, F &gt;</a>
+: <a class="el" href="classstaticlib_1_1ranges_1_1detail__transform_1_1transformed__range.html#aacc5c9216e84d5bea5faa974174842fc">staticlib::ranges::detail_transform::transformed_range&lt; Range, Func &gt;</a>
 </li>
 <li>iterator_category
-: <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1transformed__iter.html#a737ef5ed268a180fedfc4f6535430edb">staticlib::ranges::detail::transformed_iter&lt; I, E, F &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__iter.html#ad3661f90360894eafc626dc891729089">staticlib::ranges::detail::refwrapped_const_iter&lt; I, E &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__iter.html#acb19ca9a601dc3a83fa45b5b9c8e1c77">staticlib::ranges::detail::refwrapped_iter&lt; I, E &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a7b7e8fda587d7f9dc5069316ef857d79">staticlib::ranges::detail::filtered_iter&lt; I, E, P, D &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1concatted__iter.html#a0ce4020feed31b1b566acdc688db27db">staticlib::ranges::detail::concatted_iter&lt; I1, I2, E &gt;</a>
+: <a class="el" href="classstaticlib_1_1ranges_1_1detail__transform_1_1transformed__iter.html#a009f10a6e0b6b73771f2b9dc4fee0a3b">staticlib::ranges::detail_transform::transformed_iter&lt; Iter, Elem, Func &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__iter.html#a599b5db345a5ae6e118b989c4dec5df7">staticlib::ranges::detail_refwrap::refwrapped_const_iter&lt; Iter, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__iter.html#a4ae77fc3792710aeb90a7d4fb23c47a8">staticlib::ranges::detail_refwrap::refwrapped_iter&lt; Iter, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#a113a411655b39b617d234016df6e3256">staticlib::ranges::detail_filter::filtered_iter&lt; Iter, Elem, Pred, Dest &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__concat_1_1concatted__iter.html#a2c3de581f46c16fb79d7a0ef17282c8a">staticlib::ranges::detail_concat::concatted_iter&lt; Iter1, Iter2, Elem &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
 <li>pointer
-: <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1concatted__iter.html#a5048b81a3561d3a621fac12d6edfd2e8">staticlib::ranges::detail::concatted_iter&lt; I1, I2, E &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1transformed__iter.html#ab45ffa15703edb8d16923328ddcb9137">staticlib::ranges::detail::transformed_iter&lt; I, E, F &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__iter.html#a2614f63ca508eb76b1933e2f98075eb1">staticlib::ranges::detail::refwrapped_const_iter&lt; I, E &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__iter.html#a8ba9381f494c67b8be3602bebada1331">staticlib::ranges::detail::refwrapped_iter&lt; I, E &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#ac96352ef510ce639666516fc5de26ba3">staticlib::ranges::detail::filtered_iter&lt; I, E, P, D &gt;</a>
+: <a class="el" href="classstaticlib_1_1ranges_1_1detail__concat_1_1concatted__iter.html#a45efcf0f75eb8fd17e70e54edbe2c3e2">staticlib::ranges::detail_concat::concatted_iter&lt; Iter1, Iter2, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__transform_1_1transformed__iter.html#a4036e61b17a0702953170978793ea873">staticlib::ranges::detail_transform::transformed_iter&lt; Iter, Elem, Func &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__iter.html#a9d256ddb9ac3fcb6f47ce1fbe0d2042b">staticlib::ranges::detail_refwrap::refwrapped_const_iter&lt; Iter, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__iter.html#aa1e8bb46441c186a9473cf79664bd03d">staticlib::ranges::detail_refwrap::refwrapped_iter&lt; Iter, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#ab366f9b608e3dffc27a0c29cdaf3629d">staticlib::ranges::detail_filter::filtered_iter&lt; Iter, Elem, Pred, Dest &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
 <li>reference
-: <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1concatted__iter.html#af17797613e2f737aac32281ed00a8624">staticlib::ranges::detail::concatted_iter&lt; I1, I2, E &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1transformed__iter.html#a9ecc4694c83d3183b691d42ae30cf662">staticlib::ranges::detail::transformed_iter&lt; I, E, F &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__iter.html#afbedfa465a62cf2eb9cf5cbd7424c1d4">staticlib::ranges::detail::refwrapped_const_iter&lt; I, E &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__iter.html#a562996f9d7f397ad195f615c4eb8e833">staticlib::ranges::detail::refwrapped_iter&lt; I, E &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#a17f1b2911bc6f023c3fe646f4f44f523">staticlib::ranges::detail::filtered_iter&lt; I, E, P, D &gt;</a>
+: <a class="el" href="classstaticlib_1_1ranges_1_1detail__concat_1_1concatted__iter.html#ac0a9dbfa92f8ec881a2d25c2c36beb67">staticlib::ranges::detail_concat::concatted_iter&lt; Iter1, Iter2, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__transform_1_1transformed__iter.html#af723c758d7d04da476f2606f2a3cf06c">staticlib::ranges::detail_transform::transformed_iter&lt; Iter, Elem, Func &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__iter.html#ad4a1d428c665f93a2a04cd1854ec6e4d">staticlib::ranges::detail_refwrap::refwrapped_const_iter&lt; Iter, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__iter.html#a34551850068512ff4c84141398cd5b8d">staticlib::ranges::detail_refwrap::refwrapped_iter&lt; Iter, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#a8a05dacb95d861e81cc7730917d4a311">staticlib::ranges::detail_filter::filtered_iter&lt; Iter, Elem, Pred, Dest &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_v"></a>- v -</h3><ul>
 <li>value_type
-: <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1concatted__iter.html#aba2c6d4007a75a7b30f7c8b2ff2717fc">staticlib::ranges::detail::concatted_iter&lt; I1, I2, E &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1concatted__range.html#a013b3cff95d0129dd049d1083cc68d89">staticlib::ranges::detail::concatted_range&lt; R1, R2 &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__range.html#a133b9806d9e53ae1c973c5f3ed22c14c">staticlib::ranges::detail::filtered_range&lt; R, P, D &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__range.html#a32058c7f0b85a7fda467dde9c2bab68c">staticlib::ranges::detail::refwrapped_const_range&lt; R &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1transformed__iter.html#a5cb08dca00fc9b56b40fe8a465952714">staticlib::ranges::detail::transformed_iter&lt; I, E, F &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__iter.html#a7b268b2230f4649ec309d3970c2fe11e">staticlib::ranges::detail::refwrapped_const_iter&lt; I, E &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__range.html#a45754e4267872c8abb607edf6b5f1fc9">staticlib::ranges::detail::refwrapped_range&lt; R &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__iter.html#af3b2114bbf6bca1b0c0e3b0c24edbcfd">staticlib::ranges::detail::refwrapped_iter&lt; I, E &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1filtered__iter.html#afa8944423c8fc285142b6231671e1699">staticlib::ranges::detail::filtered_iter&lt; I, E, P, D &gt;</a>
+: <a class="el" href="classstaticlib_1_1ranges_1_1detail__concat_1_1concatted__iter.html#ae04e7307c94efabc8040ab4c5c6c0017">staticlib::ranges::detail_concat::concatted_iter&lt; Iter1, Iter2, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__concat_1_1concatted__range.html#acf7dd45ca31413e3a00d5c6177a6906d">staticlib::ranges::detail_concat::concatted_range&lt; Range1, Range2 &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__range.html#a200cfc915e78895ac1fbb86d0b477921">staticlib::ranges::detail_filter::filtered_range&lt; Range, Pred, Dest &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__transform_1_1transformed__iter.html#a4e76f547156f483fd9b0f19aafbc343b">staticlib::ranges::detail_transform::transformed_iter&lt; Iter, Elem, Func &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__iter.html#a861a5be66f14def9a2a31d203625e794">staticlib::ranges::detail_refwrap::refwrapped_const_iter&lt; Iter, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__range.html#a93c5cbe0d352fda12d408f67b8d4559b">staticlib::ranges::detail_refwrap::refwrapped_const_range&lt; Range &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__range.html#abada12731db1c9e2e3ccf0cd93be65ee">staticlib::ranges::detail_refwrap::refwrapped_range&lt; Range &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__iter.html#a303d41492ccf23e7e28bf078c999c269">staticlib::ranges::detail_refwrap::refwrapped_iter&lt; Iter, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1range__adapter.html#a7dd9ef9187f0bfdb59a5d069ce3e6d21">staticlib::ranges::range_adapter&lt; Range, Elem &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#ae8cd6570e4ac22532204539d4248e4d6">staticlib::ranges::detail_filter::filtered_iter&lt; Iter, Elem, Pred, Dest &gt;</a>
 </li>
 <li>value_type_unwrapped
-: <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__range.html#ad7df8b985172eba1eec1823308fe50f3">staticlib::ranges::detail::refwrapped_range&lt; R &gt;</a>
-, <a class="el" href="classstaticlib_1_1ranges_1_1detail_1_1refwrapped__const__range.html#ad3afbd70e3ef11b0af54f9bbef7e63c8">staticlib::ranges::detail::refwrapped_const_range&lt; R &gt;</a>
+: <a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__range.html#a919b97cc610826da3de42227bc724f3b">staticlib::ranges::detail_refwrap::refwrapped_range&lt; Range &gt;</a>
+, <a class="el" href="classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__range.html#afa04fb0c3afc04c656ddf122184d3196">staticlib::ranges::detail_refwrap::refwrapped_const_range&lt; Range &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Nov 25 2015 09:57:37 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 27 2015 22:08:14 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

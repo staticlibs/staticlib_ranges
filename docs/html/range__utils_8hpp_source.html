@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">staticlib_ranges
-   &#160;<span id="projectnumber">1.1.2</span>
+   &#160;<span id="projectnumber">1.2.1</span>
    </div>
   </td>
  </tr>
@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -121,8 +121,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>staticlib {</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span>ranges {</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> R&gt;</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#a0fbba46a40946ae4b837a85d3044992b">   41</a></span>&#160;<span class="keyword">auto</span> <a class="code" href="namespacestaticlib_1_1ranges.html#a0fbba46a40946ae4b837a85d3044992b" title="Moves all the elements from the specified range into vector using emplace_back">emplace_to_vector</a>(R&amp;&amp; range) -&gt; std::vector&lt;<span class="keyword">typename</span> std::iterator_traits&lt;decltype(range.begin())&gt;::value_type&gt; {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range&gt;</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#ac1a41c6bdcd564e63ea69b86a3fe6b6d">   41</a></span>&#160;<span class="keyword">auto</span> <a class="code" href="namespacestaticlib_1_1ranges.html#ac1a41c6bdcd564e63ea69b86a3fe6b6d" title="Moves all the elements from the specified range into vector using emplace_back">emplace_to_vector</a>(Range&amp;&amp; range) -&gt; std::vector&lt;<span class="keyword">typename</span> std::iterator_traits&lt;decltype(range.begin())&gt;::value_type&gt; {</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">auto</span> vec = std::vector&lt;<span class="keyword">typename</span> std::iterator_traits&lt;decltype(range.begin())&gt;::value_type&gt;{};</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">// resize is not used here, as neither &#39;transformed&#39; nor &#39;filtered&#39; </span></div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="comment">// range will have O(1) size available</span></div>
@@ -132,28 +132,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">return</span> vec;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> D, <span class="keyword">typename</span> R&gt;</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#ad00f01a16e0f61e5c66e42e3dbc9b11f">   60</a></span>&#160;D&amp; <a class="code" href="namespacestaticlib_1_1ranges.html#ad00f01a16e0f61e5c66e42e3dbc9b11f" title="Moves all the elements from the specified range into specified destination using emplace_back.">emplace_to</a>(D&amp; dest, R&amp;&amp; range) {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Dest, <span class="keyword">typename</span> Range&gt;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#a7c594aee365eaa348a9a3edf3611aa4a">   60</a></span>&#160;Dest&amp; <a class="code" href="namespacestaticlib_1_1ranges.html#a7c594aee365eaa348a9a3edf3611aa4a" title="Moves all the elements from the specified range into specified destination using emplace_back.">emplace_to</a>(Dest&amp; dest, Range&amp;&amp; range) {</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp;&amp; el : range) {</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        dest.emplace_back(std::move(el));</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">return</span> dest;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#a10c38adaf67ee61cba6a78c21b077109">   74</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacestaticlib_1_1ranges.html#a10c38adaf67ee61cba6a78c21b077109" title="Utility function to use as an offcast FunctionObject argument for filter function.">ignore_offcast</a>(T t) {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    (void) t; <span class="comment">// ignored</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Elem&gt;</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#a74be3b78fbce7f7c9e2c65692f5af579">   74</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacestaticlib_1_1ranges.html#a74be3b78fbce7f7c9e2c65692f5af579" title="Utility function to use as an offcast FunctionObject argument for filter function.">ignore_offcast</a>(Elem el) {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    (void) el; <span class="comment">// ignored</span></div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> E = <span class="keyword">typename</span> T::value_type&gt;</div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#a4e4c76f12020e2509ed1ed14db0eb05a">   86</a></span>&#160;std::function&lt;void(E)&gt; <a class="code" href="namespacestaticlib_1_1ranges.html#a4e4c76f12020e2509ed1ed14db0eb05a" title="Utility function to use as an offcast FunctionObject argument for filter function.">offcast_into</a>(T&amp; dest) {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">return</span> [&amp;dest](E el) {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Dest, <span class="keyword">typename</span> Elem = <span class="keyword">typename</span> Dest::value_type&gt;</div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#a146deb5a26b1a48da4c709afe6cad962">   86</a></span>&#160;std::function&lt;void(Elem)&gt; <a class="code" href="namespacestaticlib_1_1ranges.html#a146deb5a26b1a48da4c709afe6cad962" title="Utility function to use as an offcast FunctionObject argument for filter function.">offcast_into</a>(Dest&amp; dest) {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">return</span> [&amp;dest](Elem el) {</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        dest.emplace_back(std::move(el));</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    };</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> R, <span class="keyword">typename</span> P&gt;</div>
-<div class="line"><a name="l00101"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#a2713dc623209037997fa19173f9a5246">  101</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacestaticlib_1_1ranges.html#a2713dc623209037997fa19173f9a5246" title="any algorithm implementation for the arbitrary ranges">any</a>(R&amp; range, P predicate) {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range, <span class="keyword">typename</span> Pred&gt;</div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#af3c7c7be3b948f790e6d0989f008f224">  101</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacestaticlib_1_1ranges.html#af3c7c7be3b948f790e6d0989f008f224" title="any algorithm implementation for the arbitrary ranges">any</a>(Range&amp; range, Pred predicate) {</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp;&amp; el : range) {</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keyword">auto</span>&amp; ref = el;</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">if</span> (predicate(ref)) {</div>
@@ -163,8 +163,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> R, <span class="keyword">typename</span> P, <span class="keyword">typename</span> E&gt;</div>
-<div class="line"><a name="l00123"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#a66db27c360c9a53fde5e437db1f6c008">  123</a></span>&#160;E <a class="code" href="namespacestaticlib_1_1ranges.html#a66db27c360c9a53fde5e437db1f6c008" title="find algorithm implementation for the arbitrary ranges, found element will be move-returned to the ca...">find</a>(R&amp; range, P predicate, E not_found_el) {</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range, <span class="keyword">typename</span> Pred, <span class="keyword">typename</span> Elem&gt;</div>
+<div class="line"><a name="l00123"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#a425403bc10993c2a75e701749220b45b">  123</a></span>&#160;Elem <a class="code" href="namespacestaticlib_1_1ranges.html#a425403bc10993c2a75e701749220b45b" title="find algorithm implementation for the arbitrary ranges, found element will be move-returned to the ca...">find</a>(Range&amp; range, Pred predicate, Elem not_found_el) {</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp;&amp; el : range) {</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keyword">auto</span>&amp; ref = el;</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordflow">if</span> (predicate(ref)) {</div>
@@ -182,7 +182,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Nov 25 2015 09:57:37 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 27 2015 22:08:14 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>
