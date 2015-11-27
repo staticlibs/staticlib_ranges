@@ -40,60 +40,18 @@ namespace detail_adapter {
  * Holds a reference to the range and call it for the next elements.
  */
 template <typename Range>
-class range_adapter_iter {
-    Range& range;
-    bool past_the_end = false;
+class range_adapter_iter : public std::iterator<std::input_iterator_tag, typename Range::value_type> {
+    Range* range;
     
 public:    
-    typedef typename Range::value_type value_type;
-    // does not support input_iterator, but valid tag is required
-    // for std::iterator_traits with libc++ on mac
-    typedef std::input_iterator_tag iterator_category;
-    typedef std::nullptr_t difference_type;
-    typedef std::nullptr_t pointer;
-    typedef std::nullptr_t reference;
-
-    /**
-     * Deleted copy constructor
-     *
-     * @param other other instance
-     */
-    range_adapter_iter(const range_adapter_iter& other) = delete;
-
-    /**
-     * Deleted copy assignment operator
-     *
-     * @param other other instance
-     * @return reference to this instance
-     */
-    range_adapter_iter& operator=(const range_adapter_iter& other) = delete;
-
-    /**
-     * Move constructor
-     *
-     * @param other other instance
-     */
-    range_adapter_iter(range_adapter_iter&& other) :
-    range(other.range),
-    past_the_end(other.past_the_end) { }
-
-    /**
-     * Move assignment operator
-     *
-     * @param other other instance
-     * @return reference to this instance
-     */
-    range_adapter_iter& operator=(range_adapter_iter&& other) = delete;
-    
     /**
      * Constructor
      * 
      * @param range parent range
      * @param past_the_end true for the "past the end" iterator
      */
-    range_adapter_iter(Range& range, bool past_the_end = false) :
-    range(range), 
-    past_the_end(past_the_end) { }    
+    range_adapter_iter(Range* range) :
+    range(range) { }    
     
     /**
      * Iterates to the next element
@@ -101,7 +59,9 @@ public:
      * @return reference to this iterator instance
      */
     range_adapter_iter& operator++() {
-        past_the_end = !range.compute_next_and_set_state();
+        if (range) {
+            range->compute_next_and_set_state();
+        }
         return *this;
     }
 
@@ -111,7 +71,9 @@ public:
      * @return reference to this iterator instance
      */
     range_adapter_iter& operator++(int) {
-        past_the_end = !range.compute_next_and_set_state();
+        if (range) {
+            range->compute_next_and_set_state();
+        }
         return *this;
     }
 
@@ -121,7 +83,11 @@ public:
      * @return current element
      */
     typename Range::value_type operator*() {
-        return std::move(range.get_current());
+        if (range) {
+            return std::move(range->get_current());
+        } else {
+            throw std::range_error("Invalid attempt to dereference a 'past_the_end' iterator");
+        }
     }
 
     /**
@@ -129,11 +95,12 @@ public:
      * Does NOT support arbitrary input instances,
      * should be used only to compare with "past the end" iterator.
      * 
-     * @param end
-     * @return 
+     * @param end "past the end" iterator
+     * @return whether not both this and specified iterators are "past the end"
      */
     bool operator!=(const range_adapter_iter& end) const {
-        return this->past_the_end != end.past_the_end;
+        return !(!this->range || Range::State::EXHAUSTED == this->range->state) ||
+                !(!end.range || Range::State::EXHAUSTED == end.range->state);
     }
     
 };
@@ -154,8 +121,8 @@ class range_adapter {
     friend class detail_adapter::range_adapter_iter<Range>;
 
     // space in iter for placement of Elem instance (to not require DefaultConstructible)
-    std::array<char, sizeof(Elem)> current_space;
-    Elem* current_ptr;
+    typename std::aligned_storage<sizeof (Elem), alignof(Elem)>::type current_space;
+    Elem* current_ptr = nullptr;
     
     State state = State::CREATED;    
     
@@ -186,11 +153,9 @@ protected:
      * @param other other instance
      */
     range_adapter(range_adapter&& other) :
-    current_space(),
-    current_ptr(),
     state(other.state) {
         if (other.current_ptr) {
-            this->current_ptr = new (current_space.data()) Elem(std::move(*other.current_ptr));
+            this->current_ptr = new (std::addressof(current_space)) Elem(std::move(*other.current_ptr));
         }
     }
 
@@ -234,7 +199,7 @@ public:
     detail_adapter::range_adapter_iter<Range> begin() {
         if (State::CREATED == state) {
             compute_next_and_set_state();
-            return detail_adapter::range_adapter_iter<Range>(*static_cast<Range*>(this));
+            return detail_adapter::range_adapter_iter<Range>(static_cast<Range*>(this));
         } else {
             throw std::range_error("Invalid attempt to get a 'begin()' iterator the second time");
         }
@@ -246,7 +211,7 @@ public:
      * @return `past_the_end` iterator
      */
     detail_adapter::range_adapter_iter<Range> end() {
-        return detail_adapter::range_adapter_iter<Range>(*static_cast<Range*>(this), true);
+        return detail_adapter::range_adapter_iter<Range>(nullptr);
     }
 
 protected:
@@ -263,7 +228,7 @@ protected:
     bool set_current(Elem&& current) {
         switch (state) {
         case State::CREATED:
-            this->current_ptr = new (current_space.data()) Elem(std::move(current));
+            this->current_ptr = new (std::addressof(current_space)) Elem(std::move(current));
             break;
         case State::READY:
         case State::CONSUMED:
