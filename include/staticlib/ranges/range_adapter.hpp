@@ -193,6 +193,7 @@ protected:
     state(other.state) {
         if (other.current_ptr) {
             this->current_ptr = new (std::addressof(current_space)) Elem(std::move(*other.current_ptr));
+            other.state = State::EXHAUSTED;
         }
     }
 
@@ -203,9 +204,10 @@ protected:
      * @return reference to this instance
      */
     range_adapter& operator=(range_adapter&& other) {
-        this->state = std::move(other.state);
+        this->state = other.state;
         if (other.current_ptr) {
             *this->current_ptr = std::move(*other.current_ptr);
+            other.state = State::EXHAUSTED;
         }
         return *this;
     }
