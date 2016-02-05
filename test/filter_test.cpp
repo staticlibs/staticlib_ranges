@@ -45,11 +45,11 @@ void test_vector() {
     vec.emplace_back(new MyInt(43));
     
     auto offcasted = std::vector<std::unique_ptr<MyInt>>{};
-    auto range = ra::filter(vec, [](std::unique_ptr<MyInt>& el) {
+    auto range = ra::filter(std::move(vec), [](std::unique_ptr<MyInt>& el) {
         return 42 == el->get_int();
     }, ra::offcast_into(offcasted));
 
-    auto res = ra::emplace_to_vector(range);
+    auto res = ra::emplace_to_vector(std::move(range));
 
     slassert(1 == res.size());
     slassert(42 == res[0]->get_int());
@@ -67,12 +67,12 @@ void test_range() {
     auto list = std::list<std::unique_ptr<MyInt>>{};
     list.emplace_back(new MyInt(42));
     list.emplace_back(new MyInt(43));
-    auto range = ra::concat(vec, list);
+    auto range = ra::concat(std::move(vec), std::move(list));
     
-    auto filtered = ra::filter(range, [](std::unique_ptr<MyInt>& el) {
+    auto filtered = ra::filter(std::move(range), [](std::unique_ptr<MyInt>& el) {
         return el->get_int() <= 40;
     }, ra::ignore_offcast<std::unique_ptr<MyInt>>);
-    auto res = ra::emplace_to_vector(filtered);
+    auto res = ra::emplace_to_vector(std::move(filtered));
 
     slassert(1 == res.size());
     slassert(40 == res[0]->get_int());
@@ -84,12 +84,30 @@ void test_non_default_constructible() {
     vec.emplace_back(42);
     vec.emplace_back(43);
     
-    auto filtered = ra::filter(vec, [](MyMovable& el) {
+    auto filtered = ra::filter(std::move(vec), [](MyMovable& el) {
         return 42 != el.get_val();
     }, ra::ignore_offcast<MyMovable>);
 
-    auto res = ra::emplace_to_vector(filtered);
+    auto res = ra::emplace_to_vector(std::move(filtered));
 
+    slassert(2 == res.size());
+    slassert(41 == res[0].get_val());
+    slassert(43 == res[1].get_val());
+}
+
+void test_moved() {
+    auto vec = std::vector<MyMovable>{};
+    vec.emplace_back(41);
+    vec.emplace_back(42);
+    vec.emplace_back(43);
+
+    auto filtered = ra::filter(std::move(vec), [](MyMovable & el) {
+        return 42 != el.get_val();
+    }, ra::ignore_offcast<MyMovable>);
+    
+    auto res = ra::emplace_to_vector(std::move(filtered));
+    
+    slassert(vec.empty());
     slassert(2 == res.size());
     slassert(41 == res[0].get_val());
     slassert(43 == res[1].get_val());
@@ -100,6 +118,7 @@ int main() {
         test_vector();
         test_range();
         test_non_default_constructible();
+        test_moved();
     } catch (const std::exception& e) {
         std::cout << e.what() << std::endl;
         return 1;

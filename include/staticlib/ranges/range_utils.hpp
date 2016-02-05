@@ -37,7 +37,7 @@ namespace ranges {
  * @param range range with `MoveConstructible` elements
  * @return vector containing all element from specified range
  */
-template <typename Range>
+template <typename Range, class = typename std::enable_if<!std::is_lvalue_reference<Range>::value>::type>
 auto emplace_to_vector(Range&& range) -> std::vector<typename std::iterator_traits<decltype(range.begin())>::value_type> {
     auto vec = std::vector<typename std::iterator_traits<decltype(range.begin())>::value_type>{};
     // resize is not used here, as neither 'transformed' nor 'filtered' 
@@ -56,7 +56,8 @@ auto emplace_to_vector(Range&& range) -> std::vector<typename std::iterator_trai
  * @param range source range
  * @return destination container
  */
-template <typename Dest, typename Range>
+template <typename Dest, typename Range,
+        class = typename std::enable_if<!std::is_lvalue_reference<Range>::value>::type>
 Dest& emplace_to(Dest& dest, Range&& range) {
     for (auto&& el : range) {
         dest.emplace_back(std::move(el));

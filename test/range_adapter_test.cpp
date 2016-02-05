@@ -56,7 +56,7 @@ public:
 
 void test_movable() {
     MyMovableRange range{3};
-    auto transformed = ra::transform(range, [](MyMovable el) {
+    auto transformed = ra::transform(std::move(range), [](MyMovable el) {
         return el.get_val();
     });
     auto vec = ra::emplace_to_vector(std::move(transformed));

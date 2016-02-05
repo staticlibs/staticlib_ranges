@@ -51,6 +51,14 @@ public:
     typedef std::nullptr_t difference_type;
     typedef std::nullptr_t pointer;
     typedef std::nullptr_t reference;
+
+    /**
+     * Constructor
+     * 
+     * @param source source iterator
+     */
+    refwrapped_iter(Iter source_iter) :
+    source_iter(std::move(source_iter)) { }
     
     /**
      * Deleted copy constructor
@@ -85,14 +93,6 @@ public:
         this->source_iter = std::move(other.iter);
         return *this;
     }
-
-    /**
-     * Constructor
-     * 
-     * @param source source iterator
-     */
-    refwrapped_iter(Iter source_iter) :
-    source_iter(std::move(source_iter)) { }
 
     /**
      * Delegated prefix operator implementation
@@ -136,87 +136,6 @@ public:
     }
 };
 
-/**
- * Lazy implementation of `SinglePassRange` for `std::ref`  operation
- */
-template <typename Range>
-class refwrapped_range {
-    Range& source_range;
-
-public:
-    /**
-     * Type of iterator of this range
-     */
-    typedef decltype(std::declval<decltype(source_range)>().begin()) iterator;
-
-    /**
-     * Result unwrapped value type of of iterators returned from this range
-     */
-    typedef typename std::iterator_traits<iterator>::value_type value_type_unwrapped;
-
-    /**
-     * Result value type of iterators returned from this range
-     */
-    typedef typename std::reference_wrapper<value_type_unwrapped> value_type;
-
-    /**
-     * Deleted copy constructor
-     *
-     * @param other other instance
-     */
-    refwrapped_range(const refwrapped_range& other) = delete;
-
-    /**
-     * Deleted copy assignment operator
-     *
-     * @param other other instance
-     * @return reference to this instance
-     */
-    refwrapped_range& operator=(const refwrapped_range& other) = delete;
-
-    /**
-     * Move constructor
-     *
-     * @param other other instance
-     */
-    refwrapped_range(refwrapped_range&& other) :
-    source_range(other.source_range) { }
-
-    /**
-     * Deleted move assignment operator
-     *
-     * @param other other instance
-     * @return reference to this instance
-     */
-    refwrapped_range& operator=(refwrapped_range&& other) = delete;
-
-    /**
-     * Constructor
-     * 
-     * @param range reference to source range
-     */
-    refwrapped_range(Range& source_range) :
-    source_range(source_range) { }
-
-    /**
-     * Returns `begin` transformed iterator
-     * 
-     * @return `begin` iterator
-     */
-    refwrapped_iter<iterator, value_type_unwrapped> begin() {
-        return refwrapped_iter<iterator, value_type_unwrapped>{std::move(source_range.begin())};
-    }
-
-    /**
-     * Returns `past_the_end` iterator
-     * 
-     * @return `past_the_end` iterator
-     */
-    refwrapped_iter<iterator, value_type_unwrapped> end() {
-        return refwrapped_iter<iterator, value_type_unwrapped>{std::move(source_range.end())};
-    }
-};
-
 
 /**
  * Lazy `InputIterator` implementation for `std::cref`  operation.
@@ -235,7 +154,15 @@ public:
     typedef std::nullptr_t difference_type;
     typedef std::nullptr_t pointer;
     typedef std::nullptr_t reference;
-        
+
+    /**
+     * Constructor
+     * 
+     * @param source source iterator
+     */
+    refwrapped_const_iter(Iter source_iter) :
+    source_iter(std::move(source_iter)) { }
+    
     /**
      * Deleted copy constructor
      *
@@ -269,14 +196,6 @@ public:
         this->source_iter = std::move(other.source_iter);
         return *this;
     }
-
-    /**
-     * Constructor
-     * 
-     * @param source source iterator
-     */
-    refwrapped_const_iter(Iter source_iter) :
-    source_iter(std::move(source_iter)) { }
 
     /**
      * Delegated prefix operator implementation
@@ -320,6 +239,91 @@ public:
     }
 };
 
+} // namespace
+
+/**
+ * Lazy implementation of `SinglePassRange` for `std::ref`  operation
+ */
+template <typename Range>
+class refwrapped_range {
+    Range& source_range;
+
+public:
+    /**
+     * Type of iterator of this range
+     */
+    typedef decltype(std::declval<decltype(source_range)>().begin()) iterator;
+
+    /**
+     * Result unwrapped value type of of iterators returned from this range
+     */
+    typedef typename std::iterator_traits<iterator>::value_type value_type_unwrapped;
+
+    /**
+     * Result value type of iterators returned from this range
+     */
+    typedef typename std::reference_wrapper<value_type_unwrapped> value_type;
+
+    /**
+     * Constructor,
+     * created range wrapper will NOT own specified range
+     * 
+     * @param range reference to source range
+     */
+    refwrapped_range(Range& source_range) :
+    source_range(source_range) { }
+
+    /**
+     * Deleted copy constructor
+     *
+     * @param other other instance
+     */
+    refwrapped_range(const refwrapped_range& other) = delete;
+
+    /**
+     * Deleted copy assignment operator
+     *
+     * @param other other instance
+     * @return reference to this instance
+     */
+    refwrapped_range& operator=(const refwrapped_range& other) = delete;
+
+    /**
+     * Move constructor
+     *
+     * @param other other instance
+     */
+    refwrapped_range(refwrapped_range&& other) :
+    source_range(other.source_range) { }
+
+    /**
+     * Deleted move assignment operator
+     *
+     * @param other other instance
+     * @return reference to this instance
+     */
+    refwrapped_range& operator=(refwrapped_range&& other) = delete;
+
+    /**
+     * Returns `begin` transformed iterator
+     * 
+     * @return `begin` iterator
+     */
+    detail_refwrap::refwrapped_iter<iterator, value_type_unwrapped> begin() {
+        return detail_refwrap::refwrapped_iter<iterator, value_type_unwrapped>{std::move(source_range.begin())};
+    }
+
+    /**
+     * Returns `past_the_end` iterator
+     * 
+     * @return `past_the_end` iterator
+     */
+    detail_refwrap::refwrapped_iter<iterator, value_type_unwrapped> end() {
+        return detail_refwrap::refwrapped_iter<iterator, value_type_unwrapped>{std::move(source_range.end())};
+    }
+};
+
+
 /**
  * Lazy implementation of `SinglePassRange` for `std::cref`  operation
  */
@@ -342,6 +346,15 @@ public:
      * Result value type of iterators returned from this range
      */
     typedef typename std::reference_wrapper<value_type_unwrapped> value_type;
+
+    /**
+     * Constructor,
+     * created range wrapper will NOT own specified range
+     * 
+     * @param range reference to source range
+     */
+    refwrapped_const_range(const Range& source_range) :
+    source_range(source_range) { }
 
     /**
      * Deleted copy constructor
@@ -375,20 +388,12 @@ public:
     refwrapped_const_range& operator=(refwrapped_const_range&& other) = delete;
 
     /**
-     * Constructor
-     * 
-     * @param range reference to source range
-     */
-    refwrapped_const_range(const Range& source_range) :
-    source_range(source_range) { }
-
-    /**
      * Returns `begin` transformed iterator
      * 
      * @return `begin` iterator
      */
-    refwrapped_const_iter<iterator, value_type_unwrapped> begin() {
-        return refwrapped_const_iter<iterator, value_type_unwrapped>{std::move(source_range.begin())};
+    detail_refwrap::refwrapped_const_iter<iterator, value_type_unwrapped> begin() {
+        return detail_refwrap::refwrapped_const_iter<iterator, value_type_unwrapped>{std::move(source_range.begin())};
     }
 
     /**
@@ -396,35 +401,37 @@ public:
      * 
      * @return `past_the_end` iterator
      */
-    refwrapped_const_iter<iterator, value_type_unwrapped> end() {
-        return refwrapped_const_iter<iterator, value_type_unwrapped>{std::move(source_range.end())};
+    detail_refwrap::refwrapped_const_iter<iterator, value_type_unwrapped> end() {
+        return detail_refwrap::refwrapped_const_iter<iterator, value_type_unwrapped>{std::move(source_range.end())};
     }
 };
 
-} // namespace
+
 
 /**
  * Lazily copies input range into output range using `std::ref` function on
  * each element.
+ * Created range wrapper will NOT own specified range.
  * 
  * @param range source range
  * @return cloned range
  */
 template <typename Range>
-detail_refwrap::refwrapped_range<Range> refwrap(Range& range) {
-    return detail_refwrap::refwrapped_range<Range>(range);
+refwrapped_range<Range> refwrap(Range& range) {
+    return refwrapped_range<Range>(range);
 }
 
 /**
  * Lazily copies input range into output range using `std::cref` function on
  * each element.
+ * Created range wrapper will NOT own specified range.
  * 
  * @param range source range
  * @return cloned range
  */
 template <typename Range>
-detail_refwrap::refwrapped_const_range<Range> refwrap(const Range& range) {
-    return detail_refwrap::refwrapped_const_range<Range>(range);
+refwrapped_const_range<Range> refwrap(const Range& range) {
+    return refwrapped_const_range<Range>(range);
 }
 
 } // namespace

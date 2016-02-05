@@ -38,6 +38,33 @@
 
 namespace ra = staticlib::ranges;
 
+// C++11 poor-mans variant of auto return
+typedef ra::concatted_range<std::vector<std::unique_ptr<MyInt>>, std::list<std::unique_ptr<MyInt>>> auto_1;
+
+auto_1 fun() {
+    auto vec = std::vector<std::unique_ptr<MyInt>>{};
+    vec.emplace_back(new MyInt(40));
+    vec.emplace_back(new MyInt(41));
+
+    auto list = std::list<std::unique_ptr<MyInt>>{};
+    list.emplace_back(new MyInt(42));
+    list.emplace_back(new MyInt(43));
+
+    return ra::concat(std::move(vec), std::move(list));
+}
+
+void test_fromfun() {
+    auto range = fun();
+    
+    auto res = ra::emplace_to_vector(std::move(range));
+
+    slassert(4 == res.size());
+    slassert(40 == res[0]->get_int());
+    slassert(41 == res[1]->get_int());
+    slassert(42 == res[2]->get_int());
+    slassert(43 == res[3]->get_int());
+}
+
 void test_containers() {
     auto vec = std::vector<std::unique_ptr<MyInt>>{};
     vec.emplace_back(new MyInt(40));
@@ -47,8 +74,8 @@ void test_containers() {
     list.emplace_back(new MyInt(42));
     list.emplace_back(new MyInt(43));
     
-    auto concatted = ra::concat(vec, list);
-    auto res = ra::emplace_to_vector(concatted);
+    auto concatted = ra::concat(std::move(vec), std::move(list));
+    auto res = ra::emplace_to_vector(std::move(concatted));
     
     slassert(4 == res.size());
     slassert(40 == res[0]->get_int());
@@ -63,8 +90,8 @@ void test_empty_first() {
     vec.emplace_back(new MyInt(40));
     vec.emplace_back(new MyInt(41));
     
-    auto range = ra::concat(vec_empty, vec);
-    auto res = ra::emplace_to_vector(range);
+    auto range = ra::concat(std::move(vec_empty), std::move(vec));
+    auto res = ra::emplace_to_vector(std::move(range));
     
     slassert(2 == res.size());
     slassert(40 == res[0]->get_int());
@@ -77,8 +104,8 @@ void test_empty_second() {
     vec.emplace_back(new MyInt(40));
     vec.emplace_back(new MyInt(41));
 
-    auto range = ra::concat(vec, vec_empty);
-    auto res = ra::emplace_to_vector(range);
+    auto range = ra::concat(std::move(vec), std::move(vec_empty));
+    auto res = ra::emplace_to_vector(std::move(range));
     
     slassert(2 == res.size());
     slassert(40 == res[0]->get_int());
@@ -89,8 +116,8 @@ void test_empty_both() {
     auto vec_empty1 = std::vector<std::unique_ptr<MyInt>>{};
     auto vec_empty2 = std::vector<std::unique_ptr<MyInt>>{};
 
-    auto range = ra::concat(vec_empty1, vec_empty2);
-    auto res = ra::emplace_to_vector(range);
+    auto range = ra::concat(std::move(vec_empty1), std::move(vec_empty2));
+    auto res = ra::emplace_to_vector(std::move(range));
     
     slassert(0 == res.size());
 }
@@ -100,19 +127,19 @@ void test_ranges() {
     vec.emplace_back(new MyInt(40));
     vec.emplace_back(new MyInt(41));
 
-    auto list = std::list<std::unique_ptr < MyInt>>{};
+    auto list = std::list<std::unique_ptr<MyInt>>{};
     list.emplace_back(new MyInt(42));
     list.emplace_back(new MyInt(43));
     list.emplace_back(new MyInt(44));
     
-    auto transformed = ra::transform(vec, [](std::unique_ptr<MyInt> el) {
+    auto transformed = ra::transform(std::move(vec), [](std::unique_ptr<MyInt> el) {
         return std::unique_ptr<MyInt>(new MyInt(el->get_int() - 10));
     });
-    auto filtered = ra::filter(list, [](std::unique_ptr<MyInt>& el) {
+    auto filtered = ra::filter(std::move(list), [](std::unique_ptr<MyInt>& el) {
         return 42 != el->get_int();
     }, ra::ignore_offcast<std::unique_ptr<MyInt>>);
-    auto concatted = ra::concat(transformed, filtered);
-    auto res = ra::emplace_to_vector(concatted);
+    auto concatted = ra::concat(std::move(transformed), std::move(filtered));
+    auto res = ra::emplace_to_vector(std::move(concatted));
 
     slassert(4 == res.size());
     slassert(30 == res[0]->get_int());
@@ -121,13 +148,30 @@ void test_ranges() {
     slassert(44 == res[3]->get_int());
 }
 
+void test_moved() {
+    auto vec = std::vector<std::unique_ptr<MyInt>>{};
+    vec.emplace_back(new MyInt(40));
+    vec.emplace_back(new MyInt(41));
+
+    auto list = std::list<std::unique_ptr<MyInt>>{};
+    list.emplace_back(new MyInt(42));
+    list.emplace_back(new MyInt(43));
+    list.emplace_back(new MyInt(44));
+    
+    ra::concat(std::move(vec), std::move(list));
+    slassert(vec.empty());
+    slassert(list.empty());
+}
+
 int main() {
     try {
+        test_fromfun();
         test_containers();
         test_empty_first();
         test_empty_second();
         test_empty_both();
         test_ranges();
+        test_moved();
     } catch (const std::exception& e) {
         std::cout << e.what() << std::endl;
         return 1;

@@ -47,11 +47,11 @@ void test_vector() {
     vec.emplace_back(new MyInt(40));
     vec.emplace_back(new MyInt(41));
     
-    auto range = sit::transform(vec, [](std::unique_ptr<MyInt> el) {
+    auto range = sit::transform(std::move(vec), [](std::unique_ptr<MyInt> el) {
         return std::unique_ptr<MyStr>(new MyStr(sc::to_string(el->get_int() - 10)));
     });
 
-    auto res = sit::emplace_to_vector(range);
+    auto res = sit::emplace_to_vector(std::move(range));
 
     slassert(2 == res.size());
     slassert("30" == res[0]->get_str());
@@ -68,17 +68,17 @@ void test_range() {
     vec2.emplace_back(new MyStr("53"));
     vec2.emplace_back(new MyStr("54"));
     
-    auto range1 = sit::transform(vec1, [](std::unique_ptr<MyInt> el) {
+    auto range1 = sit::transform(std::move(vec1), [](std::unique_ptr<MyInt> el) {
         return std::unique_ptr<MyStr>(new MyStr(sc::to_string(el->get_int() + 10)));
     });
-    auto range2 = sit::concat(range1, vec2);
-    auto range3 = sit::filter(range2, [](std::unique_ptr<MyStr>& el) {
+    auto range2 = sit::concat(std::move(range1), std::move(vec2));
+    auto range3 = sit::filter(std::move(range2), [](std::unique_ptr<MyStr>& el) {
         return "52" != el->get_str();
     }, sit::ignore_offcast<std::unique_ptr<MyStr>>);
-    auto range4 = sit::transform(range3, [](std::unique_ptr<MyStr> el) {
+    auto range4 = sit::transform(std::move(range3), [](std::unique_ptr<MyStr> el) {
         return std::unique_ptr<MyStr>(new MyStr(el->get_str() + "_42"));
     });
-    auto res = sit::emplace_to_vector(range4);
+    auto res = sit::emplace_to_vector(std::move(range4));
 
     slassert(4 == res.size());
     slassert("50_42" == res[0]->get_str());

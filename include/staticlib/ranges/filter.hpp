@@ -30,6 +30,7 @@
 #include <type_traits>
 #include <utility>
 
+
 namespace staticlib {
 namespace ranges {
 
@@ -61,6 +62,28 @@ public:
     typedef std::nullptr_t difference_type;
     typedef std::nullptr_t pointer;
     typedef std::nullptr_t reference;
+
+    /**
+     * Constructor
+     * 
+     * @param source_iter source `begin` iterator
+     * @param source_iter_end source `past_the_end` iterator
+     * @param predicate filtering `Predicate`
+     * @param offcast_dest `FunctionObject` for offcast elements
+     */
+    filtered_iter(Iter source_iter, Iter source_iter_end, Pred& predicate, Dest& offcast_dest) :
+    source_iter(std::move(source_iter)),
+    source_iter_end(std::move(source_iter_end)),
+    predicate(&predicate),
+    offcast_dest(&offcast_dest) {
+        if (this->source_iter != this->source_iter_end) {
+            this->current_ptr = new (std::addressof(current_space)) Elem(std::move(*this->source_iter));
+            if (!(*this->predicate)(*current_ptr)) {
+                (*this->offcast_dest)(std::move(*current_ptr));
+                next();
+            }
+        }
+    }
     
     /**
      * Deleted copy constructor
@@ -107,28 +130,6 @@ public:
             *this->current_ptr = std::move(*other.current_ptr);
         }
         return *this;
-    }
-
-    /**
-     * Constructor
-     * 
-     * @param source_iter source `begin` iterator
-     * @param source_iter_end source `past_the_end` iterator
-     * @param predicate filtering `Predicate`
-     * @param offcast_dest `FunctionObject` for offcast elements
-     */
-    filtered_iter(Iter source_iter, Iter source_iter_end, Pred& predicate, Dest& offcast_dest) :
-    source_iter(std::move(source_iter)),
-    source_iter_end(std::move(source_iter_end)),
-    predicate(&predicate),
-    offcast_dest(&offcast_dest) {
-        if (this->source_iter != this->source_iter_end) {
-            this->current_ptr = new (std::addressof(current_space)) Elem(std::move(*this->source_iter));
-            if (!(*this->predicate)(*current_ptr)) {
-                (*this->offcast_dest)(std::move(*current_ptr));
-                next();
-            }
-        }
     }
     
     /**
@@ -196,6 +197,8 @@ private:
     
 };
 
+} // namespace
+
 
 /**
  * Lazy implementation of `SinglePassRange` for `filter`  operation, 
@@ -205,7 +208,7 @@ private:
  */
 template <typename Range, typename Pred, typename Dest>
 class filtered_range {
-    Range& source_range;
+    Range source_range;
     Pred predicate;
     Dest offcast_dest;
 
@@ -220,6 +223,20 @@ public:
      */
     typedef typename std::iterator_traits<iterator>::value_type value_type;
 
+    /**
+     * Constructor,
+     * created range wrapper will own specified ranges
+     * 
+     * @param source_range reference to source range
+     * @param predicate `Predicate` to check source element againt it
+     * @param offcast_dest `FunctionObject` to apply offcast elements to it
+     */
+    template <class = typename std::enable_if<!std::is_lvalue_reference<Range>::value>::type>
+    filtered_range(Range&& source_range, Pred predicate, Dest offcast_dest) :
+    source_range(std::move(source_range)),
+    predicate(std::move(predicate)),
+    offcast_dest(std::move(offcast_dest)) { }
+    
     /**
      * Deleted copy constructor
      *
@@ -241,7 +258,7 @@ public:
      * @param other other instance
      */
     filtered_range(filtered_range&& other) :
-    source_range(other.source_range), 
+    source_range(std::move(other.source_range)), 
     predicate(std::move(other.predicate)),
     offcast_dest(std::move(other.offcast_dest)) { }
 
@@ -254,24 +271,12 @@ public:
     filtered_range& operator=(filtered_range&& other) = delete;
 
     /**
-     * Constructor
-     * 
-     * @param source_range reference to source range
-     * @param predicate `Predicate` to check source element againt it
-     * @param offcast_dest `FunctionObject` to apply offcast elements to it
-     */
-    filtered_range(Range& source_range, Pred predicate, Dest offcast_dest) : 
-    source_range(source_range), 
-    predicate(std::move(predicate)), 
-    offcast_dest(std::move(offcast_dest)) { }
-
-    /**
      * Returns `begin` filtered iterator
      * 
      * @return `begin` iterator
      */
-    filtered_iter<iterator, value_type, Pred, Dest> begin() {
-        return filtered_iter<iterator, value_type, Pred, Dest>{
+    detail_filter::filtered_iter<iterator, value_type, Pred, Dest> begin() {
+        return detail_filter::filtered_iter<iterator, value_type, Pred, Dest>{
             std::move(source_range.begin()), std::move(source_range.end()), predicate, offcast_dest
         };
     }
@@ -281,29 +286,32 @@ public:
      * 
      * @return `past_the_end` iterator
      */
-    filtered_iter<iterator, value_type, Pred, Dest> end() {
-        return filtered_iter<iterator, value_type, Pred, Dest>{
+    detail_filter::filtered_iter<iterator, value_type, Pred, Dest> end() {
+        return detail_filter::filtered_iter<iterator, value_type, Pred, Dest>{
             std::move(source_range.end()), std::move(source_range.end()), predicate, offcast_dest
         };
     }
 };
 
-} // namespace
 
 /**
  * Lazily filters input range into output range checking each element using
  * specified `Predicate`. Elements are moved from source range one by one,
  * All accessed elements of source range will be left in "valid but unspecified state".
- * Elements that won't match the `Predicate` will be applied to specified `FunctionObject`
+ * Elements that won't match the `Predicate` will be applied to specified `FunctionObject`.
+ * Created range wrapper will own specified ranges
  * 
  * @param source_range reference to source range
  * @param predicate `Predicate` to check source element against it
  * @param offcast_dest `FunctionObject` to apply offcast elements to it
  * @return filtered range
  */
-template <typename Range, typename Pred, typename Dest>
-detail_filter::filtered_range<Range, Pred, Dest> filter(Range& source_range, Pred predicate, Dest offcast_dest) {
-    return detail_filter::filtered_range<Range, Pred, Dest>(source_range, std::move(predicate), std::move(offcast_dest));
+template <typename Range, typename Pred, typename Dest,
+        class = typename std::enable_if<!std::is_lvalue_reference<Range>::value>::type>
+filtered_range<Range, Pred, Dest>
+filter(Range&& source_range, Pred predicate, Dest offcast_dest) {
+    return filtered_range<Range, Pred, Dest>(
+            std::move(source_range), std::move(predicate), std::move(offcast_dest));
 }
 
 

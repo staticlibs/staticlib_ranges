@@ -25,7 +25,9 @@
 #define STATICLIB_RANGES_CONCAT_HPP
 
 #include <iterator>
+#include <type_traits>
 #include <utility>
+
 
 namespace staticlib {
 namespace ranges {
@@ -51,6 +53,18 @@ public:
     typedef std::nullptr_t difference_type;
     typedef std::nullptr_t pointer;
     typedef std::nullptr_t reference;
+
+    /**
+     * Constructor
+     * 
+     * @param source_iter1 `begin` first source iterator
+     * @param source_iter1_end `past_the_end` first source iterator
+     * @param source_iter2 `begin` second iterator
+     */
+    concatted_iter(Iter1 source_iter1, Iter1 source_iter1_end, Iter2 source_iter2) :
+    source_iter1(std::move(source_iter1)),
+    source_iter1_end(std::move(source_iter1_end)),
+    source_iter2(std::move(source_iter2)) { }
     
     /**
      * Deleted copy constructor
@@ -89,18 +103,6 @@ public:
         this->source_iter2 = std::move(other.source_iter2);
         return *this;
     }
-
-    /**
-     * Constructor
-     * 
-     * @param source_iter1 `begin` first source iterator
-     * @param source_iter1_end `past_the_end` first source iterator
-     * @param source_iter2 `begin` second iterator
-     */
-    concatted_iter(Iter1 source_iter1, Iter1 source_iter1_end, Iter2 source_iter2) :
-    source_iter1(std::move(source_iter1)), 
-    source_iter1_end(std::move(source_iter1_end)),
-    source_iter2(std::move(source_iter2)) { }
 
     /**
      * Increments first source iterator if it is not yet exhausted, 
@@ -159,6 +161,8 @@ private:
     }
 };
 
+} // namespace
+
 
 /**
  * Lazy implementation of `SinglePassRange` for `concat` (or `chain`)  operation, 
@@ -167,8 +171,8 @@ private:
  */
 template <typename Range1, typename Range2>
 class concatted_range {
-    Range1& source_range1;
-    Range2& source_range2;
+    Range1 source_range1;
+    Range2 source_range2;
 
 public:
     /**
@@ -184,6 +188,18 @@ public:
      */
     typedef typename std::iterator_traits<iterator>::value_type value_type;
 
+    /**
+     * Constructor,
+     * created range wrapper will own specified ranges
+     * 
+     * @param source_range1 first source range
+     * @param source_range2 second source range
+     */
+    template <class = typename std::enable_if<!std::is_lvalue_reference<Range1>::value>::type>
+    concatted_range(Range1&& source_range1, Range2&& source_range2) :
+    source_range1(std::move(source_range1)),
+    source_range2(std::move(source_range2)) { }
+    
     /**
      * Deleted copy constructor
      *
@@ -205,8 +221,8 @@ public:
      * @param other other instance
      */
     concatted_range(concatted_range&& other) :
-    source_range1(other.source_range1), 
-    source_range2(other.source_range2) { };
+    source_range1(std::move(other.source_range1)), 
+    source_range2(std::move(other.source_range2)) { };
 
     /**
      * Deleted move assignment operator
@@ -217,23 +233,13 @@ public:
     concatted_range& operator=(concatted_range&& other) = delete;
 
     /**
-     * Constructor
-     * 
-     * @param source_range1 first source range
-     * @param source_range2 second source range
-     */
-    concatted_range(Range1& source_range1, Range2& source_range2) :
-    source_range1(source_range1), 
-    source_range2(source_range2) { }
-
-    /**
      * Returns `begin` concatenated iterator
      * 
      * @return `begin` iterator
      */    
-    concatted_iter<iterator, iterator2, value_type> begin() {
+    detail_concat::concatted_iter<iterator, iterator2, value_type> begin() {
         // move here is required by msvs
-        return concatted_iter<iterator, iterator2, value_type>{
+        return detail_concat::concatted_iter<iterator, iterator2, value_type>{
             std::move(source_range1.begin()), std::move(source_range1.end()), std::move(source_range2.begin())
         };
     }
@@ -243,27 +249,30 @@ public:
      * 
      * @return `past_the_end` iterator
      */
-    concatted_iter<iterator, iterator2, value_type> end() {
-        return concatted_iter<iterator, iterator2, value_type>{
+    detail_concat::concatted_iter<iterator, iterator2, value_type> end() {
+        return detail_concat::concatted_iter<iterator, iterator2, value_type>{
             std::move(source_range1.end()), std::move(source_range1.end()), std::move(source_range2.end())
         };
     }
 };
 
-} // namespace
 
 /**
  * Lazily concatenates two input ranges into single output range.
  * Elements are moved from source ranges one by one,
  * All accessed elements of source ranges will be left in "valid but unspecified state".
+ * Created range wrapper will own specified ranges
  * 
  * @param source_range1 first source range
  * @param source_range2 second source range
  * @return concatenated range
  */
-template <typename Range1, typename Range2>
-detail_concat::concatted_range<Range1, Range2> concat(Range1& range1, Range2& range2) {
-    return detail_concat::concatted_range<Range1, Range2>(range1, range2);
+template <typename Range1, typename Range2,
+        class = typename std::enable_if<!std::is_lvalue_reference<Range1>::value>::type,
+        class = typename std::enable_if<!std::is_lvalue_reference<Range2>::value>::type> 
+concatted_range<Range1, Range2>
+concat(Range1&& range1, Range2&& range2) {
+    return concatted_range<Range1, Range2> (std::move(range1), std::move(range2));
 }
 
 } // namespace

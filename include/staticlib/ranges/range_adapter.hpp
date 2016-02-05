@@ -271,7 +271,7 @@ protected:
             break;
         case State::READY:
         case State::CONSUMED:
-            * this->current_ptr = std::move(current);
+            *this->current_ptr = std::move(current);
             break;
         case State::EXHAUSTED:
             throw std::range_error("Invalid attempt to set element for the exhausted range");

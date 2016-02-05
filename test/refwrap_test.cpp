@@ -59,23 +59,22 @@ void test_transform_refwrapped() {
     li.emplace_back(91);
     li.emplace_back(92);
 
-    auto refwrapped = ra::refwrap(vec);
-    auto transformed = ra::transform(refwrapped, [](MyMovable& el) {
+    auto transformed = ra::transform(ra::refwrap(vec), [](MyMovable& el) {
         el.set_val(el.get_val() + 10);
         return std::ref(el);
     });
-    auto filtered = ra::filter(transformed, [](MyMovable& el) {
+    auto filtered = ra::filter(std::move(transformed), [](MyMovable& el) {
         return 52 != el.get_val();
     }, ra::ignore_offcast<MyMovable&>);
-    auto transformed2 = ra::transform(filtered, [](MyMovable& el) {
+    auto transformed2 = ra::transform(std::move(filtered), [](MyMovable& el) {
         el.set_val(el.get_val() - 10);
         return std::ref(el);
     });
     auto refwrapped2 = ra::refwrap(li);
-    auto concatted = ra::concat(transformed2, refwrapped2);
+    auto concatted = ra::concat(std::move(transformed2), std::move(refwrapped2));
 
     //auto res will work too
-    std::vector<std::reference_wrapper<MyMovable>> res = ra::emplace_to_vector(concatted);
+    std::vector<std::reference_wrapper<MyMovable>> res = ra::emplace_to_vector(std::move(concatted));
     slassert(4 == res.size());
     slassert(41 == res[0].get().get_val());
     slassert(43 == res[1].get().get_val());
@@ -97,15 +96,14 @@ void test_refwrap_to_value() {
     vec.emplace_back(42);
     vec.emplace_back(43);
     
-    auto refwrapped = ra::refwrap(vec);
-    auto transformed = ra::transform(refwrapped, [](MyMovable& el) {
+    auto transformed = ra::transform(ra::refwrap(vec), [](MyMovable& el) {
         return std::move(el);
     });
-    auto filtered = ra::filter(transformed, [](MyMovable& el) {
+    auto filtered = ra::filter(std::move(transformed), [](MyMovable& el) {
         return 42 != el.get_val();
     }, ra::ignore_offcast<MyMovable>);
     
-    auto res = ra::emplace_to_vector(filtered);
+    auto res = ra::emplace_to_vector(std::move(filtered));
     slassert(2 == res.size());
     slassert(41 == res[0].get_val());
     slassert(43 == res[1].get_val());
@@ -125,18 +123,15 @@ void test_const_ref() {
     const std::vector<MyMovable> vec2 = std::move(vec);
     const std::vector<MyMovable>& vec2ref = vec2;
     
-    auto refwrapped = ra::refwrap(vec2ref);
     int sum = 0;
-    auto transformed1 = ra::transform(refwrapped, [&sum](const MyMovable& el) {
+    auto transformed1 = ra::transform(ra::refwrap(vec2ref), [&sum](const MyMovable& el) {
         sum += el.get_val();
         return std::ref(el);
     });
-    auto filtered = ra::filter(transformed1, [](const MyMovable&) {
+    auto filtered = ra::filter(std::move(transformed1), [](const MyMovable&) {
         return false;
     }, ra::ignore_offcast<const MyMovable&>);
-    auto res = ra::emplace_to_vector(filtered);
-    
-//    std::cout << sum << std::endl;
+    auto res = ra::emplace_to_vector(std::move(filtered));
 }
 
 int main() {

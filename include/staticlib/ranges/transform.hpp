@@ -25,6 +25,7 @@
 #define STATICLIB_RANGES_TRANSFORM_HPP
 
 #include <iterator>
+#include <type_traits>
 #include <utility>
 
 namespace staticlib {
@@ -51,6 +52,16 @@ public:
     typedef std::nullptr_t difference_type;
     typedef std::nullptr_t pointer;
     typedef std::nullptr_t reference;
+
+    /**
+     * Constructor
+     * 
+     * @param source source iterator
+     * @param functor `FunctionObject` to apply to returned values
+     */
+    transformed_iter(Iter source_iter, Func& functor) :
+    source_iter(std::move(source_iter)),
+    functor(std::addressof(functor)) { }
     
     /**
      * Deleted copy constructor
@@ -87,16 +98,6 @@ public:
         this->functor = std::move(other.functor);
         return *this;
     }
-
-    /**
-     * Constructor
-     * 
-     * @param source source iterator
-     * @param functor `FunctionObject` to apply to returned values
-     */
-    transformed_iter(Iter source_iter, Func& functor) : 
-    source_iter(std::move(source_iter)), 
-    functor(&functor) { }
 
     /**
      * Delegated prefix operator implementation
@@ -140,6 +141,8 @@ public:
     }
 };
 
+} // namespace
+
 
 /**
  * Lazy implementation of `SinglePassRange` for `transform`  operation, 
@@ -148,7 +151,7 @@ public:
  */
 template <typename Range, typename Func>
 class transformed_range {
-    Range& source_range;
+    Range source_range;
     Func functor;
 
 public:
@@ -166,8 +169,20 @@ public:
     /**
      * Result iterator type
      */
-    typedef transformed_iter<source_iterator, value_type, Func> iterator;
+    typedef detail_transform::transformed_iter<source_iterator, value_type, Func> iterator;
 
+    /**
+     * Constructor, 
+     * created range wrapper will own specified ranges
+     * 
+     * @param range reference to source range
+     * @param functor transformation `FunctionObject`, can be move-only
+     */
+    template <class = typename std::enable_if<!std::is_lvalue_reference<Range>::value>::type>
+    transformed_range(Range&& source_range, Func functor) :
+    source_range(std::move(source_range)),
+    functor(std::move(functor)) { }
+    
     /**
      * Deleted copy constructor
      *
@@ -189,7 +204,8 @@ public:
      * @param other other instance
      */
     transformed_range(transformed_range&& other) :
-    source_range(other.source_range), functor(std::move(other.functor)) { }
+    source_range(std::move(other.source_range)), 
+    functor(std::move(other.functor)) { }
 
     /**
      * Deleted move assignment operator
@@ -200,21 +216,12 @@ public:
     transformed_range& operator=(transformed_range&& other) = delete;
 
     /**
-     * Constructor
-     * 
-     * @param range reference to source range
-     * @param functor transformation `FunctionObject`, can be move-only
-     */
-    transformed_range(Range& source_range, Func functor) : 
-    source_range(source_range), functor(std::move(functor)) { }
-
-    /**
      * Returns `begin` transformed iterator
      * 
      * @return `begin` iterator
      */
-    transformed_iter<source_iterator, value_type, Func> begin() {
-        return transformed_iter<source_iterator, value_type, Func>{std::move(source_range.begin()), functor};
+    detail_transform::transformed_iter<source_iterator, value_type, Func> begin() {
+        return detail_transform::transformed_iter<source_iterator, value_type, Func>{std::move(source_range.begin()), functor};
     }
 
     /**
@@ -222,12 +229,11 @@ public:
      * 
      * @return `past_the_end` iterator
      */
-    transformed_iter<source_iterator, value_type, Func> end() {
-        return transformed_iter<source_iterator, value_type, Func>{std::move(source_range.end()), functor};
+    detail_transform::transformed_iter<source_iterator, value_type, Func> end() {
+        return detail_transform::transformed_iter<source_iterator, value_type, Func>{std::move(source_range.end()), functor};
     }
 };
 
-} // namespace
 
 /**
  * Lazily transforms input range into output range applying functor to
@@ -238,9 +244,10 @@ public:
  * @param functor transformation `FunctionObject`, can be move-only
  * @return transformed range
  */
-template <typename Range, typename Func>
-detail_transform::transformed_range<Range, Func> transform(Range& range, Func functor) {
-    return detail_transform::transformed_range<Range, Func>(range, std::move(functor));
+template <typename Range, typename Func,
+        class = typename std::enable_if<!std::is_lvalue_reference<Range>::value>::type>
+transformed_range<Range, Func> transform(Range&& range, Func functor) {
+    return transformed_range<Range, Func>(std::move(range), std::move(functor));
 }
 
 } // namespace
