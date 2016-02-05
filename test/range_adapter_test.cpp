@@ -41,7 +41,11 @@ class MyMovableRange : public ra::range_adapter<MyMovableRange, MyMovable> {
 public:
     MyMovableRange(int max) :
     max(max) { }
-    
+
+    MyMovableRange(MyMovableRange&& other) :
+    max(other.max),
+    count(other.count) { }
+
 public:
     bool compute_next() {
         if (count < max) {
