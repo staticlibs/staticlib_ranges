@@ -28,7 +28,6 @@
 #include <type_traits>
 #include <utility>
 
-
 namespace staticlib {
 namespace ranges {
 
