@@ -178,7 +178,6 @@ public:
      * @param range reference to source range
      * @param functor transformation `FunctionObject`, can be move-only
      */
-    template <class = typename std::enable_if<!std::is_lvalue_reference<Range>::value>::type>
     transformed_range(Range&& source_range, Func functor) :
     source_range(std::move(source_range)),
     functor(std::move(functor)) { }

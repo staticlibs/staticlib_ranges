@@ -195,7 +195,6 @@ public:
      * @param source_range1 first source range
      * @param source_range2 second source range
      */
-    template <class = typename std::enable_if<!std::is_lvalue_reference<Range1>::value>::type>
     concatted_range(Range1&& source_range1, Range2&& source_range2) :
     source_range1(std::move(source_range1)),
     source_range2(std::move(source_range2)) { }

@@ -231,7 +231,6 @@ public:
      * @param predicate `Predicate` to check source element againt it
      * @param offcast_dest `FunctionObject` to apply offcast elements to it
      */
-    template <class = typename std::enable_if<!std::is_lvalue_reference<Range>::value>::type>
     filtered_range(Range&& source_range, Pred predicate, Dest offcast_dest) :
     source_range(std::move(source_range)),
     predicate(std::move(predicate)),
