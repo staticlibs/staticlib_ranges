@@ -140,6 +140,11 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 Changelog
 ---------
 
+**2016-07-10**
+
+ * replace `typedef` with type aliases
+ * version 1.2.3
+
 **2016-01-22**
 
  * version 1.2.2
