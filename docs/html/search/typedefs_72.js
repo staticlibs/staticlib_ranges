@@ -1,4 +1,0 @@
-var searchData=
-[
-  ['reference',['reference',['../classstaticlib_1_1ranges_1_1detail__concat_1_1concatted__iter.html#ac0a9dbfa92f8ec881a2d25c2c36beb67',1,'staticlib::ranges::detail_concat::concatted_iter::reference()'],['../classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#a8a05dacb95d861e81cc7730917d4a311',1,'staticlib::ranges::detail_filter::filtered_iter::reference()'],['../classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__iter.html#a34551850068512ff4c84141398cd5b8d',1,'staticlib::ranges::detail_refwrap::refwrapped_iter::reference()'],['../classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__iter.html#ad4a1d428c665f93a2a04cd1854ec6e4d',1,'staticlib::ranges::detail_refwrap::refwrapped_const_iter::reference()'],['../classstaticlib_1_1ranges_1_1detail__transform_1_1transformed__iter.html#af723c758d7d04da476f2606f2a3cf06c',1,'staticlib::ranges::detail_transform::transformed_iter::reference()']]]
-];

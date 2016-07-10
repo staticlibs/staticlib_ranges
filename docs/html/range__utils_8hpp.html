@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">staticlib_ranges
-   &#160;<span id="projectnumber">1.2.1</span>
+   &#160;<span id="projectnumber">1.2.3</span>
    </div>
   </td>
  </tr>
@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -104,12 +104,12 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac1a41c6bdcd564e63ea69b86a3fe6b6d"><td class="memTemplParams" colspan="2">template&lt;typename Range &gt; </td></tr>
-<tr class="memitem:ac1a41c6bdcd564e63ea69b86a3fe6b6d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#ac1a41c6bdcd564e63ea69b86a3fe6b6d">staticlib::ranges::emplace_to_vector</a> (Range &amp;&amp;range)-&gt; std</td></tr>
-<tr class="memdesc:ac1a41c6bdcd564e63ea69b86a3fe6b6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from the specified range into vector using <code>emplace_back</code>  <a href="#ac1a41c6bdcd564e63ea69b86a3fe6b6d"></a><br/></td></tr>
-<tr class="memitem:a7c594aee365eaa348a9a3edf3611aa4a"><td class="memTemplParams" colspan="2">template&lt;typename Dest , typename Range &gt; </td></tr>
-<tr class="memitem:a7c594aee365eaa348a9a3edf3611aa4a"><td class="memTemplItemLeft" align="right" valign="top">Dest &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a7c594aee365eaa348a9a3edf3611aa4a">staticlib::ranges::emplace_to</a> (Dest &amp;dest, Range &amp;&amp;range)</td></tr>
-<tr class="memdesc:a7c594aee365eaa348a9a3edf3611aa4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from the specified range into specified destination using <code>emplace_back</code>.  <a href="#a7c594aee365eaa348a9a3edf3611aa4a"></a><br/></td></tr>
+<tr class="memitem:a27a19236f81e2600986c328af932e94e"><td class="memTemplParams" colspan="2">template&lt;typename Range , class  = typename std::enable_if&lt;!std::is_lvalue_reference&lt;Range&gt;::value&gt;::type&gt; </td></tr>
+<tr class="memitem:a27a19236f81e2600986c328af932e94e"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a27a19236f81e2600986c328af932e94e">staticlib::ranges::emplace_to_vector</a> (Range &amp;&amp;range)-&gt; std</td></tr>
+<tr class="memdesc:a27a19236f81e2600986c328af932e94e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from the specified range into vector using <code>emplace_back</code>  <a href="#a27a19236f81e2600986c328af932e94e"></a><br/></td></tr>
+<tr class="memitem:ab52122c4e40e8fcd02d3432d847315b1"><td class="memTemplParams" colspan="2">template&lt;typename Dest , typename Range , class  = typename std::enable_if&lt;!std::is_lvalue_reference&lt;Range&gt;::value&gt;::type&gt; </td></tr>
+<tr class="memitem:ab52122c4e40e8fcd02d3432d847315b1"><td class="memTemplItemLeft" align="right" valign="top">Dest &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#ab52122c4e40e8fcd02d3432d847315b1">staticlib::ranges::emplace_to</a> (Dest &amp;dest, Range &amp;&amp;range)</td></tr>
+<tr class="memdesc:ab52122c4e40e8fcd02d3432d847315b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves all the elements from the specified range into specified destination using <code>emplace_back</code>.  <a href="#ab52122c4e40e8fcd02d3432d847315b1"></a><br/></td></tr>
 <tr class="memitem:a74be3b78fbce7f7c9e2c65692f5af579"><td class="memTemplParams" colspan="2">template&lt;typename Elem &gt; </td></tr>
 <tr class="memitem:a74be3b78fbce7f7c9e2c65692f5af579"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#a74be3b78fbce7f7c9e2c65692f5af579">staticlib::ranges::ignore_offcast</a> (Elem el)</td></tr>
 <tr class="memdesc:a74be3b78fbce7f7c9e2c65692f5af579"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility function to use as an offcast <code>FunctionObject</code> argument for <code>filter</code> function.  <a href="#a74be3b78fbce7f7c9e2c65692f5af579"></a><br/></td></tr>
@@ -126,7 +126,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 27 2015 22:08:14 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 10 2016 21:10:59 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

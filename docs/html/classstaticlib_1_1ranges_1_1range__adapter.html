@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">staticlib_ranges
-   &#160;<span id="projectnumber">1.2.1</span>
+   &#160;<span id="projectnumber">1.2.3</span>
    </div>
   </td>
  </tr>
@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -87,7 +87,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
@@ -102,11 +101,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><code>#include &lt;<a class="el" href="range__adapter_8hpp_source.html">staticlib/ranges/range_adapter.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a7dd9ef9187f0bfdb59a5d069ce3e6d21"><td class="memItemLeft" align="right" valign="top">typedef Elem&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1range__adapter.html#a7dd9ef9187f0bfdb59a5d069ce3e6d21">value_type</a></td></tr>
-<tr class="memdesc:a7dd9ef9187f0bfdb59a5d069ce3e6d21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result value type of iterators returned from this range.  <a href="#a7dd9ef9187f0bfdb59a5d069ce3e6d21"></a><br/></td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a42ab2a9503dda0de3c71a05563f066a0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1range__adapter.html#a42ab2a9503dda0de3c71a05563f066a0">~range_adapter</a> ()</td></tr>
@@ -143,24 +137,7 @@ class staticlib::ranges::range_adapter&lt; Range, Elem &gt;</h3>
 
 <p>Abstract Range for move-only objects, implements all the boilerplate to support C++11 <code>for</code> loops. </p>
 <p>Inheritors should implement a single method <code>compute_next</code> that should set next element as <code>current</code> using <code>set_current</code> and return <code>true</code>, or return <code>false</code> if range is exhausted. Inheritors should use CRTP - <code>compute_next</code> will be called using compile-time polymorphism. </p>
-</div><h2>Member Typedef Documentation</h2>
-<a class="anchor" id="a7dd9ef9187f0bfdb59a5d069ce3e6d21"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Range , typename Elem &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef Elem <a class="el" href="classstaticlib_1_1ranges_1_1range__adapter.html">staticlib::ranges::range_adapter</a>&lt; Range, Elem &gt;::<a class="el" href="classstaticlib_1_1ranges_1_1range__adapter.html#a7dd9ef9187f0bfdb59a5d069ce3e6d21">value_type</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Result value type of iterators returned from this range. </p>
-
-</div>
-</div>
-<h2>Constructor &amp; Destructor Documentation</h2>
+</div><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a23e3377074103f273c2934bd0cc1ada4"></a>
 <div class="memitem">
 <div class="memproto">
@@ -475,7 +452,7 @@ template&lt;typename Range , typename Elem &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 27 2015 22:08:14 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 10 2016 21:10:59 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

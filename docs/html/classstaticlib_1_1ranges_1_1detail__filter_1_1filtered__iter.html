@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">staticlib_ranges
-   &#160;<span id="projectnumber">1.2.1</span>
+   &#160;<span id="projectnumber">1.2.3</span>
    </div>
   </td>
  </tr>
@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -87,7 +87,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -100,16 +99,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><code>#include &lt;<a class="el" href="filter_8hpp_source.html">staticlib/ranges/filter.hpp</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:ae8cd6570e4ac22532204539d4248e4d6"><td class="memItemLeft" align="right" valign="top">typedef Elem&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#ae8cd6570e4ac22532204539d4248e4d6">value_type</a></td></tr>
-<tr class="memitem:a113a411655b39b617d234016df6e3256"><td class="memItemLeft" align="right" valign="top">typedef std::input_iterator_tag&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#a113a411655b39b617d234016df6e3256">iterator_category</a></td></tr>
-<tr class="memitem:aa1ff84ad0a045e15b1268f35a7320de3"><td class="memItemLeft" align="right" valign="top">typedef std::nullptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#aa1ff84ad0a045e15b1268f35a7320de3">difference_type</a></td></tr>
-<tr class="memitem:ab366f9b608e3dffc27a0c29cdaf3629d"><td class="memItemLeft" align="right" valign="top">typedef std::nullptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#ab366f9b608e3dffc27a0c29cdaf3629d">pointer</a></td></tr>
-<tr class="memitem:a8a05dacb95d861e81cc7730917d4a311"><td class="memItemLeft" align="right" valign="top">typedef std::nullptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#a8a05dacb95d861e81cc7730917d4a311">reference</a></td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a98016449a49ceba91cd93b45c84ff777"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#a98016449a49ceba91cd93b45c84ff777">filtered_iter</a> (Iter source_iter, Iter source_iter_end, Pred &amp;predicate, Dest &amp;offcast_dest)</td></tr>
+<tr class="memdesc:a98016449a49ceba91cd93b45c84ff777"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a98016449a49ceba91cd93b45c84ff777"></a><br/></td></tr>
 <tr class="memitem:a030aac7fac5517320e92316dddc4adbe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#a030aac7fac5517320e92316dddc4adbe">filtered_iter</a> (const <a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">filtered_iter</a> &amp;other)</td></tr>
 <tr class="memdesc:a030aac7fac5517320e92316dddc4adbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deleted copy constructor.  <a href="#a030aac7fac5517320e92316dddc4adbe"></a><br/></td></tr>
 <tr class="memitem:a43ad4007b7eca300ccd487823a6c1955"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">filtered_iter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#a43ad4007b7eca300ccd487823a6c1955">operator=</a> (const <a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">filtered_iter</a> &amp;other)</td></tr>
@@ -118,8 +111,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ad0e7aa3fbace62ee0c2d1b3e0ff6beee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor.  <a href="#ad0e7aa3fbace62ee0c2d1b3e0ff6beee"></a><br/></td></tr>
 <tr class="memitem:ae7e34d573229f7bf6be27e275c35c424"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">filtered_iter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#ae7e34d573229f7bf6be27e275c35c424">operator=</a> (<a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">filtered_iter</a> &amp;&amp;other)</td></tr>
 <tr class="memdesc:ae7e34d573229f7bf6be27e275c35c424"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator.  <a href="#ae7e34d573229f7bf6be27e275c35c424"></a><br/></td></tr>
-<tr class="memitem:a98016449a49ceba91cd93b45c84ff777"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#a98016449a49ceba91cd93b45c84ff777">filtered_iter</a> (Iter source_iter, Iter source_iter_end, Pred &amp;predicate, Dest &amp;offcast_dest)</td></tr>
-<tr class="memdesc:a98016449a49ceba91cd93b45c84ff777"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a98016449a49ceba91cd93b45c84ff777"></a><br/></td></tr>
 <tr class="memitem:a73c3d07389e7561281c8087a0efa8eba"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#a73c3d07389e7561281c8087a0efa8eba">~filtered_iter</a> ()</td></tr>
 <tr class="memdesc:a73c3d07389e7561281c8087a0efa8eba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor to clean-up current object.  <a href="#a73c3d07389e7561281c8087a0efa8eba"></a><br/></td></tr>
 <tr class="memitem:a74b55016beb23668308cb0363853af65"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">filtered_iter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#a74b55016beb23668308cb0363853af65">operator++</a> ()</td></tr>
@@ -137,78 +128,66 @@ class staticlib::ranges::detail_filter::filtered_iter&lt; Iter, Elem, Pred, Dest
 
 <p>Lazy <code>InputIterator</code> implementation for <code>filter</code> operation. </p>
 <p>Does not support <code>CopyConstructible</code>, <code>CopyAssignable</code> and <code>Swappable</code>. Moves element from source iterator, checks it against specified <code>Predicate</code> and on success moves it out from <code>operator*</code> method. Elements, that do not match predicate will be applied to specified <code>FunctionObject</code>. </p>
-</div><h2>Member Typedef Documentation</h2>
-<a class="anchor" id="aa1ff84ad0a045e15b1268f35a7320de3"></a>
+</div><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a98016449a49ceba91cd93b45c84ff777"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Iter , typename Elem , typename Pred , typename Dest &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::nullptr_t <a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">staticlib::ranges::detail_filter::filtered_iter</a>&lt; Iter, Elem, Pred, Dest &gt;::<a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#aa1ff84ad0a045e15b1268f35a7320de3">difference_type</a></td>
+          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">staticlib::ranges::detail_filter::filtered_iter</a>&lt; Iter, Elem, Pred, Dest &gt;::<a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">filtered_iter</a> </td>
+          <td>(</td>
+          <td class="paramtype">Iter&#160;</td>
+          <td class="paramname"><em>source_iter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iter&#160;</td>
+          <td class="paramname"><em>source_iter_end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Pred &amp;&#160;</td>
+          <td class="paramname"><em>predicate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Dest &amp;&#160;</td>
+          <td class="paramname"><em>offcast_dest</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source_iter</td><td>source <code>begin</code> iterator </td></tr>
+    <tr><td class="paramname">source_iter_end</td><td>source <code>past_the_end</code> iterator </td></tr>
+    <tr><td class="paramname">predicate</td><td>filtering <code>Predicate</code> </td></tr>
+    <tr><td class="paramname">offcast_dest</td><td><code>FunctionObject</code> for offcast elements </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a class="anchor" id="a113a411655b39b617d234016df6e3256"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Iter , typename Elem , typename Pred , typename Dest &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef std::input_iterator_tag <a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">staticlib::ranges::detail_filter::filtered_iter</a>&lt; Iter, Elem, Pred, Dest &gt;::<a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#a113a411655b39b617d234016df6e3256">iterator_category</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ab366f9b608e3dffc27a0c29cdaf3629d"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Iter , typename Elem , typename Pred , typename Dest &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef std::nullptr_t <a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">staticlib::ranges::detail_filter::filtered_iter</a>&lt; Iter, Elem, Pred, Dest &gt;::<a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#ab366f9b608e3dffc27a0c29cdaf3629d">pointer</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a8a05dacb95d861e81cc7730917d4a311"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Iter , typename Elem , typename Pred , typename Dest &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef std::nullptr_t <a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">staticlib::ranges::detail_filter::filtered_iter</a>&lt; Iter, Elem, Pred, Dest &gt;::<a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#a8a05dacb95d861e81cc7730917d4a311">reference</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ae8cd6570e4ac22532204539d4248e4d6"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Iter , typename Elem , typename Pred , typename Dest &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef Elem <a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">staticlib::ranges::detail_filter::filtered_iter</a>&lt; Iter, Elem, Pred, Dest &gt;::<a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#ae8cd6570e4ac22532204539d4248e4d6">value_type</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a030aac7fac5517320e92316dddc4adbe"></a>
 <div class="memitem">
 <div class="memproto">
@@ -263,65 +242,6 @@ template&lt;typename Iter , typename Elem , typename Pred , typename Dest &gt; <
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">other</td><td>other instance </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a98016449a49ceba91cd93b45c84ff777"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Iter , typename Elem , typename Pred , typename Dest &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">staticlib::ranges::detail_filter::filtered_iter</a>&lt; Iter, Elem, Pred, Dest &gt;::<a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">filtered_iter</a> </td>
-          <td>(</td>
-          <td class="paramtype">Iter&#160;</td>
-          <td class="paramname"><em>source_iter</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iter&#160;</td>
-          <td class="paramname"><em>source_iter_end</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Pred &amp;&#160;</td>
-          <td class="paramname"><em>predicate</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Dest &amp;&#160;</td>
-          <td class="paramname"><em>offcast_dest</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Constructor. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">source_iter</td><td>source <code>begin</code> iterator </td></tr>
-    <tr><td class="paramname">source_iter_end</td><td>source <code>past_the_end</code> iterator </td></tr>
-    <tr><td class="paramname">predicate</td><td>filtering <code>Predicate</code> </td></tr>
-    <tr><td class="paramname">offcast_dest</td><td><code>FunctionObject</code> for offcast elements </td></tr>
   </table>
   </dd>
 </dl>
@@ -546,7 +466,7 @@ template&lt;typename Iter , typename Elem , typename Pred , typename Dest &gt; <
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 27 2015 22:08:14 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 10 2016 21:10:59 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

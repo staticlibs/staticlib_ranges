@@ -1,4 +1,0 @@
-var searchData=
-[
-  ['pointer',['pointer',['../classstaticlib_1_1ranges_1_1detail__concat_1_1concatted__iter.html#a45efcf0f75eb8fd17e70e54edbe2c3e2',1,'staticlib::ranges::detail_concat::concatted_iter::pointer()'],['../classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#ab366f9b608e3dffc27a0c29cdaf3629d',1,'staticlib::ranges::detail_filter::filtered_iter::pointer()'],['../classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__iter.html#aa1e8bb46441c186a9473cf79664bd03d',1,'staticlib::ranges::detail_refwrap::refwrapped_iter::pointer()'],['../classstaticlib_1_1ranges_1_1detail__refwrap_1_1refwrapped__const__iter.html#a9d256ddb9ac3fcb6f47ce1fbe0d2042b',1,'staticlib::ranges::detail_refwrap::refwrapped_const_iter::pointer()'],['../classstaticlib_1_1ranges_1_1detail__transform_1_1transformed__iter.html#a4036e61b17a0702953170978793ea873',1,'staticlib::ranges::detail_transform::transformed_iter::pointer()']]]
-];

@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">staticlib_ranges
-   &#160;<span id="projectnumber">1.2.1</span>
+   &#160;<span id="projectnumber">1.2.3</span>
    </div>
   </td>
  </tr>
@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -104,8 +104,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html">staticlib::ranges::detail_filter::filtered_iter&lt; Iter, Elem, Pred, Dest &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazy <code>InputIterator</code> implementation for <code>filter</code> operation.  <a href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__iter.html#details">More...</a><br/></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__range.html">staticlib::ranges::detail_filter::filtered_range&lt; Range, Pred, Dest &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazy implementation of <code>SinglePassRange</code> for <code>filter</code> operation, after the pass all accessed elements of source range will be moved from (will retain in "valid but unspecified" state).  <a href="classstaticlib_1_1ranges_1_1detail__filter_1_1filtered__range.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1ranges_1_1filtered__range.html">staticlib::ranges::filtered_range&lt; Range, Pred, Dest &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazy implementation of <code>SinglePassRange</code> for <code>filter</code> operation, after the pass all accessed elements of source range will be moved from (will retain in "valid but unspecified" state).  <a href="classstaticlib_1_1ranges_1_1filtered__range.html#details">More...</a><br/></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -115,15 +115,14 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:af4c611601c827b6e7d18b9d3c2e72a3e"><td class="memTemplParams" colspan="2">template&lt;typename Range , typename Pred , typename Dest &gt; </td></tr>
-<tr class="memitem:af4c611601c827b6e7d18b9d3c2e72a3e"><td class="memTemplItemLeft" align="right" valign="top">detail_filter::filtered_range<br class="typebreak"/>
-&lt; Range, Pred, Dest &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#af4c611601c827b6e7d18b9d3c2e72a3e">staticlib::ranges::filter</a> (Range &amp;source_range, Pred predicate, Dest offcast_dest)</td></tr>
-<tr class="memdesc:af4c611601c827b6e7d18b9d3c2e72a3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily filters input range into output range checking each element using specified <code>Predicate</code>.  <a href="#af4c611601c827b6e7d18b9d3c2e72a3e"></a><br/></td></tr>
+<tr class="memitem:aaf54ab5ff4b924f39e0d00b3a23695d3"><td class="memTemplParams" colspan="2">template&lt;typename Range , typename Pred , typename Dest , class  = typename std::enable_if&lt;!std::is_lvalue_reference&lt;Range&gt;::value&gt;::type&gt; </td></tr>
+<tr class="memitem:aaf54ab5ff4b924f39e0d00b3a23695d3"><td class="memTemplItemLeft" align="right" valign="top">filtered_range&lt; Range, Pred, Dest &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestaticlib_1_1ranges.html#aaf54ab5ff4b924f39e0d00b3a23695d3">staticlib::ranges::filter</a> (Range &amp;&amp;source_range, Pred predicate, Dest offcast_dest)</td></tr>
+<tr class="memdesc:aaf54ab5ff4b924f39e0d00b3a23695d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lazily filters input range into output range checking each element using specified <code>Predicate</code>.  <a href="#aaf54ab5ff4b924f39e0d00b3a23695d3"></a><br/></td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 27 2015 22:08:14 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 10 2016 21:10:59 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>
