@@ -25,6 +25,7 @@
 #define STATICLIB_RANGES_TRANSFORM_HPP
 
 #include <iterator>
+#include <memory>
 #include <type_traits>
 #include <utility>
 
