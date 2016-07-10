@@ -25,6 +25,7 @@
 
 #include <iostream>
 #include <list>
+#include <map>
 #include <memory>
 #include <sstream>
 #include <vector>
@@ -35,6 +36,7 @@
 #include "staticlib/ranges/concat.hpp"
 #include "staticlib/ranges/filter.hpp"
 #include "staticlib/ranges/range_utils.hpp"
+#include "staticlib/ranges/refwrap.hpp"
 
 #include "domain_classes.hpp"
 
@@ -87,10 +89,24 @@ void test_range() {
     slassert("54_42" == res[3]->get_str());
 }
 
+void test_map() {
+    std::map<const std::string, std::unique_ptr<MyInt>> map{};
+    map.insert(std::pair<const std::string, std::unique_ptr<MyInt>>("foo", std::unique_ptr<MyInt>(new MyInt(41))));
+    map.insert(std::pair<const std::string, std::unique_ptr<MyInt>>("bar", std::unique_ptr<MyInt>(new MyInt(42))));
+    map.insert(std::pair<const std::string, std::unique_ptr<MyInt>>("baz", std::unique_ptr<MyInt>(new MyInt(43))));
+    auto wrapped = sit::refwrap(map);
+    auto ra = sit::transform(std::move(wrapped), [](std::pair<const std::string, std::unique_ptr<MyInt>>& el) {
+        return el.second->get_int();
+    });
+    auto res = sit::emplace_to_vector(std::move(ra));
+    slassert(3 == res.size());
+}
+
 int main() {
     try {
         test_vector();
         test_range();
+        test_map();
     } catch (const std::exception& e) {
         std::cout << e.what() << std::endl;
         return 1;
