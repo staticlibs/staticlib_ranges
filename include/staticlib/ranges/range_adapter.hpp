@@ -217,7 +217,7 @@ public:
     /**
      * Result value type of iterators returned from this range
      */
-    typedef Elem value_type;
+    using value_type = Elem;
     
 
     /**

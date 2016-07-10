@@ -54,13 +54,13 @@ class filtered_iter {
     Elem* current_ptr = nullptr;
     
 public:
-    typedef Elem value_type;
+    using value_type = Elem;
     // does not support input_iterator, but valid tag is required
     // for std::iterator_traits with libc++ on mac
-    typedef std::input_iterator_tag iterator_category;
-    typedef std::nullptr_t difference_type;
-    typedef std::nullptr_t pointer;
-    typedef std::nullptr_t reference;
+    using iterator_category = std::input_iterator_tag;
+    using difference_type = std::nullptr_t;
+    using pointer = std::nullptr_t;
+    using reference = std::nullptr_t;
 
     /**
      * Constructor
@@ -215,12 +215,12 @@ public:
     /**
      * Type of iterator of this range
      */
-    typedef decltype(std::declval<decltype(source_range)>().begin()) iterator;
+    using iterator = decltype(std::declval<decltype(source_range)>().begin());
 
     /**
      * Result value type of iterators returned from this range
      */
-    typedef typename std::iterator_traits<iterator>::value_type value_type;
+    using value_type = typename std::iterator_traits<iterator>::value_type;
 
     /**
      * Constructor,

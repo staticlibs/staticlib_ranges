@@ -45,13 +45,13 @@ class transformed_iter {
     Func* functor;
 
 public:
-    typedef Elem value_type;
+    using value_type = Elem;
     // does not support input_iterator, but valid tag is required
     // for std::iterator_traits with libc++ on mac
-    typedef std::input_iterator_tag iterator_category;
-    typedef std::nullptr_t difference_type;
-    typedef std::nullptr_t pointer;
-    typedef std::nullptr_t reference;
+    using iterator_category = std::input_iterator_tag;
+    using difference_type = std::nullptr_t;
+    using pointer = std::nullptr_t;
+    using reference = std::nullptr_t;
 
     /**
      * Constructor
@@ -158,18 +158,18 @@ public:
     /**
      * Type of iterator of source range
      */
-    typedef decltype(std::declval<decltype(source_range)>().begin()) source_iterator;
+    using source_iterator = decltype(std::declval<decltype(source_range)>().begin());
            
     /**
      * Result value type of iterators returned from this range
      */
     // https://connect.microsoft.com/VisualStudio/feedback/details/797682/c-decltype-of-class-member-access-incompletely-implemented
-    typedef decltype(std::declval<decltype(functor)>()(std::move(*std::declval<decltype(source_range)>().begin()))) value_type;
+    using value_type = decltype(std::declval<decltype(functor)>()(std::move(*std::declval<decltype(source_range)>().begin())));
     
     /**
      * Result iterator type
      */
-    typedef detail_transform::transformed_iter<source_iterator, value_type, Func> iterator;
+    using iterator = detail_transform::transformed_iter<source_iterator, value_type, Func>;
 
     /**
      * Constructor, 

@@ -44,13 +44,13 @@ class refwrapped_iter {
     Iter source_iter;
 
 public:
-    typedef std::reference_wrapper<Elem> value_type;
+    using value_type = std::reference_wrapper<Elem>;
     // does not support input_iterator, but valid tag is required
     // for std::iterator_traits with libc++ on mac
-    typedef std::input_iterator_tag iterator_category;
-    typedef std::nullptr_t difference_type;
-    typedef std::nullptr_t pointer;
-    typedef std::nullptr_t reference;
+    using iterator_category = std::input_iterator_tag;
+    using difference_type = std::nullptr_t;
+    using pointer = std::nullptr_t;
+    using reference = std::nullptr_t;
 
     /**
      * Constructor
@@ -148,12 +148,12 @@ class refwrapped_const_iter  {
     Iter source_iter;
 
 public:
-    typedef std::reference_wrapper<const Elem> value_type;
+    using value_type = std::reference_wrapper<const Elem>;
     // do not support input_iterator
-    typedef std::input_iterator_tag iterator_category;
-    typedef std::nullptr_t difference_type;
-    typedef std::nullptr_t pointer;
-    typedef std::nullptr_t reference;
+    using iterator_category = std::input_iterator_tag;
+    using difference_type = std::nullptr_t;
+    using pointer = std::nullptr_t;
+    using reference = std::nullptr_t;
 
     /**
      * Constructor
@@ -252,17 +252,17 @@ public:
     /**
      * Type of iterator of this range
      */
-    typedef decltype(std::declval<decltype(source_range)>().begin()) iterator;
+    using iterator = decltype(std::declval<decltype(source_range)>().begin());
 
     /**
      * Result unwrapped value type of of iterators returned from this range
      */
-    typedef typename std::iterator_traits<iterator>::value_type value_type_unwrapped;
+    using value_type_unwrapped = typename std::iterator_traits<iterator>::value_type;
 
     /**
      * Result value type of iterators returned from this range
      */
-    typedef typename std::reference_wrapper<value_type_unwrapped> value_type;
+    using value_type = typename std::reference_wrapper<value_type_unwrapped>;
 
     /**
      * Constructor,
@@ -335,17 +335,17 @@ public:
     /**
      * Type of iterator of this range
      */
-    typedef decltype(std::declval<decltype(source_range)>().begin()) iterator;
+    using iterator = decltype(std::declval<decltype(source_range)>().begin());
 
     /**
      * Result unwrapped value type of of iterators returned from this range
      */
-    typedef typename std::iterator_traits<iterator>::value_type value_type_unwrapped;
+    using value_type_unwrapped = typename std::iterator_traits<iterator>::value_type;
 
     /**
      * Result value type of iterators returned from this range
      */
-    typedef typename std::reference_wrapper<value_type_unwrapped> value_type;
+    using value_type = typename std::reference_wrapper<value_type_unwrapped>;
 
     /**
      * Constructor,

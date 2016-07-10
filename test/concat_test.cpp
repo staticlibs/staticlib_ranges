@@ -39,7 +39,7 @@
 namespace ra = staticlib::ranges;
 
 // C++11 poor-mans variant of auto return
-typedef ra::concatted_range<std::vector<std::unique_ptr<MyInt>>, std::list<std::unique_ptr<MyInt>>> auto_1;
+using auto_1 = ra::concatted_range<std::vector<std::unique_ptr<MyInt>>, std::list<std::unique_ptr<MyInt>>>;
 
 auto_1 fun() {
     auto vec = std::vector<std::unique_ptr<MyInt>>{};

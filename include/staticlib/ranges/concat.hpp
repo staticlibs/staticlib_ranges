@@ -45,13 +45,13 @@ class concatted_iter {
     Iter2 source_iter2;
 
 public:
-    typedef Elem value_type;
+    using value_type = Elem;
     // does not support input_iterator, but valid tag is required
     // for std::iterator_traits with libc++ on mac
-    typedef std::input_iterator_tag iterator_category;
-    typedef std::nullptr_t difference_type;
-    typedef std::nullptr_t pointer;
-    typedef std::nullptr_t reference;
+    using iterator_category = std::input_iterator_tag;
+    using difference_type = std::nullptr_t;
+    using pointer = std::nullptr_t;
+    using reference = std::nullptr_t;
 
     /**
      * Constructor
@@ -177,15 +177,15 @@ public:
     /**
      * Type of iterator of first source range
      */
-    typedef decltype(std::declval<decltype(source_range1)>().begin()) iterator;
+    using iterator = decltype(std::declval<decltype(source_range1)>().begin());
     /**
      * Type of iterator of second source range
      */
-    typedef decltype(std::declval<decltype(source_range2)>().begin()) iterator2;
+    using iterator2 = decltype(std::declval<decltype(source_range2)>().begin());
     /**
      * Result value type of iterators returned from this range
      */
-    typedef typename std::iterator_traits<iterator>::value_type value_type;
+    using value_type = typename std::iterator_traits<iterator>::value_type;
 
     /**
      * Constructor,
