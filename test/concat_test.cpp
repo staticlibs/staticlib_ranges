@@ -36,10 +36,10 @@
 #include "domain_classes.hpp"
 
 
-namespace ra = staticlib::ranges;
+namespace sr = staticlib::ranges;
 
 // C++11 poor-mans variant of auto return
-using auto_1 = ra::concatted_range<std::vector<std::unique_ptr<MyInt>>, std::list<std::unique_ptr<MyInt>>>;
+using auto_1 = sr::concatted_range<std::vector<std::unique_ptr<MyInt>>, std::list<std::unique_ptr<MyInt>>>;
 
 auto_1 fun() {
     auto vec = std::vector<std::unique_ptr<MyInt>>{};
@@ -50,7 +50,7 @@ auto_1 fun() {
     list.emplace_back(new MyInt(42));
     list.emplace_back(new MyInt(43));
 
-    return ra::concat(std::move(vec), std::move(list));
+    return sr::concat(std::move(vec), std::move(list));
 }
 
 void test_fromfun() {
@@ -74,7 +74,7 @@ void test_containers() {
     list.emplace_back(new MyInt(42));
     list.emplace_back(new MyInt(43));
     
-    auto concatted = ra::concat(std::move(vec), std::move(list));
+    auto concatted = sr::concat(std::move(vec), std::move(list));
     auto res = concatted.to_vector();
     
     slassert(4 == res.size());
@@ -90,7 +90,7 @@ void test_empty_first() {
     vec.emplace_back(new MyInt(40));
     vec.emplace_back(new MyInt(41));
     
-    auto range = ra::concat(std::move(vec_empty), std::move(vec));
+    auto range = sr::concat(std::move(vec_empty), std::move(vec));
     auto res = range.to_vector();
     
     slassert(2 == res.size());
@@ -104,7 +104,7 @@ void test_empty_second() {
     vec.emplace_back(new MyInt(40));
     vec.emplace_back(new MyInt(41));
 
-    auto range = ra::concat(std::move(vec), std::move(vec_empty));
+    auto range = sr::concat(std::move(vec), std::move(vec_empty));
     auto res = range.to_vector();
     
     slassert(2 == res.size());
@@ -116,7 +116,7 @@ void test_empty_both() {
     auto vec_empty1 = std::vector<std::unique_ptr<MyInt>>{};
     auto vec_empty2 = std::vector<std::unique_ptr<MyInt>>{};
 
-    auto range = ra::concat(std::move(vec_empty1), std::move(vec_empty2));
+    auto range = sr::concat(std::move(vec_empty1), std::move(vec_empty2));
     auto res = range.to_vector();
     
     slassert(0 == res.size());
@@ -132,13 +132,13 @@ void test_ranges() {
     list.emplace_back(new MyInt(43));
     list.emplace_back(new MyInt(44));
     
-    auto transformed = ra::transform(std::move(vec), [](std::unique_ptr<MyInt> el) {
+    auto transformed = sr::transform(std::move(vec), [](std::unique_ptr<MyInt> el) {
         return std::unique_ptr<MyInt>(new MyInt(el->get_int() - 10));
     });
-    auto filtered = ra::filter(std::move(list), [](std::unique_ptr<MyInt>& el) {
+    auto filtered = sr::filter(std::move(list), [](std::unique_ptr<MyInt>& el) {
         return 42 != el->get_int();
-    }, ra::ignore_offcast<std::unique_ptr<MyInt>>);
-    auto concatted = ra::concat(std::move(transformed), std::move(filtered));
+    }, sr::ignore_offcast<std::unique_ptr<MyInt>>);
+    auto concatted = sr::concat(std::move(transformed), std::move(filtered));
     auto res = concatted.to_vector();
 
     slassert(4 == res.size());
@@ -158,9 +158,35 @@ void test_moved() {
     list.emplace_back(new MyInt(43));
     list.emplace_back(new MyInt(44));
     
-    ra::concat(std::move(vec), std::move(list));
+    sr::concat(std::move(vec), std::move(list));
     slassert(vec.empty());
     slassert(list.empty());
+}
+
+void test_lvalue() {
+    auto vec = std::vector<std::unique_ptr<MyInt>>();
+    vec.emplace_back(new MyInt(40));
+    vec.emplace_back(new MyInt(41));
+
+    auto list = std::list<std::unique_ptr<MyInt>>();
+    list.emplace_back(new MyInt(42));
+    list.emplace_back(new MyInt(43));
+    list.emplace_back(new MyInt(44));
+    
+    auto ra = sr::concat(vec, list);
+    auto res = ra.to_vector(); // contains references
+    
+    slassert(2 == vec.size());
+    slassert(40 == vec[0]->get_int());
+    slassert(41 == vec[1]->get_int());
+    slassert(3 == list.size());
+    slassert(42 == (*list.begin())->get_int());
+    slassert(5 == res.size());
+    slassert(40 == res[0].get()->get_int());
+    slassert(41 == res[1].get()->get_int());
+    slassert(42 == res[2].get()->get_int());
+    slassert(43 == res[3].get()->get_int());
+    slassert(44 == res[4].get()->get_int());
 }
 
 int main() {
@@ -172,6 +198,7 @@ int main() {
         test_empty_both();
         test_ranges();
         test_moved();
+        test_lvalue();
     } catch (const std::exception& e) {
         std::cout << e.what() << std::endl;
         return 1;

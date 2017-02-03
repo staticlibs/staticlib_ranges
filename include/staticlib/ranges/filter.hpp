@@ -31,6 +31,8 @@
 #include <utility>
 #include <vector>
 
+#include "staticlib/ranges/refwrap.hpp"
+
 namespace staticlib {
 namespace ranges {
 
@@ -197,6 +199,23 @@ private:
     
 };
 
+/**
+ * Helper template to be used with
+ * reference input range when filtered out elements
+ * can be safely discarded
+ */
+template<typename T>
+class offcaster {
+public:
+    void operator()(const T&) {
+        // ignore
+    }
+
+    void operator()(T&&) {
+        // ignore
+    }
+};
+
 } // namespace
 
 
@@ -326,6 +345,65 @@ filter(Range&& source_range, Pred predicate, Dest offcast_dest) {
             std::move(source_range), std::move(predicate), std::move(offcast_dest));
 }
 
+/**
+ * Lazily filters input range into output range checking each element using
+ * specified `Predicate`. Elements are taken by reference.
+ * 
+ * @param source_range reference to source range
+ * @param predicate `Predicate` to check source element against it
+ * @param offcast_dest `FunctionObject` to apply offcast elements to it
+ * @return filtered range
+ */
+template <typename Range, typename Pred>
+auto filter(Range& source_range, Pred predicate) -> 
+        filtered_range<staticlib::ranges::refwrapped_range<Range>, Pred,
+            detail_filter::offcaster<
+                std::reference_wrapper<
+                    typename std::iterator_traits<
+                        decltype(std::declval<decltype(source_range)>().begin())
+                    >::value_type
+                >
+            >
+        > {
+    return filter(staticlib::ranges::refwrap(source_range), std::move(predicate),
+            detail_filter::offcaster<
+                std::reference_wrapper<
+                    typename std::iterator_traits<
+                        decltype(std::declval<decltype(source_range)>().begin())
+                    >::value_type
+                >
+            >());
+}
+
+/**
+ * Lazily filters input range into output range checking each element using
+ * specified `Predicate`. Elements are taken by reference.
+ * 
+ * @param source_range reference to source range
+ * @param predicate `Predicate` to check source element against it
+ * @param offcast_dest `FunctionObject` to apply offcast elements to it
+ * @return filtered range
+ */
+template <typename Range, typename Pred>
+auto filter(const Range& source_range, Pred predicate) ->
+        filtered_range<staticlib::ranges::refwrapped_const_range<Range>, Pred,
+            detail_filter::offcaster<
+                std::reference_wrapper<
+                    const typename std::iterator_traits<
+                        decltype(std::declval<decltype(source_range)>().begin())
+                    >::value_type
+                >
+            >
+        > {
+    return filter(staticlib::ranges::refwrap(source_range), std::move(predicate),
+        detail_filter::offcaster<
+            std::reference_wrapper<
+                const typename std::iterator_traits <
+                    decltype(std::declval < decltype(source_range)>().begin())
+                >::value_type
+            >
+        >());
+}
 
 } // namespace
 }

@@ -113,12 +113,34 @@ void test_moved() {
     slassert(43 == res[1].get_val());
 }
 
+void test_lvalue() {
+    auto vec = std::vector<MyMovable>{};
+    vec.emplace_back(41);
+    vec.emplace_back(42);
+    vec.emplace_back(43);
+    const auto& vecref = vec;
+
+    auto filtered = ra::filter(vecref, [](const MyMovable & el) {
+        return 42 != el.get_val();
+    });
+    auto res = filtered.to_vector();
+
+    slassert(3 == vec.size());
+    slassert(41 == vec[0].get_val());
+    slassert(42 == vec[1].get_val());
+    slassert(43 == vec[2].get_val());
+    slassert(2 == res.size());
+    slassert(41 == res[0].get().get_val());
+    slassert(43 == res[1].get().get_val());
+}
+
 int main() {
     try {
         test_vector();
         test_range();
         test_non_default_constructible();
         test_moved();
+        test_lvalue();
     } catch (const std::exception& e) {
         std::cout << e.what() << std::endl;
         return 1;

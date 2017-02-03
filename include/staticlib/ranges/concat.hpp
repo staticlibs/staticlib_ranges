@@ -29,6 +29,8 @@
 #include <utility>
 #include <vector>
 
+#include "staticlib/ranges/refwrap.hpp"
+
 namespace staticlib {
 namespace ranges {
 
@@ -285,6 +287,34 @@ template <typename Range1, typename Range2,
 concatted_range<Range1, Range2>
 concat(Range1&& range1, Range2&& range2) {
     return concatted_range<Range1, Range2> (std::move(range1), std::move(range2));
+}
+
+/**
+ * Lazily concatenates two input ranges into single output range
+ * taking elements by reference.
+ * 
+ * @param source_range1 first source range
+ * @param source_range2 second source range
+ * @return concatenated range
+ */
+template <typename Range1, typename Range2>
+concatted_range<staticlib::ranges::refwrapped_range<Range1>, staticlib::ranges::refwrapped_range<Range2>> 
+concat(Range1& range1, Range2& range2) {
+    return concat(staticlib::ranges::refwrap(range1), staticlib::ranges::refwrap(range2));
+}
+
+/**
+ * Lazily concatenates two input ranges into single output range
+ * taking elements by reference.
+ * 
+ * @param source_range1 first source range
+ * @param source_range2 second source range
+ * @return concatenated range
+ */
+template <typename Range1, typename Range2>
+concatted_range<staticlib::ranges::refwrapped_const_range<Range1>, staticlib::ranges::refwrapped_const_range<Range2>>
+concat(const Range1& range1, const Range2& range2) {
+    return concat(staticlib::ranges::refwrap(range1), staticlib::ranges::refwrap(range2));
 }
 
 } // namespace

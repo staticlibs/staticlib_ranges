@@ -42,14 +42,14 @@
 
 
 namespace sc = staticlib::config;
-namespace sit = staticlib::ranges;
+namespace sr = staticlib::ranges;
 
 void test_vector() {
     auto vec = std::vector<std::unique_ptr<MyInt>>{};
     vec.emplace_back(new MyInt(40));
     vec.emplace_back(new MyInt(41));
     
-    auto range = sit::transform(std::move(vec), [](std::unique_ptr<MyInt> el) {
+    auto range = sr::transform(std::move(vec), [](std::unique_ptr<MyInt> el) {
         return std::unique_ptr<MyStr>(new MyStr(sc::to_string(el->get_int() - 10)));
     });
 
@@ -70,14 +70,14 @@ void test_range() {
     vec2.emplace_back(new MyStr("53"));
     vec2.emplace_back(new MyStr("54"));
     
-    auto range1 = sit::transform(std::move(vec1), [](std::unique_ptr<MyInt> el) {
+    auto range1 = sr::transform(std::move(vec1), [](std::unique_ptr<MyInt> el) {
         return std::unique_ptr<MyStr>(new MyStr(sc::to_string(el->get_int() + 10)));
     });
-    auto range2 = sit::concat(std::move(range1), std::move(vec2));
-    auto range3 = sit::filter(std::move(range2), [](std::unique_ptr<MyStr>& el) {
+    auto range2 = sr::concat(std::move(range1), std::move(vec2));
+    auto range3 = sr::filter(std::move(range2), [](std::unique_ptr<MyStr>& el) {
         return "52" != el->get_str();
-    }, sit::ignore_offcast<std::unique_ptr<MyStr>>);
-    auto range4 = sit::transform(std::move(range3), [](std::unique_ptr<MyStr> el) {
+    }, sr::ignore_offcast<std::unique_ptr<MyStr>>);
+    auto range4 = sr::transform(std::move(range3), [](std::unique_ptr<MyStr> el) {
         return std::unique_ptr<MyStr>(new MyStr(el->get_str() + "_42"));
     });
     auto res = range4.to_vector();
@@ -94,12 +94,26 @@ void test_map() {
     map.insert(std::pair<const std::string, std::unique_ptr<MyInt>>("foo", std::unique_ptr<MyInt>(new MyInt(41))));
     map.insert(std::pair<const std::string, std::unique_ptr<MyInt>>("bar", std::unique_ptr<MyInt>(new MyInt(42))));
     map.insert(std::pair<const std::string, std::unique_ptr<MyInt>>("baz", std::unique_ptr<MyInt>(new MyInt(43))));
-    auto wrapped = sit::refwrap(map);
-    auto ra = sit::transform(std::move(wrapped), [](std::pair<const std::string, std::unique_ptr<MyInt>>& el) {
+    auto wrapped = sr::refwrap(map);
+    auto ra = sr::transform(std::move(wrapped), [](std::pair<const std::string, std::unique_ptr<MyInt>>& el) {
         return el.second->get_int();
     });
     auto res = ra.to_vector();
     slassert(3 == res.size());
+}
+
+void test_lvalue() {
+    auto vec = std::vector<std::unique_ptr<MyInt>>();
+    vec.emplace_back(new MyInt(40));
+    vec.emplace_back(new MyInt(41));
+    const auto& vecref = vec;
+    auto ra = sr::transform(vecref, [](const std::unique_ptr<MyInt>& el) {
+        return el->get_int();
+    });
+    auto res = ra.to_vector();
+    slassert(2 == res.size());
+    slassert(40 == res[0]);
+    slassert(41 == res[1]);
 }
 
 int main() {
@@ -107,6 +121,7 @@ int main() {
         test_vector();
         test_range();
         test_map();
+        test_lvalue();
     } catch (const std::exception& e) {
         std::cout << e.what() << std::endl;
         return 1;

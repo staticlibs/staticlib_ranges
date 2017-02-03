@@ -30,6 +30,8 @@
 #include <utility>
 #include <vector>
 
+#include "staticlib/ranges/refwrap.hpp"
+
 namespace staticlib {
 namespace ranges {
 
@@ -262,6 +264,32 @@ template <typename Range, typename Func,
         class = typename std::enable_if<!std::is_lvalue_reference<Range>::value>::type>
 transformed_range<Range, Func> transform(Range&& range, Func functor) {
     return transformed_range<Range, Func>(std::move(range), std::move(functor));
+}
+
+/**
+ * Lazily transforms input range into output range applying functor to
+ * each element taking it by reference.
+ * 
+ * @param range source range
+ * @param functor transformation `FunctionObject`, can be move-only
+ * @return transformed range
+ */
+template <typename Range, typename Func>
+transformed_range<staticlib::ranges::refwrapped_range<Range>, Func> transform(Range& range, Func functor) {
+    return transform(staticlib::ranges::refwrap(range), std::move(functor));
+}
+
+/**
+ * Lazily transforms input range into output range applying functor to
+ * each element taking it by reference.
+ * 
+ * @param range source range
+ * @param functor transformation `FunctionObject`, can be move-only
+ * @return transformed range
+ */
+template <typename Range, typename Func>
+transformed_range<staticlib::ranges::refwrapped_const_range<Range>, Func> transform(const Range& range, Func functor) {
+    return transform(staticlib::ranges::refwrap(range), std::move(functor));
 }
 
 } // namespace
