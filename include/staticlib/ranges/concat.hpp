@@ -27,6 +27,7 @@
 #include <iterator>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 namespace staticlib {
 namespace ranges {
@@ -251,6 +252,19 @@ public:
         return detail_concat::concatted_iter<iterator, iterator2, value_type>{
             std::move(source_range1.end()), std::move(source_range1.end()), std::move(source_range2.end())
         };
+    }
+
+    /**
+     * Process this range eagerly returning results as a vector
+     * 
+     * @return vector with processed elements
+     */
+    std::vector<value_type> to_vector() {
+        std::vector<value_type> vec;
+        for (auto&& el : *this) {
+            vec.emplace_back(std::move(el));
+        }
+        return vec;
     }
 };
 

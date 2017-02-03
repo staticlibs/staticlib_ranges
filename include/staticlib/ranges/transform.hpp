@@ -28,6 +28,7 @@
 #include <memory>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 namespace staticlib {
 namespace ranges {
@@ -231,6 +232,19 @@ public:
      */
     detail_transform::transformed_iter<source_iterator, value_type, Func> end() {
         return detail_transform::transformed_iter<source_iterator, value_type, Func>{std::move(source_range.end()), functor};
+    }
+    
+    /**
+     * Process this range eagerly returning results as a vector
+     * 
+     * @return vector with processed elements
+     */
+    std::vector<value_type> to_vector() {
+        std::vector<value_type> vec;
+        for (auto&& el : *this) {
+            vec.emplace_back(std::move(el));
+        }
+        return vec;
     }
 };
 

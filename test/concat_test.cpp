@@ -56,7 +56,7 @@ auto_1 fun() {
 void test_fromfun() {
     auto range = fun();
     
-    auto res = ra::emplace_to_vector(std::move(range));
+    auto res = range.to_vector();
 
     slassert(4 == res.size());
     slassert(40 == res[0]->get_int());
@@ -75,7 +75,7 @@ void test_containers() {
     list.emplace_back(new MyInt(43));
     
     auto concatted = ra::concat(std::move(vec), std::move(list));
-    auto res = ra::emplace_to_vector(std::move(concatted));
+    auto res = concatted.to_vector();
     
     slassert(4 == res.size());
     slassert(40 == res[0]->get_int());
@@ -91,7 +91,7 @@ void test_empty_first() {
     vec.emplace_back(new MyInt(41));
     
     auto range = ra::concat(std::move(vec_empty), std::move(vec));
-    auto res = ra::emplace_to_vector(std::move(range));
+    auto res = range.to_vector();
     
     slassert(2 == res.size());
     slassert(40 == res[0]->get_int());
@@ -105,7 +105,7 @@ void test_empty_second() {
     vec.emplace_back(new MyInt(41));
 
     auto range = ra::concat(std::move(vec), std::move(vec_empty));
-    auto res = ra::emplace_to_vector(std::move(range));
+    auto res = range.to_vector();
     
     slassert(2 == res.size());
     slassert(40 == res[0]->get_int());
@@ -117,7 +117,7 @@ void test_empty_both() {
     auto vec_empty2 = std::vector<std::unique_ptr<MyInt>>{};
 
     auto range = ra::concat(std::move(vec_empty1), std::move(vec_empty2));
-    auto res = ra::emplace_to_vector(std::move(range));
+    auto res = range.to_vector();
     
     slassert(0 == res.size());
 }
@@ -139,7 +139,7 @@ void test_ranges() {
         return 42 != el->get_int();
     }, ra::ignore_offcast<std::unique_ptr<MyInt>>);
     auto concatted = ra::concat(std::move(transformed), std::move(filtered));
-    auto res = ra::emplace_to_vector(std::move(concatted));
+    auto res = concatted.to_vector();
 
     slassert(4 == res.size());
     slassert(30 == res[0]->get_int());

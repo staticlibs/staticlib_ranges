@@ -49,7 +49,7 @@ void test_vector() {
         return 42 == el->get_int();
     }, ra::offcast_into(offcasted));
 
-    auto res = ra::emplace_to_vector(std::move(range));
+    auto res = range.to_vector();
 
     slassert(1 == res.size());
     slassert(42 == res[0]->get_int());
@@ -72,7 +72,7 @@ void test_range() {
     auto filtered = ra::filter(std::move(range), [](std::unique_ptr<MyInt>& el) {
         return el->get_int() <= 40;
     }, ra::ignore_offcast<std::unique_ptr<MyInt>>);
-    auto res = ra::emplace_to_vector(std::move(filtered));
+    auto res = filtered.to_vector();
 
     slassert(1 == res.size());
     slassert(40 == res[0]->get_int());
@@ -88,7 +88,7 @@ void test_non_default_constructible() {
         return 42 != el.get_val();
     }, ra::ignore_offcast<MyMovable>);
 
-    auto res = ra::emplace_to_vector(std::move(filtered));
+    auto res = filtered.to_vector();
 
     slassert(2 == res.size());
     slassert(41 == res[0].get_val());
@@ -105,7 +105,7 @@ void test_moved() {
         return 42 != el.get_val();
     }, ra::ignore_offcast<MyMovable>);
     
-    auto res = ra::emplace_to_vector(std::move(filtered));
+    auto res = filtered.to_vector();
     
     slassert(vec.empty());
     slassert(2 == res.size());

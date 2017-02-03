@@ -63,7 +63,7 @@ void test_movable() {
     auto transformed = ra::transform(std::move(range), [](MyMovable el) {
         return el.get_val();
     });
-    auto vec = ra::emplace_to_vector(std::move(transformed));
+    auto vec = transformed.to_vector();
     slassert(3 == vec.size());
     slassert(1 == vec[0]);
     slassert(2 == vec[1]);

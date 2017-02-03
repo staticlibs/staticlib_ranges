@@ -37,7 +37,7 @@ namespace detail_adapter {
 
 /**
  * Iterator implementation for the range adapter.
- * Holds a reference to the range and call it for the next elements.
+ * Holds a reference to the range and calls it for next elements.
  */
 template <typename Range>
 class range_adapter_iter : public std::iterator<std::input_iterator_tag, typename Range::value_type> {

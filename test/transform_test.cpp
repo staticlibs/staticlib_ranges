@@ -53,7 +53,7 @@ void test_vector() {
         return std::unique_ptr<MyStr>(new MyStr(sc::to_string(el->get_int() - 10)));
     });
 
-    auto res = sit::emplace_to_vector(std::move(range));
+    auto res = range.to_vector();
 
     slassert(2 == res.size());
     slassert("30" == res[0]->get_str());
@@ -80,7 +80,7 @@ void test_range() {
     auto range4 = sit::transform(std::move(range3), [](std::unique_ptr<MyStr> el) {
         return std::unique_ptr<MyStr>(new MyStr(el->get_str() + "_42"));
     });
-    auto res = sit::emplace_to_vector(std::move(range4));
+    auto res = range4.to_vector();
 
     slassert(4 == res.size());
     slassert("50_42" == res[0]->get_str());
@@ -98,7 +98,7 @@ void test_map() {
     auto ra = sit::transform(std::move(wrapped), [](std::pair<const std::string, std::unique_ptr<MyInt>>& el) {
         return el.second->get_int();
     });
-    auto res = sit::emplace_to_vector(std::move(ra));
+    auto res = ra.to_vector();
     slassert(3 == res.size());
 }
 
