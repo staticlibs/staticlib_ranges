@@ -31,6 +31,7 @@
 #include <vector>
 
 #include "staticlib/ranges/refwrap.hpp"
+#include "staticlib/ranges/traits.hpp"
 
 namespace staticlib {
 namespace ranges {
@@ -237,7 +238,8 @@ public:
     }
     
     /**
-     * Process this range eagerly returning results as a vector
+     * Process this range eagerly returning results as 
+     * a newly-allocated vector.
      * 
      * @return vector with processed elements
      */
@@ -255,6 +257,7 @@ public:
  * Lazily transforms input range into output range applying functor to
  * each element. Elements are moved from source range one by one,
  * All accessed elements of source range will be left in "valid but unspecified state".
+ * Created range wrapper will own specified range.
  * 
  * @param range source range
  * @param functor transformation `FunctionObject`, can be move-only
@@ -268,27 +271,51 @@ transformed_range<Range, Func> transform(Range&& range, Func functor) {
 
 /**
  * Lazily transforms input range into output range applying functor to
- * each element taking it by reference.
+ * each element. Elements are moved from source range one by one,
+ * All accessed elements of source range will be left in "valid but unspecified state".
+ * Created range wrapper will own specified range.
+ * This overload is a "special-case" that will accept only (expectedly "temporary") input
+ * ranges which contain `std::reference_wrapper` elements.
  * 
  * @param range source range
  * @param functor transformation `FunctionObject`, can be move-only
  * @return transformed range
  */
-template <typename Range, typename Func>
-transformed_range<staticlib::ranges::refwrapped_range<Range>, Func> transform(Range& range, Func functor) {
+template <typename Range, typename Func,
+        class = typename std::enable_if<is_reference_wrapper<typename Range::value_type>::value>::type>
+transformed_range<Range, Func>
+transform(Range& range, Func functor) {
+    return transform(std::move(range), std::move(functor));
+}
+
+/**
+ * Lazily transforms input range into output range applying functor to
+ * each element taking it by reference.
+ * Created range wrapper will NOT own specified range.
+ * 
+ * @param range source range
+ * @param functor transformation `FunctionObject`, can be move-only
+ * @return transformed range
+ */
+template <typename Range, typename Func,
+        class = typename std::enable_if<!is_reference_wrapper<typename Range::value_type>::value>::type>
+transformed_range<staticlib::ranges::refwrapped_range<Range>, Func> 
+transform(Range& range, Func functor) {
     return transform(staticlib::ranges::refwrap(range), std::move(functor));
 }
 
 /**
  * Lazily transforms input range into output range applying functor to
  * each element taking it by reference.
+ * Created range wrapper will NOT own specified range.
  * 
  * @param range source range
  * @param functor transformation `FunctionObject`, can be move-only
  * @return transformed range
  */
 template <typename Range, typename Func>
-transformed_range<staticlib::ranges::refwrapped_const_range<Range>, Func> transform(const Range& range, Func functor) {
+transformed_range<staticlib::ranges::refwrapped_const_range<Range>, Func> 
+transform(const Range& range, Func functor) {
     return transform(staticlib::ranges::refwrap(range), std::move(functor));
 }
 

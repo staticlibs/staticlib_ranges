@@ -1,13 +1,13 @@
-Staticlibs Ranges library
-=========================
+Non-allocating lazy operations over ranges for C++11
+====================================================
 
 This project is a part of [Staticlibs](http://staticlibs.net/).
 
 This project implements lazy transformation wrappers for arbitrary ranges, `range_adapter` for
 "single-method" range implementations and some range-utility functions.
 
-All range wrappers don't allocate dynamic memory on heap and were designed to be used primarily
-with move-only non-copyable objects. 
+All range wrappers don't allocate dynamic memory on heap and can be used
+with move-only non-copyable objects and dynamic (generator-like) ranges.
 
 This library is similar in nature with [cppitertools](https://github.com/ryanhaining/cppitertools) library
 but much less powerful and much less complex.
@@ -31,12 +31,84 @@ and [range-v3](https://github.com/ericniebler/range-v3) libraries.
 In this library all `Iterator`s returned from the `Range`s do **NOT** satisfy standard C++ [Iterator concept](http://en.cppreference.com/w/cpp/concept/Iterator)
 (due to `Iterator`s being "move-only") and generally can **NOT** be used with the standard STL algorithms.
 
-All `Range`s/`Iterator`s in this library implement "destructive" value-semantics when on `Iterator`
-dereference element is "move-returned" (using `std::move`) to the caller by value. This allows to 
-use common lazy range operations like `transform` and `filter` on move-only non-copyable objects.
+`Range`s/`Iterator`s in this library support consuming input ranges in both ways - "by reference" or "by value".
 
-If required, reference ("non-destructive") logic can be achieved wrapping the `Range` with 
-`std::reference_wrapper` lazy transformation using `refwrap` function.
+With "reference" (`lvalue`, optionally `const`) inputs, wrapped ranges will operate over (constant) references 
+to underlying elements. 
+
+With "value (`rvalue`) inputs - "destructive" value-semantics will be used, when on `Iterator`
+dereference element is "move-returned" (using `std::move`) to the caller by value. This allows to 
+use common lazy range operations like `transform` and `filter` over move-only non-copyable objects
+produced dynamically as a result of transformation.
+
+Lazy transformation range wrappers
+----------------------------------
+
+All the following range wrappers are implemented without heap memory allocation (excluding the 
+utility `to_vector` method).
+
+####transform 
+
+Lazily transforms input range into output range lazily applying specified function to each element of the source range.
+ 
+####filter 
+
+Lazily filters all the elements of source range using specified predicate function. 
+
+With `rvalue` inputs it takes additional parameter - the function that will be applied to element that won't match the predicate
+(to not lose this elements accidentally because of `std::move` application). If such "offcast" 
+elements can be thrown away then helper function `ignore_offcast<T>` can be used as a last argument.
+ 
+####concat 
+
+Lazily concatenates two ranges into single range. Wrapped range will iterate over first range
+until its exhaustion, then over the second range. Both input ranges must have elements of the same type.
+
+####refwrap
+
+A helper range wrapper that wraps each input element into `std::reference_wrapper`. It is 
+used automatically by other ranges for `lvalue` inputs.
+
+Usage example
+-------------
+
+*Note: In this example namespaces are omitted for brevity*
+
+    // prepare two ranges (containers) with move-only objects
+    vector<MyMovable> vec{};
+    vec.emplace_back(MyMovable(41));
+    vec.emplace_back(MyMovable(42));
+    vec.emplace_back(MyMovable(43));
+
+    list<MyMovable> li{};
+    li.emplace_back(91);
+    li.emplace_back(92);
+
+    // take vector by reference and transform each element and return it through `reference_wrapper`
+    // transformation also can return new object (of different type) if required
+    auto transformed = transform(vec, [](MyMovable& el) {
+        el.set_val(el.get_val() + 10);
+        return std::ref(el);
+    });
+
+    // filter the elements
+    auto filtered = filter(transformed, [](MyMovable& el) {
+        return 52 != el.get_val();
+    });
+
+    // do transformation over filtered range
+    auto transformed2 = transform(filtered, [](MyMovable& el) {
+        el.set_val(el.get_val() - 20);
+        return std::ref(el);
+    });
+
+    // use "refwrap" to guard second source container against `std::move`
+    auto refwrapped = refwrap(li);
+    // concatenate two ranges
+    auto concatted = concat(transformed2, refwrapped);
+
+    // evaluate all operations and store results in vector ("auto res" will work here too)
+    vector<reference_wrapper<MyMovable>> res = concatted.to_vector();
 
 Range adapter
 -------------
@@ -57,81 +129,6 @@ or return `false` if `Range` is exhausted:
         }
     };
 
-Lazy transformation range wrappers
-----------------------------------
-
-All the following range wrappers are implemented without heap memory allocation.
-
-Wrappers are destructive to source ranges - they use `std::move` to get the elements from the input iterator
-and returns elements to callers from its own iterators also using `std::move`.
-
-To prevent the possibly-destructive `std::move` on source ranges `refwrap` wrapper can be used before
-transformation wrappers: it will lazily wrap all the source elements using `std::ref` 
-(`std::cref` for const source ranges) so following `std::move` will effectively operate on
-`std::reference_wrapper` objects over unchanged source range elements.
-
-####transform 
-
-Lazily transforms input range into output range lazily applying specified function to each element of the source range.
- 
-####filter 
-
-Lazily filters all the elements of source range using specified predicate function. 
-
-Takes additional parameter - the function that will be applied to element that won't match the predicate
-(to not lose this elements accidentally because of `std::move` application). If the "offcast" 
-elements can be thrown away (for example, if `refwrap` wrapper is used before the `filter`) then
-`ignore_offcast<T>` can be used as a last argument.
- 
-####concat 
-
-Lazily concatenates two ranges into single range. Wrapped range will iterate over first range
-until its exhaustion, then over the second range. Both input ranges must have elements of the same type.
-
-Usage example
--------------
-
-*Note: In this example namespaces are omitted for brevity*
-
-    // prepare two ranges (containers) with move-only objects
-    vector<MyMovable> vec{};
-    vec.emplace_back(MyMovable(41));
-    vec.emplace_back(MyMovable(42));
-    vec.emplace_back(MyMovable(43));
-    
-    list<MyMovable> li{};
-    li.emplace_back(91);
-    li.emplace_back(92);
-
-    // use "rewrap" to guard first source container against `std::move`
-    auto refwrapped = refwrap(vec);
-
-    // transform element and return it through `reference_wrapper`
-    // transformation also can return new object (of different type) if required
-    auto transformed = transform(refwrapped, [](MyMovable& el) {
-        el.set_val(el.get_val() + 10);
-        return std::ref(el);
-    });
-
-    // filter the elements
-    auto filtered = filter(transformed, [](MyMovable& el) {
-        return 52 != el.get_val();
-    }, ignore_offcast<MyMovable&>);
-
-    // do transformation over filtered range
-    auto transformed2 = transform(filtered, [](MyMovable& el) {
-        el.set_val(el.get_val() - 10);
-        return std::ref(el);
-    });
-
-    // use "rewrap" to guard second source container against `std::move`
-    auto refwrapped2 = refwrap(li);
-    // concatenate two ranges
-    auto concatted = concat(transformed2, refwrapped2);
-
-    // evaluate all operations and store results in vector ("auto res" will work here too)
-    vector<reference_wrapper<MyMovable>> res = emplace_to_vector(concatted);
-
 License information
 -------------------
 
@@ -139,6 +136,11 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 
 Changelog
 ---------
+
+**2017-02-03**
+
+ * support for `lvalue` reference inputs for all ranges
+ * version 1.3.0
 
 **2016-07-10**
 

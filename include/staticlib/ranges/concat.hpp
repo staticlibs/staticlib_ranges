@@ -30,6 +30,7 @@
 #include <vector>
 
 #include "staticlib/ranges/refwrap.hpp"
+#include "staticlib/ranges/traits.hpp"
 
 namespace staticlib {
 namespace ranges {
@@ -257,7 +258,8 @@ public:
     }
 
     /**
-     * Process this range eagerly returning results as a vector
+     * Process this range eagerly returning results as 
+     * a newly-allocated vector.
      * 
      * @return vector with processed elements
      */
@@ -290,14 +292,37 @@ concat(Range1&& range1, Range2&& range2) {
 }
 
 /**
- * Lazily concatenates two input ranges into single output range
- * taking elements by reference.
+ * Lazily concatenates two input ranges into single output range.
+ * Elements are moved from source ranges one by one,
+ * All accessed elements of source ranges will be left in "valid but unspecified state".
+ * Created range wrapper will own specified ranges.
+ * This overload is a "special-case" that will accept only (expectedly "temporary") input
+ * ranges which contain `std::reference_wrapper` elements.
  * 
  * @param source_range1 first source range
  * @param source_range2 second source range
  * @return concatenated range
  */
-template <typename Range1, typename Range2>
+template <typename Range1, typename Range2,
+    class = typename std::enable_if<is_reference_wrapper<typename Range1::value_type>::value>::type,
+    class = typename std::enable_if<is_reference_wrapper<typename Range2::value_type>::value>::type>
+concatted_range<Range1, Range2>
+concat(Range1& range1, Range2& range2) {
+    return concat(std::move(range1), std::move(range2));
+}
+
+/**
+ * Lazily concatenates two input ranges into single output range
+ * taking elements by reference.
+ * Created range wrapper will NOT own specified ranges.
+ * 
+ * @param source_range1 first source range
+ * @param source_range2 second source range
+ * @return concatenated range
+ */
+template <typename Range1, typename Range2,
+        class = typename std::enable_if<!is_reference_wrapper<typename Range1::value_type>::value>::type,
+        class = typename std::enable_if<!is_reference_wrapper<typename Range2::value_type>::value>::type>
 concatted_range<staticlib::ranges::refwrapped_range<Range1>, staticlib::ranges::refwrapped_range<Range2>> 
 concat(Range1& range1, Range2& range2) {
     return concat(staticlib::ranges::refwrap(range1), staticlib::ranges::refwrap(range2));
@@ -306,6 +331,7 @@ concat(Range1& range1, Range2& range2) {
 /**
  * Lazily concatenates two input ranges into single output range
  * taking elements by reference.
+ * Created range wrapper will NOT own specified ranges.
  * 
  * @param source_range1 first source range
  * @param source_range2 second source range

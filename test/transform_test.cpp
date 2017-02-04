@@ -116,12 +116,60 @@ void test_lvalue() {
     slassert(41 == res[1]);
 }
 
+void test_readme() {
+    using namespace std;
+    using namespace staticlib::ranges;
+    
+    // prepare two ranges (containers) with move-only objects
+    vector<MyMovable> vec{};
+    vec.emplace_back(MyMovable(41));
+    vec.emplace_back(MyMovable(42));
+    vec.emplace_back(MyMovable(43));
+
+    list<MyMovable> li{};
+    li.emplace_back(91);
+    li.emplace_back(92);
+
+    // take vector by reference and transform each element and return it through `reference_wrapper`
+    // transformation also can return new object (of different type) if required
+    auto transformed = transform(vec, [](MyMovable& el) {
+        el.set_val(el.get_val() + 10);
+        return std::ref(el);
+    });
+
+    // filter the elements
+    auto filtered = filter(transformed, [](MyMovable& el) {
+        return 52 != el.get_val();
+    });
+
+    // do transformation over filtered range
+    auto transformed2 = transform(filtered, [](MyMovable& el) {
+        el.set_val(el.get_val() - 20);
+        return std::ref(el);
+    });
+
+    // use "refwrap" to guard second source container against `std::move`
+    auto refwrapped = refwrap(li);
+    // concatenate two ranges
+    auto concatted = concat(transformed2, refwrapped);
+
+    // evaluate all operations and store results in vector ("auto res" will work here too)
+    vector<reference_wrapper<MyMovable>> res = concatted.to_vector();
+    
+    slassert(4 == res.size());
+    slassert(31 == res[0].get().get_val());
+    slassert(33 == res[1].get().get_val());
+    slassert(91 == res[2].get().get_val());
+    slassert(92 == res[3].get().get_val());
+}
+
 int main() {
     try {
         test_vector();
         test_range();
         test_map();
         test_lvalue();
+        test_readme();
     } catch (const std::exception& e) {
         std::cout << e.what() << std::endl;
         return 1;
