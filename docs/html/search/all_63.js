@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['concat',['concat',['../namespacestaticlib_1_1ranges.html#a61d434f9cbe506baff3eb6f4bc75396f',1,'staticlib::ranges']]],
+  ['concat',['concat',['../namespacestaticlib_1_1ranges.html#a61d434f9cbe506baff3eb6f4bc75396f',1,'staticlib::ranges::concat(Range1 &amp;&amp;range1, Range2 &amp;&amp;range2)'],['../namespacestaticlib_1_1ranges.html#af90b1ff2f6757a1483e0917fdd628ec9',1,'staticlib::ranges::concat(Range1 &amp;range1, Range2 &amp;range2)'],['../namespacestaticlib_1_1ranges.html#afd593a6c2c6b8a7c99b323eeed8d89ec',1,'staticlib::ranges::concat(const Range1 &amp;range1, const Range2 &amp;range2)']]],
   ['concat_2ehpp',['concat.hpp',['../concat_8hpp.html',1,'']]],
   ['concatted_5fiter',['concatted_iter',['../classstaticlib_1_1ranges_1_1detail__concat_1_1concatted__iter.html#a70e24b72cb5f2df8764cc297b458a10c',1,'staticlib::ranges::detail_concat::concatted_iter::concatted_iter(Iter1 source_iter1, Iter1 source_iter1_end, Iter2 source_iter2)'],['../classstaticlib_1_1ranges_1_1detail__concat_1_1concatted__iter.html#a678f0992917423410659a6390e03f127',1,'staticlib::ranges::detail_concat::concatted_iter::concatted_iter(const concatted_iter &amp;other)'],['../classstaticlib_1_1ranges_1_1detail__concat_1_1concatted__iter.html#a677357557c2d53165ec19566f63b9b5d',1,'staticlib::ranges::detail_concat::concatted_iter::concatted_iter(concatted_iter &amp;&amp;other)']]],
   ['concatted_5fiter',['concatted_iter',['../classstaticlib_1_1ranges_1_1detail__concat_1_1concatted__iter.html',1,'staticlib::ranges::detail_concat']]],

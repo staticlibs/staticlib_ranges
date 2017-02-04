@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">staticlib_ranges
-   &#160;<span id="projectnumber">1.2.3</span>
+   &#160;<span id="projectnumber">1.3.0</span>
    </div>
   </td>
  </tr>
@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -154,7 +154,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range, <span class="keyword">typename</span> Pred&gt;</div>
-<div class="line"><a name="l00102"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#af3c7c7be3b948f790e6d0989f008f224">  102</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacestaticlib_1_1ranges.html#af3c7c7be3b948f790e6d0989f008f224" title="any algorithm implementation for the arbitrary ranges">any</a>(Range&amp; range, Pred predicate) {</div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#af3c7c7be3b948f790e6d0989f008f224">  102</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacestaticlib_1_1ranges.html#af3c7c7be3b948f790e6d0989f008f224" title="any algorithm implementation for the arbitrary ranges">any</a>(Range&amp; range, <a class="code" href="namespacestaticlib_1_1ranges.html#a8298af94824ce650f372db31da63e0ea">Pred</a> predicate) {</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp;&amp; el : range) {</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keyword">auto</span>&amp; ref = el;</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">if</span> (predicate(ref)) {</div>
@@ -165,7 +165,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Range, <span class="keyword">typename</span> Pred, <span class="keyword">typename</span> Elem&gt;</div>
-<div class="line"><a name="l00124"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#a425403bc10993c2a75e701749220b45b">  124</a></span>&#160;Elem <a class="code" href="namespacestaticlib_1_1ranges.html#a425403bc10993c2a75e701749220b45b" title="find algorithm implementation for the arbitrary ranges, found element will be move-returned to the ca...">find</a>(Range&amp; range, Pred predicate, Elem not_found_el) {</div>
+<div class="line"><a name="l00124"></a><span class="lineno"><a class="code" href="namespacestaticlib_1_1ranges.html#a425403bc10993c2a75e701749220b45b">  124</a></span>&#160;Elem <a class="code" href="namespacestaticlib_1_1ranges.html#a425403bc10993c2a75e701749220b45b" title="find algorithm implementation for the arbitrary ranges, found element will be move-returned to the ca...">find</a>(Range&amp; range, <a class="code" href="namespacestaticlib_1_1ranges.html#a8298af94824ce650f372db31da63e0ea">Pred</a> predicate, Elem not_found_el) {</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp;&amp; el : range) {</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keyword">auto</span>&amp; ref = el;</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">if</span> (predicate(ref)) {</div>
@@ -183,7 +183,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jul 10 2016 21:10:59 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 4 2017 16:34:34 for staticlib_ranges by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>
