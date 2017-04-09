@@ -64,7 +64,7 @@ elements can be thrown away then helper function `ignore_offcast<T>` can be used
 Lazily concatenates two ranges into single range. Wrapped range will iterate over first range
 until its exhaustion, then over the second range. Both input ranges must have elements of the same type.
 
-#### refwrap####
+#### refwrap ####
 
 A helper range wrapper that wraps each input element into `std::reference_wrapper`. It is 
 used automatically by other ranges for `lvalue` inputs.
