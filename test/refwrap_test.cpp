@@ -40,41 +40,39 @@
 #include "domain_classes.hpp"
 
 
-namespace ra = staticlib::ranges;
-
 void test_state_after_move() {
-    auto a = MyMovable(42);
+    auto a = my_movable(42);
     auto b = std::move(a);
     slassert(42 == b.get_val());
     slassert(-1 == a.get_val());
 }
 
 void test_transform_refwrapped() {
-    std::vector<MyMovable> vec{};
-    vec.emplace_back(MyMovable(41));
-    vec.emplace_back(MyMovable(42));
-    vec.emplace_back(MyMovable(43));
+    std::vector<my_movable> vec{};
+    vec.emplace_back(my_movable(41));
+    vec.emplace_back(my_movable(42));
+    vec.emplace_back(my_movable(43));
     
-    std::list<MyMovable> li{};
+    std::list<my_movable> li{};
     li.emplace_back(91);
     li.emplace_back(92);
 
-    auto transformed = ra::transform(ra::refwrap(vec), [](MyMovable& el) {
+    auto transformed = sl::ranges::transform(sl::ranges::refwrap(vec), [](my_movable& el) {
         el.set_val(el.get_val() + 10);
         return std::ref(el);
     });
-    auto filtered = ra::filter(std::move(transformed), [](MyMovable& el) {
+    auto filtered = sl::ranges::filter(std::move(transformed), [](my_movable& el) {
         return 52 != el.get_val();
-    }, ra::ignore_offcast<MyMovable&>);
-    auto transformed2 = ra::transform(std::move(filtered), [](MyMovable& el) {
+    }, sl::ranges::ignore_offcast<my_movable&>);
+    auto transformed2 = sl::ranges::transform(std::move(filtered), [](my_movable& el) {
         el.set_val(el.get_val() - 10);
         return std::ref(el);
     });
-    auto refwrapped2 = ra::refwrap(li);
-    auto concatted = ra::concat(std::move(transformed2), std::move(refwrapped2));
+    auto refwrapped2 = sl::ranges::refwrap(li);
+    auto concatted = sl::ranges::concat(std::move(transformed2), std::move(refwrapped2));
 
     //auto res will work too
-    std::vector<std::reference_wrapper<MyMovable>> res = concatted.to_vector();
+    std::vector<std::reference_wrapper<my_movable>> res = concatted.to_vector();
     slassert(4 == res.size());
     slassert(41 == res[0].get().get_val());
     slassert(43 == res[1].get().get_val());
@@ -91,17 +89,17 @@ void test_transform_refwrapped() {
 }
 
 void test_refwrap_to_value() {
-    std::vector<MyMovable> vec{};
+    std::vector<my_movable> vec{};
     vec.emplace_back(41);
     vec.emplace_back(42);
     vec.emplace_back(43);
     
-    auto transformed = ra::transform(ra::refwrap(vec), [](MyMovable& el) {
+    auto transformed = sl::ranges::transform(sl::ranges::refwrap(vec), [](my_movable& el) {
         return std::move(el);
     });
-    auto filtered = ra::filter(std::move(transformed), [](MyMovable& el) {
+    auto filtered = sl::ranges::filter(std::move(transformed), [](my_movable& el) {
         return 42 != el.get_val();
-    }, ra::ignore_offcast<MyMovable>);
+    }, sl::ranges::ignore_offcast<my_movable>);
     
     auto res = filtered.to_vector();
     slassert(2 == res.size());
@@ -115,22 +113,22 @@ void test_refwrap_to_value() {
 }
 
 void test_const_ref() {
-    std::vector<MyMovable> vec{};
-    vec.emplace_back(MyMovable(41));
-    vec.emplace_back(MyMovable(42));
-    vec.emplace_back(MyMovable(43));
+    std::vector<my_movable> vec{};
+    vec.emplace_back(my_movable(41));
+    vec.emplace_back(my_movable(42));
+    vec.emplace_back(my_movable(43));
     
-    const std::vector<MyMovable> vec2 = std::move(vec);
-    const std::vector<MyMovable>& vec2ref = vec2;
+    const std::vector<my_movable> vec2 = std::move(vec);
+    const std::vector<my_movable>& vec2ref = vec2;
     
     int sum = 0;
-    auto transformed1 = ra::transform(ra::refwrap(vec2ref), [&sum](const MyMovable& el) {
+    auto transformed1 = sl::ranges::transform(sl::ranges::refwrap(vec2ref), [&sum](const my_movable& el) {
         sum += el.get_val();
         return std::ref(el);
     });
-    auto filtered = ra::filter(std::move(transformed1), [](const MyMovable&) {
+    auto filtered = sl::ranges::filter(std::move(transformed1), [](const my_movable&) {
         return false;
-    }, ra::ignore_offcast<const MyMovable&>);
+    }, sl::ranges::ignore_offcast<const my_movable&>);
     auto res = filtered.to_vector();
 }
 

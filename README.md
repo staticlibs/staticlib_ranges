@@ -47,11 +47,11 @@ Lazy transformation range wrappers
 All the following range wrappers are implemented without heap memory allocation (excluding the 
 utility `to_vector` method).
 
-####transform 
+#### transform ####
 
 Lazily transforms input range into output range lazily applying specified function to each element of the source range.
  
-####filter 
+#### filter ####
 
 Lazily filters all the elements of source range using specified predicate function. 
 
@@ -59,12 +59,12 @@ With `rvalue` inputs it takes additional parameter - the function that will be a
 (to not lose this elements accidentally because of `std::move` application). If such "offcast" 
 elements can be thrown away then helper function `ignore_offcast<T>` can be used as a last argument.
  
-####concat 
+#### concat ####
 
 Lazily concatenates two ranges into single range. Wrapped range will iterate over first range
 until its exhaustion, then over the second range. Both input ranges must have elements of the same type.
 
-####refwrap
+#### refwrap####
 
 A helper range wrapper that wraps each input element into `std::reference_wrapper`. It is 
 used automatically by other ranges for `lvalue` inputs.
@@ -72,43 +72,41 @@ used automatically by other ranges for `lvalue` inputs.
 Usage example
 -------------
 
-*Note: In this example namespaces are omitted for brevity*
-
     // prepare two ranges (containers) with move-only objects
-    vector<MyMovable> vec{};
-    vec.emplace_back(MyMovable(41));
-    vec.emplace_back(MyMovable(42));
-    vec.emplace_back(MyMovable(43));
+    std::vector<my_movable> vec{};
+    vec.emplace_back(my_movable(41));
+    vec.emplace_back(my_movable(42));
+    vec.emplace_back(my_movable(43));
 
-    list<MyMovable> li{};
+    std::list<my_movable> li{};
     li.emplace_back(91);
     li.emplace_back(92);
 
     // take vector by reference and transform each element and return it through `reference_wrapper`
     // transformation also can return new object (of different type) if required
-    auto transformed = transform(vec, [](MyMovable& el) {
+    auto transformed = sl::ranges::transform(vec, [](my_movable& el) {
         el.set_val(el.get_val() + 10);
         return std::ref(el);
     });
 
     // filter the elements
-    auto filtered = filter(transformed, [](MyMovable& el) {
+    auto filtered = sl::ranges::filter(transformed, [](my_movable& el) {
         return 52 != el.get_val();
     });
 
     // do transformation over filtered range
-    auto transformed2 = transform(filtered, [](MyMovable& el) {
+    auto transformed2 = sl::ranges::transform(filtered, [](my_movable& el) {
         el.set_val(el.get_val() - 20);
         return std::ref(el);
     });
 
     // use "refwrap" to guard second source container against `std::move`
-    auto refwrapped = refwrap(li);
+    auto refwrapped = sl::ranges::refwrap(li);
     // concatenate two ranges
-    auto concatted = concat(transformed2, refwrapped);
+    auto concatted = sl::ranges::concat(transformed2, refwrapped);
 
     // evaluate all operations and store results in vector ("auto res" will work here too)
-    vector<reference_wrapper<MyMovable>> res = concatted.to_vector();
+    std::vector<reference_wrapper<my_movable>> res = concatted.to_vector();
 
 Range adapter
 -------------
@@ -118,7 +116,7 @@ for the easy implementation of the `Range` with "move-return" semantics. Inherit
 a single method `compute_next` that should set next element as `current` using `set_current` and return `true`,
 or return `false` if `Range` is exhausted:
 
-    class MyRange : public range_adapter<MyRange, MyElem> {
+    class my_range : public range_adapter<my_range, my_elem> {
     public:
         bool compute_next() {
             if (<has next>) {
@@ -136,6 +134,10 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 
 Changelog
 ---------
+
+**2017-04-08**
+ * version 1.3.1
+ * minor deps changes
 
 **2017-02-03**
 

@@ -27,70 +27,70 @@
 #include <sstream>
 #include <string>
 
-class MyInt {
+class my_int {
     int val;
 public:
-    MyInt(int val) : val(val) { }
+    my_int(int val) : val(val) { }
     int get_int() const {
         return val;
     }
     
-    MyInt(const MyInt&) = delete;
-    MyInt& operator=(const MyInt&) = delete;
-    MyInt(MyInt&&) = delete;
-    MyInt& operator=(MyInt&&) = delete;
+    my_int(const my_int&) = delete;
+    my_int& operator=(const my_int&) = delete;
+    my_int(my_int&&) = delete;
+    my_int& operator=(my_int&&) = delete;
 };
 
-class MyStr {
+class my_str {
     std::string val;
 public:
 
-    MyStr(std::string val) : val(val) { }
+    my_str(std::string val) : val(val) { }
 
     std::string get_str() const {
         return val;
     }
-    MyStr(const MyStr&) = delete;
-    MyStr& operator=(const MyStr&) = delete;
-    MyStr(MyStr&&) = delete;
-    MyStr& operator=(MyStr&&) = delete;
+    my_str(const my_str&) = delete;
+    my_str& operator=(const my_str&) = delete;
+    my_str(my_str&&) = delete;
+    my_str& operator=(my_str&&) = delete;
 };
 
-class MyMovable {
+class my_movable {
     int val;
 public:
 
-    MyMovable(int val) : val(val) { }
+    my_movable(int val) : val(val) { }
     int get_val() const {
         return val;
     }
     void set_val(int val) {
         this->val = val;
     }
-    MyMovable(const MyMovable&) = delete;
-    MyMovable& operator=(const MyMovable&) = delete;
+    my_movable(const my_movable&) = delete;
+    my_movable& operator=(const my_movable&) = delete;
 
-    MyMovable(MyMovable&& other) :
+    my_movable(my_movable&& other) :
     val(other.val) {
         other.val = -1;
     };
 
-    MyMovable& operator=(MyMovable&& other) {
+    my_movable& operator=(my_movable&& other) {
         this->val = other.val;
         other.val = -1;
         return *this;
     }
 
-    MyMovable clone() const {
-        return MyMovable(val);
+    my_movable clone() const {
+        return my_movable(val);
     }
 };
 
-class MyMovableStr {
+class my_movable_str {
     std::string val;
 public:
 
-    MyMovableStr(std::string val) : val(val) { }
+    my_movable_str(std::string val) : val(val) { }
 
     std::string get_val() const {
         return val;
@@ -99,22 +99,22 @@ public:
     void set_val(std::string val) {
         this->val = val;
     }
-    MyMovableStr(const MyMovableStr&) = delete;
-    MyMovable& operator=(const MyMovableStr&) = delete;
+    my_movable_str(const my_movable_str&) = delete;
+    my_movable& operator=(const my_movable_str&) = delete;
 
-    MyMovableStr(MyMovableStr&& other) :
+    my_movable_str(my_movable_str&& other) :
     val(other.val) {
         other.val = "";
     };
 
-    MyMovableStr& operator=(MyMovableStr&& other) {
+    my_movable_str& operator=(my_movable_str&& other) {
         this->val = other.val;
         other.val = "";
         return *this;
     }
 
-    MyMovableStr clone() const {
-        return MyMovableStr(val);
+    my_movable_str clone() const {
+        return my_movable_str(val);
     }
 };
 

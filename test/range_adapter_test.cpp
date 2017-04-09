@@ -32,9 +32,7 @@
 
 #include "domain_classes.hpp"
 
-namespace ra = staticlib::ranges;
-
-class MyMovableRange : public ra::range_adapter<MyMovableRange, MyMovable> {
+class MyMovableRange : public sl::ranges::range_adapter<MyMovableRange, my_movable> {
     const int max;
     int count = 0;
     
@@ -50,7 +48,7 @@ public:
     bool compute_next() {
         if (count < max) {
             count += 1;
-            return this->set_current(MyMovable{count});
+            return this->set_current(my_movable{count});
         } else {
             return false;
         }
@@ -60,7 +58,7 @@ public:
 
 void test_movable() {
     MyMovableRange range{3};
-    auto transformed = ra::transform(std::move(range), [](MyMovable el) {
+    auto transformed = sl::ranges::transform(std::move(range), [](my_movable el) {
         return el.get_val();
     });
     auto vec = transformed.to_vector();

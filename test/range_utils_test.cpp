@@ -29,7 +29,7 @@
 #include <vector>
 
 #include "staticlib/config/assert.hpp"
-#include "staticlib/config/to_string.hpp"
+#include "staticlib/support.hpp"
 
 #include "staticlib/ranges/filter.hpp"
 #include "staticlib/ranges/refwrap.hpp"
@@ -37,15 +37,12 @@
 
 #include "domain_classes.hpp"
 
-namespace sc = staticlib::config;
-namespace ra = staticlib::ranges;
-
 void test_vector() {
-    auto vec = std::vector<std::unique_ptr<MyStr>>{};
-    vec.emplace_back(new MyStr("foo"));
-    vec.emplace_back(new MyStr("bar"));
+    auto vec = std::vector<std::unique_ptr<my_str>>{};
+    vec.emplace_back(new my_str("foo"));
+    vec.emplace_back(new my_str("bar"));
     
-    auto res = ra::emplace_to_vector(std::move(vec));
+    auto res = sl::ranges::emplace_to_vector(std::move(vec));
 
     slassert(2 == res.size());
     slassert("foo" == res[0]->get_str());
@@ -53,15 +50,15 @@ void test_vector() {
 }
 
 void test_range() {
-    auto vec = std::vector<std::unique_ptr<MyStr>>{};
-    vec.emplace_back(new MyStr("foo"));
-    vec.emplace_back(new MyStr("bar"));    
-    vec.emplace_back(new MyStr("baz"));
-    auto range = ra::filter(std::move(vec), [](std::unique_ptr<MyStr>& el) {
+    auto vec = std::vector<std::unique_ptr<my_str>>{};
+    vec.emplace_back(new my_str("foo"));
+    vec.emplace_back(new my_str("bar"));    
+    vec.emplace_back(new my_str("baz"));
+    auto range = sl::ranges::filter(std::move(vec), [](std::unique_ptr<my_str>& el) {
         return "bar" != el->get_str();
-    }, ra::ignore_offcast<std::unique_ptr<MyStr>>);
+    }, sl::ranges::ignore_offcast<std::unique_ptr<my_str>>);
     
-    auto res = ra::emplace_to_vector(std::move(range));
+    auto res = sl::ranges::emplace_to_vector(std::move(range));
     
     slassert(2 == res.size());
     slassert("foo" == res[0]->get_str());
@@ -69,17 +66,17 @@ void test_range() {
 }
 
 void test_emplace_to() {
-    auto vec = std::vector<std::unique_ptr<MyStr>>{};
-    vec.emplace_back(new MyStr("foo"));
-    vec.emplace_back(new MyStr("bar"));
+    auto vec = std::vector<std::unique_ptr<my_str>>{};
+    vec.emplace_back(new my_str("foo"));
+    vec.emplace_back(new my_str("bar"));
 
-    auto range = ra::transform(std::move(vec), [](std::unique_ptr<MyStr> el) {
-        return std::unique_ptr<MyStr>(new MyStr(el->get_str() + "_42"));
+    auto range = sl::ranges::transform(std::move(vec), [](std::unique_ptr<my_str> el) {
+        return std::unique_ptr<my_str>(new my_str(el->get_str() + "_42"));
     });
 
-    auto res = std::vector<std::unique_ptr<MyStr>>{};
+    auto res = std::vector<std::unique_ptr<my_str>>{};
     res.reserve(vec.size());
-    ra::emplace_to(res, std::move(range));
+    sl::ranges::emplace_to(res, std::move(range));
     
     slassert(2 == res.size());
     slassert("foo_42" == res[0]->get_str());
@@ -87,34 +84,34 @@ void test_emplace_to() {
 }
 
 void test_any() {
-    std::vector<MyMovable> vec{};
+    std::vector<my_movable> vec{};
     vec.emplace_back(41);
     vec.emplace_back(42);
     const auto vec2 = std::move(vec);
     
-    auto rvec = ra::refwrap(vec2);
-    auto filtered1 = ra::filter(std::move(rvec), [](const MyMovable& el) {
+    auto rvec = sl::ranges::refwrap(vec2);
+    auto filtered1 = sl::ranges::filter(std::move(rvec), [](const my_movable& el) {
         return el.get_val() >= 42;
-    }, ra::ignore_offcast<const MyMovable&>);
-    bool res1 = ra::any(filtered1, [](const MyMovable& el) {
+    }, sl::ranges::ignore_offcast<const my_movable&>);
+    bool res1 = sl::ranges::any(filtered1, [](const my_movable& el) {
         return 41 == el.get_val();
     });
 
     (void) res1; slassert(!res1);
     
-    auto filtered2 = ra::filter(std::move(rvec), [](const MyMovable& el) {
+    auto filtered2 = sl::ranges::filter(std::move(rvec), [](const my_movable& el) {
         return el.get_val() <= 41;
-    }, ra::ignore_offcast<const MyMovable&>);
-    auto transformed2 = ra::transform(std::move(filtered2), [](const MyMovable& el) {
-        return MyMovableStr(sc::to_string(el.get_val()));
+    }, sl::ranges::ignore_offcast<const my_movable&>);
+    auto transformed2 = sl::ranges::transform(std::move(filtered2), [](const my_movable& el) {
+        return my_movable_str(sl::support::to_string(el.get_val()));
     });
-    bool res2 = ra::any(transformed2, [](MyMovableStr& st) {
+    bool res2 = sl::ranges::any(transformed2, [](my_movable_str& st) {
         return "41" == st.get_val();
     });
     
     (void) res2; slassert(res2);
     
-    bool res3 = ra::any(rvec, [](const MyMovable& el) {
+    bool res3 = sl::ranges::any(rvec, [](const my_movable& el) {
         return 41 == el.get_val();
     });
     
@@ -122,38 +119,38 @@ void test_any() {
 }
 
 void test_find() {
-    std::vector<MyMovable> vec{};
+    std::vector<my_movable> vec{};
     vec.emplace_back(41);
     vec.emplace_back(42);
     const auto vec2 = std::move(vec);
 
-    auto rvec = ra::refwrap(vec2);
-    auto filtered1 = ra::filter(std::move(rvec), [](const MyMovable& el) {
+    auto rvec = sl::ranges::refwrap(vec2);
+    auto filtered1 = sl::ranges::filter(std::move(rvec), [](const my_movable& el) {
         return el.get_val() >= 42;
-    }, ra::ignore_offcast<const MyMovable&>);
-    auto transformed1 = ra::transform(std::move(filtered1), [](const MyMovable& el) {
-        return MyMovableStr(sc::to_string(el.get_val()));
+    }, sl::ranges::ignore_offcast<const my_movable&>);
+    auto transformed1 = sl::ranges::transform(std::move(filtered1), [](const my_movable& el) {
+        return my_movable_str(sl::support::to_string(el.get_val()));
     });
-    auto res1 = ra::find(transformed1, [](MyMovableStr& el) {
+    auto res1 = sl::ranges::find(transformed1, [](my_movable_str& el) {
         return "41" == el.get_val();
-    }, MyMovableStr("-1"));
+    }, my_movable_str("-1"));
 
     slassert("-1" == res1.get_val());
 
-    auto filtered2 = ra::filter(std::move(rvec), [](const MyMovable & el) {
+    auto filtered2 = sl::ranges::filter(std::move(rvec), [](const my_movable & el) {
         return el.get_val() <= 41;
-    }, ra::ignore_offcast<const MyMovable&>);
-    auto transformed2 = ra::transform(std::move(filtered2), [](const MyMovable& el) {
-        return MyMovableStr(sc::to_string(el.get_val()));
+    }, sl::ranges::ignore_offcast<const my_movable&>);
+    auto transformed2 = sl::ranges::transform(std::move(filtered2), [](const my_movable& el) {
+        return my_movable_str(sl::support::to_string(el.get_val()));
     });
-    auto res2 = ra::find(transformed2, [](MyMovableStr& st) {
+    auto res2 = sl::ranges::find(transformed2, [](my_movable_str& st) {
         return "41" == st.get_val();
-    }, MyMovableStr("-1"));
+    }, my_movable_str("-1"));
 
     slassert("41" == res2.get_val());  
     
-    auto mm = MyMovable(-1);
-    auto res3 = ra::find(rvec, [](std::reference_wrapper<const MyMovable>& el) {
+    auto mm = my_movable(-1);
+    auto res3 = sl::ranges::find(rvec, [](std::reference_wrapper<const my_movable>& el) {
         return 41 == el.get().get_val();
     }, std::cref(mm));
 

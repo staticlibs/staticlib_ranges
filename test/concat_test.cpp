@@ -36,21 +36,19 @@
 #include "domain_classes.hpp"
 
 
-namespace sr = staticlib::ranges;
-
 // C++11 poor-mans variant of auto return
-using auto_1 = sr::concatted_range<std::vector<std::unique_ptr<MyInt>>, std::list<std::unique_ptr<MyInt>>>;
+using auto_1 = sl::ranges::concatted_range<std::vector<std::unique_ptr<my_int>>, std::list<std::unique_ptr<my_int>>>;
 
 auto_1 fun() {
-    auto vec = std::vector<std::unique_ptr<MyInt>>{};
-    vec.emplace_back(new MyInt(40));
-    vec.emplace_back(new MyInt(41));
+    auto vec = std::vector<std::unique_ptr<my_int>>{};
+    vec.emplace_back(new my_int(40));
+    vec.emplace_back(new my_int(41));
 
-    auto list = std::list<std::unique_ptr<MyInt>>{};
-    list.emplace_back(new MyInt(42));
-    list.emplace_back(new MyInt(43));
+    auto list = std::list<std::unique_ptr<my_int>>{};
+    list.emplace_back(new my_int(42));
+    list.emplace_back(new my_int(43));
 
-    return sr::concat(std::move(vec), std::move(list));
+    return sl::ranges::concat(std::move(vec), std::move(list));
 }
 
 void test_fromfun() {
@@ -66,15 +64,15 @@ void test_fromfun() {
 }
 
 void test_containers() {
-    auto vec = std::vector<std::unique_ptr<MyInt>>{};
-    vec.emplace_back(new MyInt(40));
-    vec.emplace_back(new MyInt(41));
+    auto vec = std::vector<std::unique_ptr<my_int>>{};
+    vec.emplace_back(new my_int(40));
+    vec.emplace_back(new my_int(41));
 
-    auto list = std::list<std::unique_ptr<MyInt>>{};
-    list.emplace_back(new MyInt(42));
-    list.emplace_back(new MyInt(43));
+    auto list = std::list<std::unique_ptr<my_int>>{};
+    list.emplace_back(new my_int(42));
+    list.emplace_back(new my_int(43));
     
-    auto concatted = sr::concat(std::move(vec), std::move(list));
+    auto concatted = sl::ranges::concat(std::move(vec), std::move(list));
     auto res = concatted.to_vector();
     
     slassert(4 == res.size());
@@ -85,12 +83,12 @@ void test_containers() {
 }
 
 void test_empty_first() {
-    auto vec_empty = std::vector<std::unique_ptr<MyInt>>{};
-    auto vec = std::vector<std::unique_ptr<MyInt>>{};
-    vec.emplace_back(new MyInt(40));
-    vec.emplace_back(new MyInt(41));
+    auto vec_empty = std::vector<std::unique_ptr<my_int>>{};
+    auto vec = std::vector<std::unique_ptr<my_int>>{};
+    vec.emplace_back(new my_int(40));
+    vec.emplace_back(new my_int(41));
     
-    auto range = sr::concat(std::move(vec_empty), std::move(vec));
+    auto range = sl::ranges::concat(std::move(vec_empty), std::move(vec));
     auto res = range.to_vector();
     
     slassert(2 == res.size());
@@ -99,12 +97,12 @@ void test_empty_first() {
 }
 
 void test_empty_second() {
-    auto vec_empty = std::vector<std::unique_ptr<MyInt>>{};
-    auto vec = std::vector<std::unique_ptr<MyInt>>{};
-    vec.emplace_back(new MyInt(40));
-    vec.emplace_back(new MyInt(41));
+    auto vec_empty = std::vector<std::unique_ptr<my_int>>{};
+    auto vec = std::vector<std::unique_ptr<my_int>>{};
+    vec.emplace_back(new my_int(40));
+    vec.emplace_back(new my_int(41));
 
-    auto range = sr::concat(std::move(vec), std::move(vec_empty));
+    auto range = sl::ranges::concat(std::move(vec), std::move(vec_empty));
     auto res = range.to_vector();
     
     slassert(2 == res.size());
@@ -113,32 +111,32 @@ void test_empty_second() {
 }
 
 void test_empty_both() {
-    auto vec_empty1 = std::vector<std::unique_ptr<MyInt>>{};
-    auto vec_empty2 = std::vector<std::unique_ptr<MyInt>>{};
+    auto vec_empty1 = std::vector<std::unique_ptr<my_int>>{};
+    auto vec_empty2 = std::vector<std::unique_ptr<my_int>>{};
 
-    auto range = sr::concat(std::move(vec_empty1), std::move(vec_empty2));
+    auto range = sl::ranges::concat(std::move(vec_empty1), std::move(vec_empty2));
     auto res = range.to_vector();
     
     slassert(0 == res.size());
 }
 
 void test_ranges() {
-    auto vec = std::vector<std::unique_ptr<MyInt>>{};
-    vec.emplace_back(new MyInt(40));
-    vec.emplace_back(new MyInt(41));
+    auto vec = std::vector<std::unique_ptr<my_int>>{};
+    vec.emplace_back(new my_int(40));
+    vec.emplace_back(new my_int(41));
 
-    auto list = std::list<std::unique_ptr<MyInt>>{};
-    list.emplace_back(new MyInt(42));
-    list.emplace_back(new MyInt(43));
-    list.emplace_back(new MyInt(44));
+    auto list = std::list<std::unique_ptr<my_int>>{};
+    list.emplace_back(new my_int(42));
+    list.emplace_back(new my_int(43));
+    list.emplace_back(new my_int(44));
     
-    auto transformed = sr::transform(std::move(vec), [](std::unique_ptr<MyInt> el) {
-        return std::unique_ptr<MyInt>(new MyInt(el->get_int() - 10));
+    auto transformed = sl::ranges::transform(std::move(vec), [](std::unique_ptr<my_int> el) {
+        return std::unique_ptr<my_int>(new my_int(el->get_int() - 10));
     });
-    auto filtered = sr::filter(std::move(list), [](std::unique_ptr<MyInt>& el) {
+    auto filtered = sl::ranges::filter(std::move(list), [](std::unique_ptr<my_int>& el) {
         return 42 != el->get_int();
-    }, sr::ignore_offcast<std::unique_ptr<MyInt>>);
-    auto concatted = sr::concat(std::move(transformed), std::move(filtered));
+    }, sl::ranges::ignore_offcast<std::unique_ptr<my_int>>);
+    auto concatted = sl::ranges::concat(std::move(transformed), std::move(filtered));
     auto res = concatted.to_vector();
 
     slassert(4 == res.size());
@@ -149,31 +147,31 @@ void test_ranges() {
 }
 
 void test_moved() {
-    auto vec = std::vector<std::unique_ptr<MyInt>>{};
-    vec.emplace_back(new MyInt(40));
-    vec.emplace_back(new MyInt(41));
+    auto vec = std::vector<std::unique_ptr<my_int>>{};
+    vec.emplace_back(new my_int(40));
+    vec.emplace_back(new my_int(41));
 
-    auto list = std::list<std::unique_ptr<MyInt>>{};
-    list.emplace_back(new MyInt(42));
-    list.emplace_back(new MyInt(43));
-    list.emplace_back(new MyInt(44));
+    auto list = std::list<std::unique_ptr<my_int>>{};
+    list.emplace_back(new my_int(42));
+    list.emplace_back(new my_int(43));
+    list.emplace_back(new my_int(44));
     
-    sr::concat(std::move(vec), std::move(list));
+    sl::ranges::concat(std::move(vec), std::move(list));
     slassert(vec.empty());
     slassert(list.empty());
 }
 
 void test_lvalue() {
-    auto vec = std::vector<std::unique_ptr<MyInt>>();
-    vec.emplace_back(new MyInt(40));
-    vec.emplace_back(new MyInt(41));
+    auto vec = std::vector<std::unique_ptr<my_int>>();
+    vec.emplace_back(new my_int(40));
+    vec.emplace_back(new my_int(41));
 
-    auto list = std::list<std::unique_ptr<MyInt>>();
-    list.emplace_back(new MyInt(42));
-    list.emplace_back(new MyInt(43));
-    list.emplace_back(new MyInt(44));
+    auto list = std::list<std::unique_ptr<my_int>>();
+    list.emplace_back(new my_int(42));
+    list.emplace_back(new my_int(43));
+    list.emplace_back(new my_int(44));
     
-    auto ra = sr::concat(vec, list);
+    auto ra = sl::ranges::concat(vec, list);
     auto res = ra.to_vector(); // contains references
     
     slassert(2 == vec.size());

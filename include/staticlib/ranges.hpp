@@ -31,5 +31,8 @@
 #include "staticlib/ranges/refwrap.hpp"
 #include "staticlib/ranges/transform.hpp"
 
+// export namespace with shorter name
+namespace sl = staticlib;
+
 #endif	/* STATICLIB_RANGES_HPP */
 

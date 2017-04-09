@@ -35,19 +35,17 @@
 
 #include "domain_classes.hpp"
 
-namespace ra = staticlib::ranges;
-
 void test_vector() {
-    auto vec = std::vector<std::unique_ptr<MyInt>>{};
-    vec.emplace_back(new MyInt(40));
-    vec.emplace_back(new MyInt(41));
-    vec.emplace_back(new MyInt(42));
-    vec.emplace_back(new MyInt(43));
+    auto vec = std::vector<std::unique_ptr<my_int>>{};
+    vec.emplace_back(new my_int(40));
+    vec.emplace_back(new my_int(41));
+    vec.emplace_back(new my_int(42));
+    vec.emplace_back(new my_int(43));
     
-    auto offcasted = std::vector<std::unique_ptr<MyInt>>{};
-    auto range = ra::filter(std::move(vec), [](std::unique_ptr<MyInt>& el) {
+    auto offcasted = std::vector<std::unique_ptr<my_int>>{};
+    auto range = sl::ranges::filter(std::move(vec), [](std::unique_ptr<my_int>& el) {
         return 42 == el->get_int();
-    }, ra::offcast_into(offcasted));
+    }, sl::ranges::offcast_into(offcasted));
 
     auto res = range.to_vector();
 
@@ -61,17 +59,17 @@ void test_vector() {
 }
 
 void test_range() {
-    auto vec = std::vector<std::unique_ptr<MyInt>>{};
-    vec.emplace_back(new MyInt(40));
-    vec.emplace_back(new MyInt(41));
-    auto list = std::list<std::unique_ptr<MyInt>>{};
-    list.emplace_back(new MyInt(42));
-    list.emplace_back(new MyInt(43));
-    auto range = ra::concat(std::move(vec), std::move(list));
+    auto vec = std::vector<std::unique_ptr<my_int>>{};
+    vec.emplace_back(new my_int(40));
+    vec.emplace_back(new my_int(41));
+    auto list = std::list<std::unique_ptr<my_int>>{};
+    list.emplace_back(new my_int(42));
+    list.emplace_back(new my_int(43));
+    auto range = sl::ranges::concat(std::move(vec), std::move(list));
     
-    auto filtered = ra::filter(std::move(range), [](std::unique_ptr<MyInt>& el) {
+    auto filtered = sl::ranges::filter(std::move(range), [](std::unique_ptr<my_int>& el) {
         return el->get_int() <= 40;
-    }, ra::ignore_offcast<std::unique_ptr<MyInt>>);
+    }, sl::ranges::ignore_offcast<std::unique_ptr<my_int>>);
     auto res = filtered.to_vector();
 
     slassert(1 == res.size());
@@ -79,14 +77,14 @@ void test_range() {
 }
 
 void test_non_default_constructible() {
-    auto vec = std::vector<MyMovable>{};
+    auto vec = std::vector<my_movable>{};
     vec.emplace_back(41);
     vec.emplace_back(42);
     vec.emplace_back(43);
     
-    auto filtered = ra::filter(std::move(vec), [](MyMovable& el) {
+    auto filtered = sl::ranges::filter(std::move(vec), [](my_movable& el) {
         return 42 != el.get_val();
-    }, ra::ignore_offcast<MyMovable>);
+    }, sl::ranges::ignore_offcast<my_movable>);
 
     auto res = filtered.to_vector();
 
@@ -96,14 +94,14 @@ void test_non_default_constructible() {
 }
 
 void test_moved() {
-    auto vec = std::vector<MyMovable>{};
+    auto vec = std::vector<my_movable>{};
     vec.emplace_back(41);
     vec.emplace_back(42);
     vec.emplace_back(43);
 
-    auto filtered = ra::filter(std::move(vec), [](MyMovable & el) {
+    auto filtered = sl::ranges::filter(std::move(vec), [](my_movable & el) {
         return 42 != el.get_val();
-    }, ra::ignore_offcast<MyMovable>);
+    }, sl::ranges::ignore_offcast<my_movable>);
     
     auto res = filtered.to_vector();
     
@@ -114,13 +112,13 @@ void test_moved() {
 }
 
 void test_lvalue() {
-    auto vec = std::vector<MyMovable>{};
+    auto vec = std::vector<my_movable>{};
     vec.emplace_back(41);
     vec.emplace_back(42);
     vec.emplace_back(43);
     const auto& vecref = vec;
 
-    auto filtered = ra::filter(vecref, [](const MyMovable & el) {
+    auto filtered = sl::ranges::filter(vecref, [](const my_movable & el) {
         return 42 != el.get_val();
     });
     auto res = filtered.to_vector();

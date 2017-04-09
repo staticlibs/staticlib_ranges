@@ -31,7 +31,7 @@
 #include <vector>
 
 #include "staticlib/config/assert.hpp"
-#include "staticlib/config/to_string.hpp"
+#include "staticlib/support.hpp"
 
 #include "staticlib/ranges/concat.hpp"
 #include "staticlib/ranges/filter.hpp"
@@ -41,16 +41,13 @@
 #include "domain_classes.hpp"
 
 
-namespace sc = staticlib::config;
-namespace sr = staticlib::ranges;
-
 void test_vector() {
-    auto vec = std::vector<std::unique_ptr<MyInt>>{};
-    vec.emplace_back(new MyInt(40));
-    vec.emplace_back(new MyInt(41));
+    auto vec = std::vector<std::unique_ptr<my_int>>{};
+    vec.emplace_back(new my_int(40));
+    vec.emplace_back(new my_int(41));
     
-    auto range = sr::transform(std::move(vec), [](std::unique_ptr<MyInt> el) {
-        return std::unique_ptr<MyStr>(new MyStr(sc::to_string(el->get_int() - 10)));
+    auto range = sl::ranges::transform(std::move(vec), [](std::unique_ptr<my_int> el) {
+        return std::unique_ptr<my_str>(new my_str(sl::support::to_string(el->get_int() - 10)));
     });
 
     auto res = range.to_vector();
@@ -61,24 +58,24 @@ void test_vector() {
 }
 
 void test_range() {
-    auto vec1 = std::vector<std::unique_ptr<MyInt>>{};
-    vec1.emplace_back(new MyInt(40));
-    vec1.emplace_back(new MyInt(41));
+    auto vec1 = std::vector<std::unique_ptr<my_int>>{};
+    vec1.emplace_back(new my_int(40));
+    vec1.emplace_back(new my_int(41));
     
-    auto vec2 = std::vector<std::unique_ptr<MyStr>>{};
-    vec2.emplace_back(new MyStr("52"));
-    vec2.emplace_back(new MyStr("53"));
-    vec2.emplace_back(new MyStr("54"));
+    auto vec2 = std::vector<std::unique_ptr<my_str>>{};
+    vec2.emplace_back(new my_str("52"));
+    vec2.emplace_back(new my_str("53"));
+    vec2.emplace_back(new my_str("54"));
     
-    auto range1 = sr::transform(std::move(vec1), [](std::unique_ptr<MyInt> el) {
-        return std::unique_ptr<MyStr>(new MyStr(sc::to_string(el->get_int() + 10)));
+    auto range1 = sl::ranges::transform(std::move(vec1), [](std::unique_ptr<my_int> el) {
+        return std::unique_ptr<my_str>(new my_str(sl::support::to_string(el->get_int() + 10)));
     });
-    auto range2 = sr::concat(std::move(range1), std::move(vec2));
-    auto range3 = sr::filter(std::move(range2), [](std::unique_ptr<MyStr>& el) {
+    auto range2 = sl::ranges::concat(std::move(range1), std::move(vec2));
+    auto range3 = sl::ranges::filter(std::move(range2), [](std::unique_ptr<my_str>& el) {
         return "52" != el->get_str();
-    }, sr::ignore_offcast<std::unique_ptr<MyStr>>);
-    auto range4 = sr::transform(std::move(range3), [](std::unique_ptr<MyStr> el) {
-        return std::unique_ptr<MyStr>(new MyStr(el->get_str() + "_42"));
+    }, sl::ranges::ignore_offcast<std::unique_ptr<my_str>>);
+    auto range4 = sl::ranges::transform(std::move(range3), [](std::unique_ptr<my_str> el) {
+        return std::unique_ptr<my_str>(new my_str(el->get_str() + "_42"));
     });
     auto res = range4.to_vector();
 
@@ -90,12 +87,12 @@ void test_range() {
 }
 
 void test_map() {
-    std::map<const std::string, std::unique_ptr<MyInt>> map{};
-    map.insert(std::pair<const std::string, std::unique_ptr<MyInt>>("foo", std::unique_ptr<MyInt>(new MyInt(41))));
-    map.insert(std::pair<const std::string, std::unique_ptr<MyInt>>("bar", std::unique_ptr<MyInt>(new MyInt(42))));
-    map.insert(std::pair<const std::string, std::unique_ptr<MyInt>>("baz", std::unique_ptr<MyInt>(new MyInt(43))));
-    auto wrapped = sr::refwrap(map);
-    auto ra = sr::transform(std::move(wrapped), [](std::pair<const std::string, std::unique_ptr<MyInt>>& el) {
+    std::map<const std::string, std::unique_ptr<my_int>> map{};
+    map.insert(std::pair<const std::string, std::unique_ptr<my_int>>("foo", std::unique_ptr<my_int>(new my_int(41))));
+    map.insert(std::pair<const std::string, std::unique_ptr<my_int>>("bar", std::unique_ptr<my_int>(new my_int(42))));
+    map.insert(std::pair<const std::string, std::unique_ptr<my_int>>("baz", std::unique_ptr<my_int>(new my_int(43))));
+    auto wrapped = sl::ranges::refwrap(map);
+    auto ra = sl::ranges::transform(std::move(wrapped), [](std::pair<const std::string, std::unique_ptr<my_int>>& el) {
         return el.second->get_int();
     });
     auto res = ra.to_vector();
@@ -103,11 +100,11 @@ void test_map() {
 }
 
 void test_lvalue() {
-    auto vec = std::vector<std::unique_ptr<MyInt>>();
-    vec.emplace_back(new MyInt(40));
-    vec.emplace_back(new MyInt(41));
+    auto vec = std::vector<std::unique_ptr<my_int>>();
+    vec.emplace_back(new my_int(40));
+    vec.emplace_back(new my_int(41));
     const auto& vecref = vec;
-    auto ra = sr::transform(vecref, [](const std::unique_ptr<MyInt>& el) {
+    auto ra = sl::ranges::transform(vecref, [](const std::unique_ptr<my_int>& el) {
         return el->get_int();
     });
     auto res = ra.to_vector();
@@ -121,29 +118,29 @@ void test_readme() {
     using namespace staticlib::ranges;
     
     // prepare two ranges (containers) with move-only objects
-    vector<MyMovable> vec{};
-    vec.emplace_back(MyMovable(41));
-    vec.emplace_back(MyMovable(42));
-    vec.emplace_back(MyMovable(43));
+    vector<my_movable> vec{};
+    vec.emplace_back(my_movable(41));
+    vec.emplace_back(my_movable(42));
+    vec.emplace_back(my_movable(43));
 
-    list<MyMovable> li{};
+    list<my_movable> li{};
     li.emplace_back(91);
     li.emplace_back(92);
 
     // take vector by reference and transform each element and return it through `reference_wrapper`
     // transformation also can return new object (of different type) if required
-    auto transformed = transform(vec, [](MyMovable& el) {
+    auto transformed = transform(vec, [](my_movable& el) {
         el.set_val(el.get_val() + 10);
         return std::ref(el);
     });
 
     // filter the elements
-    auto filtered = filter(transformed, [](MyMovable& el) {
+    auto filtered = filter(transformed, [](my_movable& el) {
         return 52 != el.get_val();
     });
 
     // do transformation over filtered range
-    auto transformed2 = transform(filtered, [](MyMovable& el) {
+    auto transformed2 = transform(filtered, [](my_movable& el) {
         el.set_val(el.get_val() - 20);
         return std::ref(el);
     });
@@ -154,7 +151,7 @@ void test_readme() {
     auto concatted = concat(transformed2, refwrapped);
 
     // evaluate all operations and store results in vector ("auto res" will work here too)
-    vector<reference_wrapper<MyMovable>> res = concatted.to_vector();
+    vector<reference_wrapper<my_movable>> res = concatted.to_vector();
     
     slassert(4 == res.size());
     slassert(31 == res[0].get().get_val());
