@@ -64,8 +64,8 @@ public:
     int get_val() const {
         return val;
     }
-    void set_val(int val) {
-        this->val = val;
+    void set_val(int value) {
+        this->val = value;
     }
     my_movable(const my_movable&) = delete;
     my_movable& operator=(const my_movable&) = delete;
@@ -96,8 +96,8 @@ public:
         return val;
     }
 
-    void set_val(std::string val) {
-        this->val = val;
+    void set_val(std::string value) {
+        this->val = value;
     }
     my_movable_str(const my_movable_str&) = delete;
     my_movable& operator=(const my_movable_str&) = delete;
