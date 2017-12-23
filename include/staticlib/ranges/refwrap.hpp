@@ -22,7 +22,7 @@
  */
 
 #ifndef STATICLIB_RANGES_REFWRAP_HPP
-#define	STATICLIB_RANGES_REFWRAP_HPP
+#define STATICLIB_RANGES_REFWRAP_HPP
 
 #include <iterator>
 #include <functional>
@@ -437,5 +437,5 @@ refwrapped_const_range<Range> refwrap(const Range& range) {
 } // namespace
 }
 
-#endif	/* STATICLIB_RANGES_REFWRAP_HPP */
+#endif /* STATICLIB_RANGES_REFWRAP_HPP */
 

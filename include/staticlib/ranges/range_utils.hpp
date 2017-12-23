@@ -22,7 +22,7 @@
  */
 
 #ifndef STATICLIB_RANGES_RANGES_UTILS_HPP
-#define	STATICLIB_RANGES_RANGES_UTILS_HPP
+#define STATICLIB_RANGES_RANGES_UTILS_HPP
 
 #include <iterator>
 #include <functional>
@@ -135,4 +135,4 @@ Elem find(Range& range, Pred predicate, Elem not_found_el) {
 } // namespace
 }
 
-#endif	/* STATICLIB_RANGES_RANGES_UTILS_HPP */
+#endif /* STATICLIB_RANGES_RANGES_UTILS_HPP */

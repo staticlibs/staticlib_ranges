@@ -22,7 +22,7 @@
  */
 
 #ifndef STATICLIB_RANGES_RANGE_ADAPTER_HPP
-#define	STATICLIB_RANGES_RANGE_ADAPTER_HPP
+#define STATICLIB_RANGES_RANGE_ADAPTER_HPP
 
 #include <array>
 #include <iterator>
@@ -328,5 +328,5 @@ private:
 } // namespace
 }
 
-#endif	/* STATICLIB_RANGES_RANGE_ADAPTER_HPP */
+#endif /* STATICLIB_RANGES_RANGE_ADAPTER_HPP */
 

@@ -1,6 +1,9 @@
 Non-allocating lazy operations over ranges for C++11
 ====================================================
 
+[![travis](https://travis-ci.org/staticlibs/staticlib_ranges.svg?branch=master)](https://travis-ci.org/staticlibs/staticlib_ranges)
+[![appveyor](https://ci.appveyor.com/api/projects/status/github/staticlibs/staticlib_ranges?svg=true)](https://ci.appveyor.com/project/staticlibs/staticlib-ranges)
+
 This project is a part of [Staticlibs](http://staticlibs.net/).
 
 This project implements lazy transformation wrappers for arbitrary ranges, `range_adapter` for
@@ -134,6 +137,10 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 
 Changelog
 ---------
+
+**2017-12-22**
+ * version 1.3.2
+ * vs2017 support
 
 **2017-04-08**
  * version 1.3.1

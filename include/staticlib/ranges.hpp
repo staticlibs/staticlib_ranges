@@ -22,7 +22,7 @@
  */
 
 #ifndef STATICLIB_RANGES_HPP
-#define	STATICLIB_RANGES_HPP
+#define STATICLIB_RANGES_HPP
 
 #include "staticlib/ranges/concat.hpp"
 #include "staticlib/ranges/filter.hpp"
@@ -34,5 +34,5 @@
 // export namespace with shorter name
 namespace sl = staticlib;
 
-#endif	/* STATICLIB_RANGES_HPP */
+#endif /* STATICLIB_RANGES_HPP */
 

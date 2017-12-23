@@ -22,7 +22,7 @@
  */
 
 #ifndef STATICLIB_RANGES_TRAITS_HPP
-#define	STATICLIB_RANGES_TRAITS_HPP
+#define STATICLIB_RANGES_TRAITS_HPP
 
 #include <functional>
 
@@ -48,5 +48,5 @@ struct is_reference_wrapper<std::reference_wrapper<T>> {
 } // namespace
 }
 
-#endif	/* STATICLIB_RANGES_TRAITS_HPP */
+#endif /* STATICLIB_RANGES_TRAITS_HPP */
 
